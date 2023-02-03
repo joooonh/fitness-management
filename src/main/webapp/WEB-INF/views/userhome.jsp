@@ -5,24 +5,23 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
 <link rel="stylesheet" href="resources/css/common.css">
-<title>중앙피트니스</title>
+<title>애플리케이션</title>
 </head>
-<body>
-<!------------------------------------ 헤더 navbar 영역 ---------------------------------------->
+<body class="pt-5">
 <%@ include file="common/header.jsp" %>
-<div class="container-fluid mt-4">
-	<div class="row">
-		<div class="col-md-2 sidebar">
-			<!---------------------------------- 사이드 바 영역  ----------------------------------------->
-			<%@ include file="common/sidebar.jsp" %>
+<div class="container">
+	<div class="row mb-3">
+		<div class="col-12 border mb-3">
+			지도
 		</div>
-		<div class="col-md-10 ps-4 pt-5">
-			<!--------------------------------- Content 영역 ------------------------------------------->
-			<p>개인화면구현</p>
-			<p>개인화면구현</p>
-			<p>개인화면구현</p>
+	</div>
+	<div class="row mb-3">
+		<div class="col-6 border mb-3">
+			매장안내
+		</div>
+		<div class="col-6 border mb-3">
+			영업시간
 		</div>
 	</div>
 </div>
