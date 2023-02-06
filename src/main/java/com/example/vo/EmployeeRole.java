@@ -1,5 +1,6 @@
 package com.example.vo;
 
+
 import org.apache.ibatis.type.Alias;
 
 import lombok.Getter;
@@ -12,4 +13,5 @@ public class EmployeeRole {
 
 	private String id;
 	private String roleName;
+
 }
