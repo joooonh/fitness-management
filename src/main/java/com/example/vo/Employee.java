@@ -21,8 +21,11 @@ public class Employee {
 	private String zipcode;
 	private String basicAddress;
 	private String detailAddress;
+
 	private String status;
-	private Date createdDate;
-	private Date updatedDate;
 	private int fitnessNo;
+
+	private String employeementStatus;
+	private int no;
+
 }
