@@ -7,6 +7,7 @@ public class LoginUser {
 	private String name;
 	
 	public LoginUser(String id, String encryptPassword, String name) {
+		super();
 		this.id = id;
 		this.encryptPassword = encryptPassword;
 		this.name = name;
