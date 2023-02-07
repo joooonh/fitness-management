@@ -12,9 +12,9 @@
 <style>
 	.profile{width: 100%; position: relative;}
 	.profile img{width: 100%;}
-	.profile .btn-form-thumbnail{position: absolute; right: 0; bottom: -20%; cursor: pointer;}
+	.profile label{position: absolute; right: 0; bottom: -20%; cursor: pointer;}
+	.profile #file-profile{display: none;}
 	.profile i{font-size: 4rem;}
-	
 </style>
 </head>
 <body>
@@ -35,127 +35,103 @@
 				</div>
 			</div>
 			
-			<div class="row">
-				<div class="col-4">
-					<div class="profile">
-						<img src="../../../resources/images/${employee.photo }" class="rounded-circle" alt="직원 프로필 사진">
-						<button type="button" class="btn btn-form-thumbnail" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-							<i class="bi bi-camera-fill"></i>
-						</button>
-						
+			<form method="post" action="modify" id="updateEmployee" enctype="multipart/form-data">
+				<div class="row">
+					<div class="col-4">
+						<div class="profile">
+							<img src="../../../resources/images/default.png" id="img-profile" class="rounded-circle" alt="직원 프로필 사진">
+							<label for="file-profile" class="form-label"><i class="bi bi-camera-fill"></i></label>
+							<input class="form-control" type="file" id="file-profile" name="upfile">
+						</div>
+					</div>
+					
+					<div class="col-8">
+							<input type="hidden" name="fitnessNo" value="${employee.fitnessNo }" />
+							<table class="table table-bordered">
+								<colgroup>
+									<col width="25%">
+									<col width="*">
+								</colgroup>
+								 <tr>
+								 	<th class="table-secondary">이름</th>
+								 	<td><input type="text" class="form-control form-control-sm" name="name" value="${employee.name }"></td>
+								 </tr>
+								 <tr>
+								 	<th class="table-secondary">아이디</th>
+								 	<td><input type="text" class="form-control form-control-sm" name="id" value="${employee.id }" readonly></td>
+								 </tr>
+								 <tr>
+								 	<th class="table-secondary">비밀번호</th>
+								 	<td><input type="password" class="form-control form-control-sm" name="passwrod"></td>
+								 </tr>
+								 <tr>
+								 	<th class="table-secondary">비밀번호 확인</th>
+								 	<td><input type="password" class="form-control form-control-sm" name="passwordConfirm"></td>
+								 </tr>
+								 <tr>
+								 	<th class="table-secondary">전화번호</th>
+								 	<td><input type="text" class="form-control form-control-sm" name="tel" value="${employee.tel }"></td>
+								 </tr>
+								 <tr>
+								 	<th class="table-secondary">이메일</th>
+								 	<td><input type="text" class="form-control form-control-sm" name="email" value="${employee.email }" readonly></td>
+								 </tr>
+								 <tr>
+								 	<th class="form-label table-secondary">우편번호</th>
+								    <td class="d-flex justify-content-start">
+								      <input type="text" class="form-control w-25 me-3" name="zipcode" value="${employee.zipcode }" readonly="readonly"/>
+								      <button type="button" class="btn btn-outline-secondary btn-sm" id="btn-search-zipcode">우편번호검색</button>
+								    </td>
+								 </tr>
+								 <tr>
+								 	<th class="table-secondary">주소</th>
+								 	<td>
+								 		<input type="text" class="form-control form-control-sm" name="basicAddress" value="${employee.basicAddress }">
+								 	</td>
+								 </tr>
+								 <tr>
+								 	<th class="table-secondary">상세주소</th>
+								 	<td><input type="text" class="form-control form-control-sm" name="detailAddress" value="${employee.detailAddress }"></td>
+								 </tr>
+								 <tr>
+								 	<th class="table-secondary">등록일</th>
+								 	<td><input type="text" class="form-control form-control-sm" value="<fmt:formatDate value="${employee.createdDate }" pattern="yyyy-MM-dd"/>"></td>
+								 </tr>
+								 <tr>
+								 	<th class="table-secondary">재직상태</th>
+								 	<td>
+								 		<select class="form-select" name="status">
+								 			<option value="재직" ${employee.status eq '재직' ? 'selected' : '' }>재직</option>
+								 			<option value="퇴사" ${employee.status eq '퇴사' ? 'selected' : '' }>퇴사</option>
+								 			<option value="휴직" ${employee.status eq '휴직' ? 'selected' : '' }>휴직</option>
+								 		</select>
+								 	</td>
+								 </tr>
+								 <tr>
+								 	<th class="table-secondary">권한</th>
+								 	<td>
+								 		<c:forEach var="role" items="${employee.employeeRole }">
+								 			<c:choose>
+								 				<c:when test="${role.roleName eq 'ROLE_ADMIN' }"><span class="badge text-bg-primary py-1">관리자</span> </c:when>
+						 				<c:when test="${role.roleName eq 'ROLE_EMP' }"><span class="badge text-bg-success py-1">강사</span> </c:when>
+						 				<c:when test="${role.roleName eq 'ROLE_USER' }"><span class="badge text-bg-warning py-1">유저</span> </c:when>
+								 			</c:choose>
+								 		</c:forEach>
+							 		</td>
+								 </tr>
+							</table>
+							
+							<div class="text-end">
+								<a href="mypage?empId=${employee.id }" class="btn btn-secondary">취소</a>
+								<button type="submit" class="btn btn-primary">저장</a>
+							</div>
 					</div>
 				</div>
-				
-				<div class="col-8">
-					<form method="post" action="modify">
-						<input type="hidden" name="fitnessNo" value="${employee.fitnessNo }" />
-						<table class="table table-bordered">
-							<colgroup>
-								<col width="25%">
-								<col width="*">
-							</colgroup>
-							 <tr>
-							 	<th class="table-secondary">이름</th>
-							 	<td><input type="text" class="form-control form-control-sm" name="name" value="${employee.name }"></td>
-							 </tr>
-							 <tr>
-							 	<th class="table-secondary">아이디</th>
-							 	<td><input type="text" class="form-control form-control-sm" name="id" value="${employee.id }" readonly></td>
-							 </tr>
-							 <tr>
-							 	<th class="table-secondary">비밀번호</th>
-							 	<td><input type="password" class="form-control form-control-sm" name="passwrod"></td>
-							 </tr>
-							 <tr>
-							 	<th class="table-secondary">비밀번호 확인</th>
-							 	<td><input type="password" class="form-control form-control-sm" name="passwordConfirm"></td>
-							 </tr>
-							 <tr>
-							 	<th class="table-secondary">전화번호</th>
-							 	<td><input type="text" class="form-control form-control-sm" name="tel" value="${employee.tel }"></td>
-							 </tr>
-							 <tr>
-							 	<th class="table-secondary">이메일</th>
-							 	<td><input type="text" class="form-control form-control-sm" name="email" value="${employee.email }" readonly></td>
-							 </tr>
-							 <tr>
-							 	<th class="form-label table-secondary">우편번호</th>
-							    <td class="d-flex justify-content-start">
-							      <input type="text" class="form-control w-25 me-3" name="zipcode" value="${employee.zipcode }" readonly="readonly"/>
-							      <button type="button" class="btn btn-outline-secondary btn-sm" id="btn-search-zipcode">우편번호검색</button>
-							    </td>
-							 </tr>
-							 <tr>
-							 	<th class="table-secondary">주소</th>
-							 	<td>
-							 		<input type="text" class="form-control form-control-sm" name="basicAddress" value="${employee.basicAddress }">
-							 	</td>
-							 </tr>
-							 <tr>
-							 	<th class="table-secondary">상세주소</th>
-							 	<td><input type="text" class="form-control form-control-sm" name="detailAddress" value="${employee.detailAddress }"></td>
-							 </tr>
-							 <tr>
-							 	<th class="table-secondary">등록일</th>
-							 	<td><input type="text" class="form-control form-control-sm" value="<fmt:formatDate value="${employee.createdDate }" pattern="yyyy-MM-dd"/>"></td>
-							 </tr>
-							 <tr>
-							 	<th class="table-secondary">재직상태</th>
-							 	<td>
-							 		<select class="form-select" name="status">
-							 			<option value="재직" ${employee.status eq '재직' ? 'selected' : '' }>재직</option>
-							 			<option value="퇴사" ${employee.status eq '퇴사' ? 'selected' : '' }>퇴사</option>
-							 			<option value="휴직" ${employee.status eq '휴직' ? 'selected' : '' }>휴직</option>
-							 		</select>
-							 	</td>
-							 </tr>
-							 <tr>
-							 	<th class="table-secondary">권한</th>
-							 	<td>
-							 		<c:forEach var="role" items="${employee.employeeRole }">
-							 			<c:choose>
-							 				<c:when test="${role.roleName eq 'ROLE_ADMIN' }">관리자</c:when>
-							 				<c:when test="${role.roleName eq 'ROLE_EMP' }">강사</c:when>
-							 				<c:when test="${role.roleName eq 'ROLE_USER' }">유저</c:when>
-							 			</c:choose>
-							 		</c:forEach>
-						 		</td>
-							 </tr>
-						</table>
-						
-						<div class="text-end">
-							<a href="mypage?empId=${employee.id }" class="btn btn-secondary">취소</a>
-							<button type="submit" class="btn btn-primary">저장</a>
-						</div>
-					</form>
-				</div>
-			</div>
+			</form>
 		</div>
 	</div>
 </div>
 
-<!-- 프로필 사진 선택 모달창 -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h1 class="modal-title fs-5" id="profileTilte">프로필 선택</h1>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-			<div class="modal-body">
-				<form action="profileUpload" method="post" id="profile-upload" enctype="multipart/form-data">
-					<input type="hidden" name="empId" value="${employee.id }">
-					<label for="formFile" class="form-label"></label>
-					<input class="form-control" type="file" id="formFile" name="upfile">
-				</form>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-				<button type="button" id="save-profile" class="btn btn-primary">저장</button>
-			</div>
-		</div>
-	</div>
-</div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -184,11 +160,17 @@ $(function() {
 	  }).open();
 	});
 	
-	// 프로필 사진 
-	$("#save-profile").click(function() {
-		$("#profile-upload").submit();
-	});
+	// 프로필사진 미리보기
+	let imgProfile = document.querySelector("#img-profile");
+	let fileProfile = document.querySelector("#file-profile");
 	
+	fileProfile.addEventListener("change", function(event) {
+		let reader = new FileReader();
+		reader.readAsDataURL(event.target.files[0]);
+		reader.onload = function() {
+			imgProfile.src = reader.result;
+		}
+	});
 	
 })
 </script>
