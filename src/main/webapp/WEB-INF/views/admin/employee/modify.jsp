@@ -8,14 +8,8 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
 <link rel="stylesheet" href="../../../resources/css/common.css">
+<link rel="stylesheet" href="../../../resources/css/employee.css">
 <title>중앙피트니스</title>
-<style>
-	.profile{width: 350px; height: 350px; margin: 0 auto; position: relative;}
-	.profile img{width: 100%;}
-	.profile label{position: absolute; right: 0; bottom: -20%; cursor: pointer;}
-	.profile #file-profile{display: none;}
-	.profile i{font-size: 4rem;}
-</style>
 </head>
 <body>
 
