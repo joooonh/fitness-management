@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.mapper.UserMapper">
+
+	<insert id="insertUser" parameterType="User">
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+			select users_seq.nextval from dual
+		</selectKey>
+		insert into users
+			(user_no, user_id, user_password, user_name, user_gender, user_birthday, user_email, 
+			 user_zipcode, user_basic_address, user_detail_address, user_tel)
+		values
+			(#{no}, #{id}, #{encryptPassword}, #{name}, #{gender}, #{birth}, #{email},
+			 #{zipcode}, #{basicAddr}, #{detailAddr}, #{tel})
+	</insert>
+	
+	<select id="getUserById" parameterType="string" resultType="User">
+		select
+			user_no 				as no, 
+			user_id 				as id,
+			user_password 			as encryptPassword,
+			user_name 				as name,
+			user_gender 			as gender,
+			user_birthday			as birth,
+			user_email				as email,
+			user_photo				as photo,
+			user_zipcode			as zipcode,
+			user_basic_address		as basicAddr,
+			user_detail_address		as detailAddr,
+			user_tel				as tel,
+			user_deleted			as deleted,
+			user_created_date		as createdDate,
+			user_updated_date		as updatedDate
+		from
+			users
+		where
+			user_id = #{value}
+	</select>
+	
+	<select id="getUserByEmail" parameterType="string" resultType="User">
+		select
+			user_no 				as no, 
+			user_id 				as id,
+			user_password 			as encryptPassword,
+			user_name 				as name,
+			user_gender 			as gender,
+			user_birthday			as birth,
+			user_email				as email,
+			user_photo				as photo,
+			user_zipcode			as zipcode,
+			user_basic_address		as basicAddr,
+			user_detail_address		as detailAddr,
+			user_tel				as tel,
+			user_deleted			as deleted,
+			user_created_date		as createdDate,
+			user_updated_date		as updatedDate
+		from
+			users
+		where
+			user_email = #{value}
+	</select>
+	
+</mapper>

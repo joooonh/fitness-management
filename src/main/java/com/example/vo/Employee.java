@@ -23,11 +23,9 @@ public class Employee {
 	private String detailAddress;
 	private Date createdDate;
 	private Date updatedDate;
-
+  
 	private String status;
 	private int fitnessNo;
 
-	private String employeementStatus;
-	private int no;
 
 }
