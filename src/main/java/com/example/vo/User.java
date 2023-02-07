@@ -27,4 +27,5 @@ public class User {
 	private String deleted;
 	private Date createdDate;
 	private Date updatedDate;
+
 }

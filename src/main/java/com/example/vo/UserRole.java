@@ -16,4 +16,5 @@ public class UserRole {
 
 	private int userNo;
 	private String roleName;
+
 }

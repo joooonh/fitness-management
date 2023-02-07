@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.example.mapper.EmployeeMapper">
-	
+
 	<select id="getEmployeeById" parameterType="string" resultType="Employee">
 		select
 			employee_id						as id,
@@ -21,6 +21,49 @@
 			employees	
 		where
 			employee_id	= #{value}
-			
 	</select>
+	
+	<select id="getEmployeeDetail" parameterType="string" resultType="EmployeeDetail">
+		select
+			E.employee_id					as id,
+			E.employee_name					as name,
+			E.employee_password				as password,
+			E.employee_email				as email,
+			E.employee_tel					as tel,
+			E.employee_photo				as photo,
+			E.employee_zipcode				as zipcode,
+			E.employee_basic_address		as basicAddress,
+			E.employee_detail_address		as detailAddress,
+			E.employee_employment_status	as status,
+			E.employee_created_date			as createdDate,
+			E.employee_updated_date			as updatedDate,
+			E.fitness_no					as fitnessNo,
+            R.employee_role_name
+		from
+			employees E, employee_roles R
+		where
+            E.employee_id = R.employee_id
+            and E.employee_id = #{value}
+	</select>
+
+	<update id="updateEmployee" parameterType="Employee">
+		update 
+			employees
+		set
+			employee_name = #{name},
+			<if test="password != null">
+			employee_password = #{password},
+			</if>
+			employee_tel = #{tel},
+			employee_photo = #{photo},
+			employee_zipcode = #{zipcode},
+			employee_basic_address = #{basicAddress},
+			employee_detail_address = #{detailAddress},
+			employee_employment_status = #{status},
+			employee_updated_date = sysdate,
+			fitness_no = #{fitnessNo}
+		where
+			employee_id	= #{id}
+	</update>
+
 </mapper>

@@ -32,7 +32,7 @@
 						               마이페이지
 						            </a>
 						            <ul class="dropdown-menu">
-						               <li><a class="dropdown-item" href="#">내정보 보기</a></li>
+						               <li><a class="dropdown-item" href="/admin/mypage?empId=hong">내정보 보기</a></li>
 						               <li><hr class="dropdown-divider"></li>
 						               <li><a class="dropdown-item" href="#">회원권 조회</a></li>
 						               <li><a class="dropdown-item" href="#">예약 조회</a></li>
