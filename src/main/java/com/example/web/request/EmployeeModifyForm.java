@@ -1,31 +1,28 @@
-package com.example.vo;
+package com.example.web.request;
 
 import java.util.Date;
 
-import org.apache.ibatis.type.Alias;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Getter;
 import lombok.Setter;
 
-@Alias("Employee")
 @Getter
 @Setter
-public class Employee {
+public class EmployeeModifyForm {
 
 	private String id;
 	private String name;
 	private String password;
 	private String email;
 	private String tel;
-	private String photo;
 	private String zipcode;
 	private String basicAddress;
 	private String detailAddress;
-	private Date createdDate;
-	private Date updatedDate;
-  
 	private String status;
+	private Date updatedDate;
 	private int fitnessNo;
-
-
+	
+	private MultipartFile upfile;
+	private String photo;
 }

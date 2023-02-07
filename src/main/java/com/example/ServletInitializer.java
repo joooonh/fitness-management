@@ -22,6 +22,7 @@ public class ServletInitializer extends SpringBootServletInitializer {
             @Override
             protected void postProcessContext(Context context) {
                 super.postProcessContext(context);
+
                 // tags.jsp 파일의 내용을 모든 JSP의 앞부분에 추가시킨다. 
                 JspPropertyGroup jspPropertyGroup = new JspPropertyGroup();
                 jspPropertyGroup.addUrlPattern("*.jsp");
@@ -29,6 +30,7 @@ public class ServletInitializer extends SpringBootServletInitializer {
                 
                 JspPropertyGroupDescriptorImpl jspPropertyGroupDescriptor = new JspPropertyGroupDescriptorImpl(jspPropertyGroup);
                 context.setJspConfigDescriptor(new JspConfigDescriptorImpl(Collections.singletonList(jspPropertyGroupDescriptor), Collections.emptyList()));
+
             }
         };
     }

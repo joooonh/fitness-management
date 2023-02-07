@@ -12,15 +12,12 @@ public class LoginUser {
 		this.encryptPassword = encryptPassword;
 		this.name = name;
 	}
-
 	public String getId() {
 		return id;
 	}
-
 	public String getEncryptPassword() {
 		return encryptPassword;
 	}
-
 	public String getName() {
 		return name;
 	}

@@ -45,4 +45,3 @@ public class UserService {
 		UserRole userRole = new UserRole(user.getNo(), "ROLE_USER");
 		userRoleMapper.insertUserRole(userRole);
 	}
-}
