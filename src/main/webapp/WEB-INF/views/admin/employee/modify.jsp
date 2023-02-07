@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="../../../resources/css/common.css">
 <title>중앙피트니스</title>
 <style>
-	.profile{width: 100%; position: relative;}
+	.profile{width: 350px; height: 350px; margin: 0 auto; position: relative;}
 	.profile img{width: 100%;}
 	.profile label{position: absolute; right: 0; bottom: -20%; cursor: pointer;}
 	.profile #file-profile{display: none;}
@@ -39,7 +39,7 @@
 				<div class="row">
 					<div class="col-4">
 						<div class="profile">
-							<img src="../../../resources/images/default.png" id="img-profile" class="rounded-circle" alt="직원 프로필 사진">
+							<img src="../../../resources/images/${employee.photo }" id="img-profile" class="rounded-circle" alt="직원 프로필 사진">
 							<label for="file-profile" class="form-label"><i class="bi bi-camera-fill"></i></label>
 							<input class="form-control" type="file" id="file-profile" name="upfile">
 						</div>

@@ -10,6 +10,10 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
 <link rel="stylesheet" href="../../../resources/css/common.css">
 <title>중앙피트니스</title>
+<style>
+	.profile{width: 350px; height: 350px; margin: 0 auto;}
+	.profile img{width: 100%;}
+</style>
 </head>
 <body>
 
@@ -31,7 +35,7 @@
 			
 			<div class="row">
 				<div class="col-4">
-					<div class="">
+					<div class="profile">
 						<img src="../../../resources/images/${employee.photo }" class="rounded-circle" alt="직원 프로필 사진" style="width:100%">
 					</div>
 				</div>
