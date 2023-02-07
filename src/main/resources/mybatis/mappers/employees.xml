@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.mapper.EmployeeMapper">
+	
+	<select id="getEmployeeById" parameterType="string" resultType="Employee">
+		select
+			employee_id						as id,
+			employee_name					as name,
+			employee_password				as password,
+			employee_email					as email,
+			employee_tel					as tel,
+			employee_photo					as photo,
+			employee_zipcode				as zipcode,
+			employee_basic_address			as basicAddress,
+			employee_detail_address			as detailAddress,
+			employee_employment_status		as status,
+			employee_created_date			as createdDate,
+			employee_updated_date			as updatedDate,
+			fitness_no						as fitnessNo
+		from
+			employees	
+		where
+			employee_id	= #{value}
+			
+	</select>
+</mapper>
