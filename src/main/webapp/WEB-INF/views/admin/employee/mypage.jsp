@@ -83,9 +83,9 @@
 						 	<td class="ps-3">
 						 		<c:forEach var="role" items="${employee.employeeRole }">
 						 			<c:choose>
-						 				<c:when test="${role.roleName eq 'ROLE_ADMIN' }">관리자</c:when>
-						 				<c:when test="${role.roleName eq 'ROLE_EMP' }">강사</c:when>
-						 				<c:when test="${role.roleName eq 'ROLE_USER' }">유저</c:when>
+						 				<c:when test="${role.roleName eq 'ROLE_ADMIN' }"><span class="badge text-bg-primary py-1">관리자</span> </c:when>
+						 				<c:when test="${role.roleName eq 'ROLE_EMP' }"><span class="badge text-bg-success py-1">강사</span> </c:when>
+						 				<c:when test="${role.roleName eq 'ROLE_USER' }"><span class="badge text-bg-warning py-1">유저</span> </c:when>
 						 			</c:choose>
 						 		</c:forEach>
 						 	</td>

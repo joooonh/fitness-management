@@ -33,10 +33,6 @@ public class EmployeeService {
 		Employee employee = employeeMapper.getEmployeeById(empId);
 		List<EmployeeRole> employeeRole = employeeRoleMapper.getEmployeeRoles(empId);
 		
-		if (employee == null) {
-			// 직원정보가 null 이면 예외
-		}
-		
 		// 조회한 직원정보, 직원권한을 EmployeeDetail에 대입한다.
 		EmployeeDetail employeeDetail = new EmployeeDetail();
 		BeanUtils.copyProperties(employee, employeeDetail);
@@ -48,14 +44,6 @@ public class EmployeeService {
 	public void updateEmployee(EmployeeModifyForm form) {
 		Employee employee = employeeMapper.getEmployeeById(form.getId());
 		BeanUtils.copyProperties(form, employee);
-		
-		employeeMapper.updateEmployee(employee);
-	}
-
-	// 프로필 사진만 저장한다.
-	public void updateProfile(String empId, String filename) {
-		Employee employee = employeeMapper.getEmployeeById(empId);
-		employee.setPhoto(filename);
 		
 		employeeMapper.updateEmployee(employee);
 	}

@@ -1,6 +1,7 @@
 package com.example.web.controller.admin;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -26,8 +27,6 @@ import com.example.web.request.EmployeeModifyForm;
 @RequestMapping("/admin")
 public class EmployeeController {
 
-	//private final String directory = "../../../../../webapp/resources/images";
-	//private final String directory = "/fitness-management/src/main/webapp/resources/images";
 	private final String directory = "C:\\app\\eGovFrameDev-4.0.0-64bit\\workspace\\fitness-management\\src\\main\\webapp\\resources\\images";
 	
 	@Autowired
@@ -53,24 +52,17 @@ public class EmployeeController {
 	
 	// 내 정보 수정
 	@PostMapping("/modify")
-	public String modify(EmployeeModifyForm form) {
+	public String modify(EmployeeModifyForm form) throws IOException {
+		MultipartFile upfile = form.getUpfile();
+		if (!upfile.isEmpty()) {
+			String filename = upfile.getOriginalFilename();
+			form.setPhoto(filename);
+			
+			FileCopyUtils.copy(upfile.getInputStream(), new FileOutputStream(new File(directory, filename)));
+		}
+		
 		employeeService.updateEmployee(form);
 		
 		return "redirect:mypage?empId=" + form.getId();
-	}
-	
-	// 프로필 사진 저장
-	@PostMapping("/profileUpload")
-	public String profileUpload(@RequestParam(name = "empId") String empId,
-			@RequestParam(name="upfile") MultipartFile upfile) throws IOException {
-		
-		if (!upfile.isEmpty()) {
-			String filename = upfile.getOriginalFilename();
-			FileCopyUtils.copy(upfile.getInputStream(), new FileOutputStream(new File(directory, filename)));
-			
-			employeeService.updateProfile(empId, filename);
-		}
-		
-		return "redirect:modify?empId=" + empId;
 	}
 }
