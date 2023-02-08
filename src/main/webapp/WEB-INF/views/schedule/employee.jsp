@@ -21,7 +21,6 @@
 <title>중앙피트니스</title>
 </head>
 <body>
-<c:set var="menu" value="employeeschedule">
 <!------------------------------------ 헤더 navbar 영역 ---------------------------------------->
 <%@ include file="../common/header.jsp" %>
 <div class="container-fluid mt-4">
