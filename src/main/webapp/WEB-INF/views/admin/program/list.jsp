@@ -215,9 +215,9 @@ $(function() {
 		// 클릭한 프로그램의 프로그램번호를 가져온다.
 		let no = $(this).closest("tr").children(".programNo").text();
 		
-		// 프로그램 상세정보
-		$.getJSON("/admin/program/detail.json", {programNo: no}, function(programDetail) {
-			let detail = programDetail.programDetail;
+		$.getJSON("/admin/program/detail.json", {programNo: no}, function(programInfo) {
+			// 프로그램 상세정보
+			let detail = programInfo.programDetail;
 			
 			$("#prgramName").text(detail.name);
 			$("#programCategory").text(detail.categoryName);
@@ -231,11 +231,9 @@ $(function() {
 			$("#requestCount").text(detail.requestCount + "명");
 			$("#price").text(detail.price + "원");
 			$("#days").text(detail.days.day);
-		});
 		
-		// 프로그램 신청자 정보
-		$.getJSON("/admin/program/detail.json", {programNo: no}, function(userDetail) {
-			let users = userDetail.users;
+			// 프로그램 신청자 정보
+			let users = programInfo.users;
 			
 			let html = "";
 			if (users.length == 0) {
@@ -254,7 +252,7 @@ $(function() {
 						<td>\${user.no}</td>
 						<td>\${user.name}</td>
 						<td>\${user.tel}</td>
-						<td>\${user.basicAddress}</td>
+						<td>\${user.basicAddr}</td>
 					</tr>
 				`;
 			};
