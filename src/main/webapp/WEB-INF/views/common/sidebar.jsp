@@ -9,20 +9,14 @@
 		<a href="" class="nav-link text-white p-3 mb-2 sidebar-link">
 			<i class="bi bi-shop-window"></i> 매장관리
 		</a>
-		<ul class="submenu  mb-2">
-			<a href="" class="nav-link text-white">하위메뉴</a>
-			<a href="" class="nav-link text-white">하위메뉴</a>
-			<a href="" class="nav-link text-white">하위메뉴</a>
-		</ul>
 	</li>
 	<li class="nav-item mb-2">
 		<a href="" class="nav-link text-white p-3 mb-2 sidebar-link">
 			<i class="bi bi-pc-display-horizontal"></i> 프로그램관리
 		</a>
 		<ul class="submenu  mb-2">
-			<a href="" class="nav-link text-white">하위메뉴</a>
-			<a href="" class="nav-link text-white">하위메뉴</a>
-			<a href="" class="nav-link text-white">하위메뉴</a>
+			<a href="/admin/program/list" class="nav-link text-white">프로그램 조회</a>
+			<a href="" class="nav-link text-white">프로그램 등록</a>
 		</ul>
 	</li>
 	<li class="nav-item mb-2">
