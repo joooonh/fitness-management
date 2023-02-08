@@ -1,0 +1,42 @@
+@charset "UTF-8";
+/* 직원 관리 css */
+.profile{
+	width: 350px; 
+	height: 350px; 
+	margin: 0 auto;
+	position: relative;
+}
+.profile img{
+	width: 100%;
+	height: 100%;
+}
+.profile label{
+	position: absolute; 
+	right: 0; 
+	bottom: -20%; 
+	cursor: pointer;
+}
+.profile #file-profile{
+	display: none;
+}
+.profile i{
+	font-size: 4rem;
+}
+/* 프로그램 관리 css */
+#programDetail .modal-dialog, #seachEmployee .modal-dialog{
+	max-width: 50vw;
+}
+.table-program-insert tr{
+	vertical-align: middle;
+}
+.program-insert-wrap, .program-modify-wrap {
+	width: 50% !important;
+	margin: 0 auto;
+}
+ program-insert-wrap table {
+	word-break: keep-all;
+}
+.program-insert-wrap .scroll-y {
+	height: 200px; 
+	overflow-y: auto;
+}
