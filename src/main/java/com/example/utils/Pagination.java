@@ -6,6 +6,7 @@ public class Pagination {
 	private int totalRows;      // 전체 데이터 갯수
    private int rows;         // 한 화면에 표시되는 데이터 갯수
    private int pages;         // 한 화면에 표시되는 페이지번호 갯수
+
    
    /**
     * 요청한 페이지번호, 전체 데이터 갯수를 전달받아서 Pagination객체를 초기화한다.
