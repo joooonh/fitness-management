@@ -56,13 +56,13 @@
 		</ul>
 	</li>
 	<li class="nav-item mb-2">
-		<a href="" class="nav-link text-white p-3 mb-2 sidebar-link">
+		<a href="/schedule/employee" class="nav-link text-white p-3 mb-2 sidebar-link">
 			<i class="bi bi-calendar3"></i> 일정관리
 		</a>
 		<ul class="submenu  mb-2">
-			<a href="" class="nav-link text-white">하위메뉴</a>
-			<a href="" class="nav-link text-white">하위메뉴</a>
-			<a href="" class="nav-link text-white">하위메뉴</a>
+			<a href="/schedule/employee" class="nav-link text-white ${menu eq 'employee' ? 'active' : '' }">강사일정관리</a>
+			<a href="/schedule/program" class="nav-link text-white ${menu eq 'program' ? 'active' : '' }">프로그램일정관리</a>
+			<a href="/schedule/example" class="nav-link text-white ${menu eq 'example' ? 'active' : '' }">일정관리</a>
 		</ul>
 	</li>
 	<li class="nav-item mb-2">
