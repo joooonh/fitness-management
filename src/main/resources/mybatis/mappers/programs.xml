@@ -131,7 +131,7 @@
 		    U.user_no				as no,
 		    U.user_name				as name,
 		    U.user_tel				as tel,
-		    U.user_basic_address	as basicAddress
+		    U.user_basic_address	as basicAddr
 		from
 		    fitness_programs P, class_registration_histories R, users U
 		where
