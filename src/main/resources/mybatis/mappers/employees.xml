@@ -55,7 +55,9 @@
 			employee_password = #{password},
 			</if>
 			employee_tel = #{tel},
+			<if test="photo != null">
 			employee_photo = #{photo},
+			</if>
 			employee_zipcode = #{zipcode},
 			employee_basic_address = #{basicAddress},
 			employee_detail_address = #{detailAddress},
@@ -65,5 +67,18 @@
 		where
 			employee_id	= #{id}
 	</update>
+	
+	<!-- 재직중인 직원 정보 -->
+	<select id="getEmployeeByStatus" resultType="Employee">
+		select
+			employee_id				as id,
+			employee_name			as name,
+			employee_tel			as tel,
+			employee_basic_address	as basicAddress
+		from
+			employees
+		where
+			employee_employment_status = '재직'
+	</select>
 
 </mapper>
