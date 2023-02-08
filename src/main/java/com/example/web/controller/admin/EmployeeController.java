@@ -5,11 +5,14 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +28,7 @@ import com.example.web.request.EmployeeModifyForm;
 
 @Controller
 @RequestMapping("/admin")
+@SessionAttributes({"form"})
 public class EmployeeController {
 
 	private final String directory = "C:\\app\\eGovFrameDev-4.0.0-64bit\\workspace\\fitness-management\\src\\main\\webapp\\resources\\images";
@@ -45,14 +49,21 @@ public class EmployeeController {
 	@GetMapping("/modify")
 	public String modifyForm(@RequestParam(name = "empId") String empId, Model model) {
 		EmployeeDetail employeeDetail = employeeService.getEmployeeDetail(empId);
-		model.addAttribute("employee", employeeDetail);
+		EmployeeModifyForm form = new EmployeeModifyForm();
+		BeanUtils.copyProperties(employeeDetail, form);
+		model.addAttribute("form", form);
 		
 		return "admin/employee/modify";
 	}
 	
 	// 내 정보 수정
 	@PostMapping("/modify")
-	public String modify(EmployeeModifyForm form) throws IOException {
+	public String modify(@Valid @ModelAttribute("form") EmployeeModifyForm form, BindingResult errors) throws IOException {
+		System.out.println(errors);
+		if (errors.hasErrors()) {			
+			return "admin/employee/modify";
+		}
+		
 		MultipartFile upfile = form.getUpfile();
 		if (!upfile.isEmpty()) {
 			String filename = upfile.getOriginalFilename();
