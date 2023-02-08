@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.mapper.ProgramMapper">
+
+	<!-- 모든 프로그램 목록 조회 -->
+	<select id="getAllPrograms" parameterType="map" resultType="ProgramDto">
+		select 
+			*
+		from (
+				select
+		            row_number() over (order by P.program_no desc) row_numbers,
+		            P.program_no					as no,
+		            P.program_name					as name,
+		            P.program_start_date			as startDate,
+		            P.program_end_date				as endDate,
+		            P.program_start_hour			as startHour,
+		            P.program_end_hour				as endHour,
+		            P.program_quota					as quota,
+		            P.program_request_count			as requestCount,
+		            P.program_price					as price,
+		            P.program_status				as status,
+		            P.program_created_date			as createdDate,
+		            P.program_updated_date			as updatedDate,
+		            P.employee_id					as empId,
+		            P.fitness_program_category_no	as categoryNo,
+		            E.employee_name					as empName,
+		            C.fitness_program_category_name	as categoryName
+				from
+				    fitness_programs P, employees E, fitness_program_category C
+				where
+				    P.employee_id = E.employee_id
+				    and P.fitness_program_category_no = C.fitness_program_category_no
+				    <choose>
+					    <when test="sort == '신청중'">
+					    	and P.program_status = '신청중'
+					    </when>
+					    <when test="sort == '진행중'">
+					    	and P.program_status = '진행중'
+					    </when>
+					    <when test="sort == '마감'">
+					    	and P.program_status = '마감'
+					    </when>
+					</choose>
+				    <if test="keyword != null">
+				    	and (P.program_name like '%' || #{keyword} || '%'
+				    	or C.fitness_program_category_name like '%' || #{keyword} || '%'
+				    	or E.employee_name like '%' || #{keyword} || '%'
+				    	or P.program_start_date like '%' || #{keyword} || '%'
+				    	or P.program_start_date like '%' || #{keyword} || '%'
+				    	or P.program_quota like '%' || #{keyword} || '%'
+				    	or P.program_status like '%' || #{keyword} || '%')
+				    </if>
+		    	)
+		where
+		    row_numbers between #{begin} and #{end}
+	</select>
+	
+	<select id="getTotalRows" parameterType="map" resultType="int">
+		select 
+		    count(*)
+		from
+		    fitness_programs P, employees E, fitness_program_category C
+	    where
+		    P.employee_id = E.employee_id
+		    and P.fitness_program_category_no = C.fitness_program_category_no
+			<choose>
+				<when test="sort == '상태'">
+				</when>
+				<when test="sort == '신청중'">
+					and program_status = '신청중'
+				</when>
+			    <when test="sort == '진행중'">
+			    	and P.program_status = '진행중'
+			    </when>
+			    <when test="sort == '마감'">
+			    	and P.program_status = '마감'
+			    </when>
+			</choose>
+			<if test="keyword != null">
+				and (P.program_name like '%' || #{keyword} || '%'
+		    	or C.fitness_program_category_name like '%' || #{keyword} || '%'
+		    	or E.employee_name like '%' || #{keyword} || '%'
+		    	or P.program_start_date like '%' || #{keyword} || '%'
+		    	or P.program_start_date like '%' || #{keyword} || '%'
+		    	or P.program_quota like '%' || #{keyword} || '%'
+		    	or P.program_status like '%' || #{keyword} || '%')
+			</if>
+	</select>
+	
+	<!-- 프로그램 상세정보 조회 -->
+	<select id="getProgramDetail" parameterType="int" resultType="ProgramDto">
+		select
+			P.program_no					as no,
+			P.program_name					as name,
+			P.program_start_date			as startDate,
+			P.program_end_date				as endDate,
+			P.program_start_hour			as startHour,
+			P.program_end_hour				as endHour,
+			P.program_quota					as quota,
+			P.program_request_count			as requestCount,
+			P.program_price					as price,
+			P.program_status				as status,
+			P.program_created_date			as createdDate,
+			P.program_updated_date			as updatedDate,
+			P.employee_id					as empId,
+			P.fitness_program_category_no	as categoryNo,
+			E.employee_name					as empName,
+			C.fitness_program_category_name	as categoryName
+		from
+		    fitness_programs P, employees E, fitness_program_category C
+		where
+		    P.employee_id = E.employee_id
+		    and P.fitness_program_category_no = C.fitness_program_category_no
+		    and P.program_no = #{value}
+	</select>
+	
+	<!-- 프로그램 진행 요일 조회 -->
+	<select id="getProgramDayByProgramNo" parameterType="int" resultType="ProgramDay">
+		select
+			program_no			as programNo,
+			program_open_day	as day
+		from
+			fitness_program_days
+		where
+			program_no = #{value}
+	</select>
+	
+	<!-- 프로그램 신청자 목록 조회 -->
+	<select id="getUsersByProgramNo" parameterType="int" resultType="User">
+		select
+		    U.user_no				as no,
+		    U.user_name				as name,
+		    U.user_tel				as tel,
+		    U.user_basic_address	as basicAddress
+		from
+		    fitness_programs P, class_registration_histories R, users U
+		where
+		    P.program_no = R.program_no
+		    and R.user_no = U.user_no
+		    and P.program_no = #{value}
+	</select>
+	
+	<select id="getProgramCategory" resultType="ProgramCategory">
+		select
+			fitness_program_category_no		as no,
+			fitness_program_category_name	as name
+		from
+			fitness_program_category
+	</select>
+
+</mapper>
