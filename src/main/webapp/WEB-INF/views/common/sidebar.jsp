@@ -36,13 +36,19 @@
 		</ul>
 	</li>
 	<li class="nav-item mb-2">
-		<a href="" class="nav-link text-white p-3 mb-2 sidebar-link">
+		<a href="userList" class="nav-link text-white p-3 mb-2 sidebar-link">
 			<i class="bi bi-card-checklist"></i> 출석관리
 		</a>
 		<ul class="submenu  mb-2">
-			<a href="" class="nav-link text-white">하위메뉴</a>
-			<a href="" class="nav-link text-white">하위메뉴</a>
-			<a href="" class="nav-link text-white">하위메뉴</a>
+			<p class="text-white">회원출석관리</p>
+			  <hr width="70%" color="white">
+			  <a href="userList" class="nav-link text-white">출석리스트</a>
+			  <a href="userDay" class="nav-link text-white">일별출석리스트</a>
+			  <a href="userCalendar" class="nav-link text-white">출석달력</a>
+			<p class="text-white pt-4">강사출석관리</p>
+			  <hr width="70%" color="white">
+			  <a href="employeeList" class="nav-link text-white">출석리스트</a>
+			  <a href="employeeCalendar" class="nav-link text-white">출석달력</a>
 		</ul>
 	</li>
 	<li class="nav-item mb-2">
