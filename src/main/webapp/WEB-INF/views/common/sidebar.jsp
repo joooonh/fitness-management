@@ -62,7 +62,6 @@
 		<ul class="submenu  mb-2">
 			<a href="/schedule/employee" class="nav-link text-white ${menu eq 'employee' ? 'active' : '' }">강사일정관리</a>
 			<a href="/schedule/program" class="nav-link text-white ${menu eq 'program' ? 'active' : '' }">프로그램일정관리</a>
-			<a href="/schedule/example" class="nav-link text-white ${menu eq 'example' ? 'active' : '' }">일정관리</a>
 		</ul>
 	</li>
 	<li class="nav-item mb-2">
