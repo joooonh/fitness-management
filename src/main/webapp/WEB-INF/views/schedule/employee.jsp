@@ -63,7 +63,7 @@
 				<tbody>
 					<tr>
 						<th>강사명</th>
-						<td>${employee.name }</td>
+						<td></td>
 						<th>프로그램명</th>
 						<td></td>
 					</tr>

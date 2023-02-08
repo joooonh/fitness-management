@@ -39,10 +39,10 @@
 			<div class="btn-group">
 					  <button type="button" class="btn btn-sm dropdown-toggle border border-dark" data-bs-toggle="dropdown" aria-expanded="false">프로그램명</button>
 					  <ul class="dropdown-menu">
-					    <li><a class="dropdown-item">문지훈</a></li>
-					    <li><a class="dropdown-item">이순신</a></li>
-					    <li><a class="dropdown-item">레이나</a></li>
-					    <li><a class="dropdown-item">류관순</a></li>
+					    <li><a class="dropdown-item">프로그램1</a></li>
+					    <li><a class="dropdown-item">프로그램2</a></li>
+					    <li><a class="dropdown-item">프로그램3</a></li>
+					    <li><a class="dropdown-item">프로그램4</a></li>
 					    <li><hr class="dropdown-divider"></li>
 					    <li><a class="dropdown-item" href="#">Separated link</a></li>
 					  </ul>
@@ -63,7 +63,7 @@
 				<tbody>
 					<tr>
 						<th>강사명</th>
-						<td>${employee.name }</td>
+						<td></td>
 						<th>프로그램명</th>
 						<td></td>
 					</tr>
