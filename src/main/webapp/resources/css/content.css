@@ -26,6 +26,9 @@
 #programDetail .modal-dialog, #seachEmployee .modal-dialog{
 	max-width: 50vw;
 }
+#seachEmployee tbody tr{
+	cursor: pointer;
+}
 .table-program-insert tr{
 	vertical-align: middle;
 }
@@ -33,7 +36,7 @@
 	width: 50% !important;
 	margin: 0 auto;
 }
- program-insert-wrap table {
+ .program-insert-wrap table {
 	word-break: keep-all;
 }
 .program-insert-wrap .scroll-y {
