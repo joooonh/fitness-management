@@ -11,20 +11,21 @@ import lombok.Setter;
 @Getter
 @Setter
 public class User {
+
 	private int no;
-	private String  id;
-	private String password;
-	private String name;
-	private String gender;
-	private Date  birthDay;
+	private String id; 
+	private String encryptPassword;
+	private String name; 
+	private String gender; 
+	private Date birth;
 	private String email;
-	private String photo;
+	private String photo; 
 	private String zipcode;
-	private String basicAddress;
-	private String detailAddreass;
+	private String basicAddr;
+	private String detailAddr;
 	private String tel;
 	private String deleted;
 	private Date createdDate;
 	private Date updatedDate;
-	
+
 }
