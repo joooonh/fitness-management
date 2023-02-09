@@ -233,7 +233,7 @@ $(function() {
 			
 			$.each(detail.days, function(index, item){
 				console.log(item.day);	
-				$("#days").append(item.day);
+				$("#days").append(item.day); 
 			});
 			
 			// 프로그램 신청자 정보

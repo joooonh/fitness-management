@@ -57,7 +57,7 @@
 									<div class="input-group">
 									  <input type="text" class="form-control" name="employeeName" style="cursor:pointer;">
 									  <button class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#seachEmployee"><i class="bi bi-search"></i></button>
-									</div>
+									</div> 
 								</td>
 							</tr>
 							<tr>

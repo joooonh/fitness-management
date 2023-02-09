@@ -35,7 +35,7 @@ public class ProgramDto {
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date updatedDate;
 	private String employeeId;
-	private String categoryNo;	
+	private String categoryNo;
 	
 	// 직원 정보
 	private String empName;

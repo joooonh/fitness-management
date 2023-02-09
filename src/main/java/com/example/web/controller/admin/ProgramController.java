@@ -63,7 +63,7 @@ public class ProgramController {
 		detailInfo.put("programDetail", programDetail);
 		detailInfo.put("users", users);
 		
-		return detailInfo;
+		return detailInfo; 
 	}
 	
 	@GetMapping("/insert")
