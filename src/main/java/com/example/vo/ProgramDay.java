@@ -10,7 +10,7 @@ import lombok.Getter;
 @Getter
 @Setter
 @ToString
-public class ProgramDay {
+public class ProgramDay { 
 
 	private int programNo;
 	private String day;

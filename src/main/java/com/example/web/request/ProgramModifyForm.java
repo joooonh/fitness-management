@@ -29,7 +29,7 @@ public class ProgramModifyForm {
 	private int quota;
 	private int price;
 	// 직원 정보
-	private String employeeId;
+	private String employeeId; 
 	private String employeeName;
 	// 프로그램 분류 정보
 	private int categoryNo;

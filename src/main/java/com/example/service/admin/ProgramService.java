@@ -83,7 +83,7 @@ public class ProgramService {
 		String day = programDay.getDay();
 		String[] days = day.split(",");
 		
-		programMapper.insertProgram(program);
+		programMapper.insertProgram(program); 
 		
 		for(int i = 0; i < days.length; i++) {
 			programDay.setProgramNo(program.getNo());

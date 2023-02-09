@@ -25,5 +25,5 @@ public class Program {
 	private Date createdDate;
 	private Date updatedDate;
 	private String employeeId;
-	private int categoryNo;	
+	private int categoryNo;	 
 }
