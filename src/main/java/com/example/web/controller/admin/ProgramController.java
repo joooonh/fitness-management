@@ -19,6 +19,7 @@ import com.example.service.admin.ProgramService;
 import com.example.vo.Employee;
 import com.example.vo.ProgramCategory;
 import com.example.vo.User;
+import com.example.web.request.ProgramModifyForm;
 
 @Controller
 @RequestMapping("/admin/program")
@@ -62,7 +63,7 @@ public class ProgramController {
 		detailInfo.put("programDetail", programDetail);
 		detailInfo.put("users", users);
 		
-		return detailInfo;
+		return detailInfo; 
 	}
 	
 	@GetMapping("/insert")
@@ -79,8 +80,8 @@ public class ProgramController {
 	}
 	
 	@PostMapping("/insert")
-	public String insert() {
-		
+	public String insert(ProgramModifyForm form) {
+		programService.insertProgram(form);
 		return "redirect:list";
 	}
 }
