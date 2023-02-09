@@ -86,7 +86,7 @@
 								</c:when>
 								<c:otherwise>
 									<c:forEach var="program" items="${programs }">
-										<tr>
+										<tr class="align-middle">
 											<td class="text-center"><input type="checkbox" name="programNo" value="${program.no }" class="form-check-input"></td>
 											<td class="programNo">${program.no }</td>
 											<td><button type="button" class="btn btn-link btn-detail">${program.name }</button></td>
@@ -153,22 +153,22 @@
 						<div class="col-12">
 							<table id="programInfo" class="table table-bordered">
 								<tr>
-									<th class="table-secondary">프로그램명</th><td id="prgramName"></td><th class="table-secondary">분류</th><td id="programCategory">크로스핏</td>
+									<th class="table-secondary">프로그램명</th><td id="prgramName"></td><th class="table-secondary">분류</th><td id="programCategory"></td>
 								</tr>
 								<tr>
-									<th class="table-secondary">강사명</th><td id="empName">이순신</td><th class="table-secondary">상태</th><td id="status">신청중</td>
+									<th class="table-secondary">강사명</th><td id="empName"></td><th class="table-secondary">상태</th><td id="status"></td>
 								</tr>
 								<tr>
-									<th class="table-secondary">시작일자</th><td id="startDate">2023-02-01</td><th class="table-secondary">종료일자</th><td id="endDate">2023-03-01</td>
+									<th class="table-secondary">시작일자</th><td id="startDate"></td><th class="table-secondary">종료일자</th><td id="endDate"></td>
 								</tr>
 								<tr>
-									<th class="table-secondary">시작시간</th><td id="startHour">09:00</td><th class="table-secondary">종료시간</th><td id="endHour">09:30</td>
+									<th class="table-secondary">시작시간</th><td id="startHour"></td><th class="table-secondary">종료시간</th><td id="endHour"></td>
 								</tr>
 								<tr>
-									<th class="table-secondary">정원</th><td id="quota">20명</td><th class="table-secondary">신청인원</th><td id="requestCount">10명</td>
+									<th class="table-secondary">정원</th><td id="quota"></td><th class="table-secondary">신청인원</th><td id="requestCount"></td>
 								</tr>
 								<tr>
-									<th class="table-secondary">가격</th><td id="price">100,000원</td><th class="table-secondary">수업요일</th><td id="days">월,수,금</td>
+									<th class="table-secondary">가격</th><td id="price"></td><th class="table-secondary">수업요일</th><td id="days"></td>
 								</tr>
 							</table>
 						</div>
@@ -230,11 +230,14 @@ $(function() {
 			$("#quota").text(detail.quota + "명");
 			$("#requestCount").text(detail.requestCount + "명");
 			$("#price").text(detail.price + "원");
-			$("#days").text(detail.days.day);
-		
+			
+			$.each(detail.days, function(index, item){
+				console.log(item.day);	
+				$("#days").append(item.day); 
+			});
+			
 			// 프로그램 신청자 정보
 			let users = programInfo.users;
-			
 			let html = "";
 			if (users.length == 0) {
 				html += `

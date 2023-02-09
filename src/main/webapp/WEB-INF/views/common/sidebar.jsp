@@ -16,7 +16,7 @@
 		</a>
 		<ul class="submenu  mb-2">
 			<a href="/admin/program/list" class="nav-link text-white">프로그램 조회</a>
-			<a href="" class="nav-link text-white">프로그램 등록</a>
+			<a href="/admin/program/insert" class="nav-link text-white">프로그램 등록</a>
 		</ul>
 	</li>
 	<li class="nav-item mb-2">
@@ -24,9 +24,8 @@
 			<i class="bi bi-person-video"></i> 직원관리
 		</a>
 		<ul class="submenu  mb-2">
-			<a href="" class="nav-link text-white">하위메뉴</a>
-			<a href="" class="nav-link text-white">하위메뉴</a>
-			<a href="" class="nav-link text-white">하위메뉴</a>
+			<a href="" class="nav-link text-white">직원조회</a>
+			<a href="" class="nav-link text-white">직원등록</a>
 		</ul>
 	</li>
 	<li class="nav-item mb-2">

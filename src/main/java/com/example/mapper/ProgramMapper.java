@@ -18,12 +18,16 @@ public interface ProgramMapper {
 	List<Program> getAllPrograms(Map<String, Object> param);
 	int getTotalRows(Map<String, Object> rows);
 	// 프로그램 상세정보
-	ProgramDto getProgramDetail(int programNo);
+	ProgramDto getProgramDetail(int programNo); 
 	// 프로그램 진행 요일
 	List<ProgramDay> getProgramDayByProgramNo(int programNo);
 	// 프로그램 신청자 목록
 	List<User> getUsersByProgramNo(int programNo);
 	// 프로그램 분류 목록
 	List<ProgramCategory> getProgramCategory();
+	// 프로그램 등록
+	void insertProgram(Program program);
+	// 프로그램 진행 요일 등록
+	void insertProgramDays(ProgramDay programDay);
 	
 }
