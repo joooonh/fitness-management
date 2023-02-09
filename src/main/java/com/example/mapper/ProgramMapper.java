@@ -25,5 +25,9 @@ public interface ProgramMapper {
 	List<User> getUsersByProgramNo(int programNo);
 	// 프로그램 분류 목록
 	List<ProgramCategory> getProgramCategory();
+	// 프로그램 등록
+	void insertProgram(Program program);
+	// 프로그램 진행 요일 등록
+	void insertProgramDays(ProgramDay programDay);
 	
 }

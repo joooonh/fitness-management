@@ -1,9 +1,11 @@
 package com.example.service.admin;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,7 @@ import com.example.vo.Program;
 import com.example.vo.ProgramCategory;
 import com.example.vo.ProgramDay;
 import com.example.vo.User;
+import com.example.web.request.ProgramModifyForm;
 
 @Service
 public class ProgramService {
@@ -68,5 +71,24 @@ public class ProgramService {
 	// 프로그램 분류 목록
 	public List<ProgramCategory> getProgramCategory() {
 		return programMapper.getProgramCategory();
+	}
+	
+	// 프로그램 등록
+	public void insertProgram(ProgramModifyForm form) {
+		Program program = new Program();
+		ProgramDay programDay = new ProgramDay();
+		BeanUtils.copyProperties(form, program);
+		BeanUtils.copyProperties(form, programDay);
+		
+		String day = programDay.getDay();
+		String[] days = day.split(",");
+		
+		programMapper.insertProgram(program);
+		
+		for(int i = 0; i < days.length; i++) {
+			programDay.setProgramNo(program.getNo());
+			programDay.setDay(days[i]);
+			programMapper.insertProgramDays(programDay);
+		}
 	}
 }

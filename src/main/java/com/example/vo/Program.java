@@ -12,18 +12,18 @@ import lombok.Setter;
 @Setter
 public class Program {
 
-	private String no;
+	private int no;
 	private String name;
 	private Date startDate;
 	private Date endDate;
 	private String startHour;
 	private String endHour;
-	private String quota;
-	private String requestCount;
-	private String price;
+	private int quota;
+	private int requestCount;
+	private int price;
 	private String status;
 	private Date createdDate;
 	private Date updatedDate;
-	private String empId;
-	private String categoryNo;	
+	private String employeeId;
+	private int categoryNo;	
 }
