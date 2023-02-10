@@ -80,15 +80,28 @@ public class ProgramService {
 		BeanUtils.copyProperties(form, program);
 		BeanUtils.copyProperties(form, programDay);
 		
-		String day = programDay.getDay();
-		String[] days = day.split(",");
+		// "," 를 기준으로 프로그램 진행 요일을 잘라서 days에 담는다.
+		String[] days = programDay.getDay().split(",");
 		
 		programMapper.insertProgram(program); 
 		
-		for(int i = 0; i < days.length; i++) {
+		for (String day : days) {
 			programDay.setProgramNo(program.getNo());
-			programDay.setDay(days[i]);
+			programDay.setDay(day);
 			programMapper.insertProgramDays(programDay);
+		}
+	}
+	
+	// 프로그램 삭제
+	public void deleteProgram(String programNo) {
+		
+		// "," 를 기준으로 프로그램 번호를 잘라서 programNos에 담는다.
+		String[] programNos = programNo.split(",");
+		
+		for(String value : programNos) {
+			int no = Integer.parseInt(value);
+			programMapper.deleteProgramDays(no);
+			programMapper.deleteProgram(no);
 		}
 	}
 }
