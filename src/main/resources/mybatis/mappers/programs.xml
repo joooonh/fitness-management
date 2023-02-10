@@ -20,6 +20,22 @@
 		values
 			(#{programNo}, #{day})
 	</insert>
+	
+	<!-- 프로그램 진행 요일 삭제 -->
+	<delete id="deleteProgramDays" parameterType="int">
+		delete from
+			fitness_program_days
+		where
+			program_no = #{value}
+	</delete>
+	
+	<!-- 프로그램 삭제 -->
+	<delete id="deleteProgram" parameterType="int">
+		delete from
+			fitness_programs
+		where
+			program_no = #{value}
+	</delete>
 
 	<!-- 모든 프로그램 목록 조회 -->
 	<select id="getAllPrograms" parameterType="map" resultType="ProgramDto">
@@ -66,7 +82,7 @@
 				    	or E.employee_name like '%' || #{keyword} || '%'
 				    	or P.program_start_date like '%' || #{keyword} || '%'
 				    	or P.program_start_date like '%' || #{keyword} || '%'
-				    	or P.program_quota like '%' || #{keyword} || '%'
+				    	or P.program_request_count like '%' || #{keyword} || '%'
 				    	or P.program_status like '%' || #{keyword} || '%')
 				    </if>
 		    	)
@@ -101,7 +117,7 @@
 		    	or E.employee_name like '%' || #{keyword} || '%'
 		    	or P.program_start_date like '%' || #{keyword} || '%'
 		    	or P.program_start_date like '%' || #{keyword} || '%'
-		    	or P.program_quota like '%' || #{keyword} || '%'
+		    	or P.program_request_count like '%' || #{keyword} || '%'
 		    	or P.program_status like '%' || #{keyword} || '%')
 			</if>
 	</select>
