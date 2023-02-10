@@ -37,8 +37,6 @@ public class ProgramController {
 		Map<String , Object> result = programService.getAllgrograms(page, sort, keyword);
 		model.addAttribute("programs", result.get("programs"));
 		model.addAttribute("pagination", result.get("pagination"));
-		model.addAttribute("sort", sort);
-		model.addAttribute("keyword", keyword);
 		 
 		return "admin/program/list";
 	}
@@ -82,6 +80,12 @@ public class ProgramController {
 	@PostMapping("/insert")
 	public String insert(ProgramModifyForm form) {
 		programService.insertProgram(form);
+		return "redirect:list";
+	}
+	
+	@GetMapping("/delete")
+	public String delete(@RequestParam(name="programNo") String programNo) {
+		programService.deleteProgram(programNo);
 		return "redirect:list";
 	}
 }

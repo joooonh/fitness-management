@@ -9,7 +9,6 @@ import lombok.Getter;
 @Alias("ProgramDay")
 @Getter
 @Setter
-@ToString
 public class ProgramDay { 
 
 	private int programNo;
