@@ -29,5 +29,9 @@ public interface ProgramMapper {
 	void insertProgram(Program program);
 	// 프로그램 진행 요일 등록
 	void insertProgramDays(ProgramDay programDay);
+	// 프로그램 진행 요일 삭제
+	void deleteProgramDays(int programNo);
+	// 프로그램 삭제
+	void deleteProgram(int programNo);
 	
 }

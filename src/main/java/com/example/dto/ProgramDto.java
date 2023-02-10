@@ -27,7 +27,6 @@ public class ProgramDto {
 	private String endHour;
 	private String quota;
 	private String requestCount;
-	@JsonFormat(pattern = "#,###")
 	private String price;
 	private String status;
 	@JsonFormat(pattern = "yyyy-MM-dd")
