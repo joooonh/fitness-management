@@ -19,7 +19,7 @@ import com.example.service.admin.ProgramService;
 import com.example.vo.Employee;
 import com.example.vo.ProgramCategory;
 import com.example.vo.User;
-import com.example.web.request.ProgramModifyForm;
+import com.example.web.request.ProgramForm;
 
 @Controller
 @RequestMapping("/admin/program")
@@ -35,18 +35,12 @@ public class ProgramController {
 			@RequestParam(name="sort", required = false) String sort, 
 			@RequestParam(name="keyword", required = false) String keyword, Model model) {
 		Map<String , Object> result = programService.getAllgrograms(page, sort, keyword);
+		// 프로그램 목록 정보
 		model.addAttribute("programs", result.get("programs"));
+		// 페이징처리에 필요한 정보
 		model.addAttribute("pagination", result.get("pagination"));
 		 
 		return "admin/program/list";
-	}
-	
-	@GetMapping("/modify")
-	public String modifyForm(@RequestParam(name="programNo") int programNo, Model model) {
-		List<ProgramCategory> categories = programService.getProgramCategory();
-		model.addAttribute("categories", categories);
-		
-		return null; 
 	}
 	
 	@GetMapping("/detail.json")
@@ -64,6 +58,36 @@ public class ProgramController {
 		return detailInfo; 
 	}
 	
+	@GetMapping("/searchEmployees")
+	@ResponseBody
+	public List<Employee> employeeList(@RequestParam(name = "employeeName", required = false) String employeeName) {
+		List<Employee> employeeList = employeeService.getSearchEmployees(employeeName);
+		return employeeList;
+	}
+	
+	@GetMapping("/modify")
+	public String modifyForm(@RequestParam(name="programNo") int programNo, Model model) {
+		// 프로그램 상세 정보
+		ProgramDto programDetail = programService.getProgramDetail(programNo);
+		// 프로그램 분류 목록
+		List<ProgramCategory> categories = programService.getProgramCategory();
+		// 재직중인 직원 정보 목록
+		List<Employee> employeeList = employeeService.getEmployeeByStatus();
+		
+		model.addAttribute("programDetail", programDetail);
+		model.addAttribute("categories", categories);
+		model.addAttribute("employeeList", employeeList);
+		
+		return "admin/program/modify";
+	}
+	
+	@PostMapping("/modify")
+	public String modify(ProgramForm form) {
+		programService.updateProgram(form);
+		
+		return "redirect:list";
+	}
+	
 	@GetMapping("/insert")
 	public String insertForm(Model model) {
 		// 프로그램 분류 목록
@@ -78,7 +102,7 @@ public class ProgramController {
 	}
 	
 	@PostMapping("/insert")
-	public String insert(ProgramModifyForm form) {
+	public String insert(ProgramForm form) {
 		programService.insertProgram(form);
 		return "redirect:list";
 	}

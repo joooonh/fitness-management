@@ -17,7 +17,7 @@ import lombok.Setter;
 public class ProgramDto {
 
 	// 프로그램 정보
-	private String no;
+	private int no;
 	private String name;
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date startDate;
@@ -25,9 +25,9 @@ public class ProgramDto {
 	private Date endDate;
 	private String startHour;
 	private String endHour;
-	private String quota;
-	private String requestCount;
-	private String price;
+	private int quota;
+	private int requestCount;
+	private int price;
 	private String status;
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date createdDate;
@@ -37,7 +37,7 @@ public class ProgramDto {
 	private String categoryNo;
 	
 	// 직원 정보
-	private String empName;
+	private String employeeName;
 	
 	// 분류 정보
 	private String categoryName;
