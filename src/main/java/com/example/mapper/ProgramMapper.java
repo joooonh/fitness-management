@@ -14,6 +14,8 @@ import com.example.vo.User;
 @Mapper
 public interface ProgramMapper {
 	
+	// 프로그램 번호로 해당 프로그램 정보 조회
+	Program getProgramByProgramNo(int programNo);
 	// 모든 프로그램 목록
 	List<Program> getAllPrograms(Map<String, Object> param);
 	int getTotalRows(Map<String, Object> rows);
@@ -23,15 +25,19 @@ public interface ProgramMapper {
 	List<ProgramDay> getProgramDayByProgramNo(int programNo);
 	// 프로그램 신청자 목록
 	List<User> getUsersByProgramNo(int programNo);
-	// 프로그램 분류 목록
+	// 프로그램 카테고리 목록
 	List<ProgramCategory> getProgramCategory();
 	// 프로그램 등록
 	void insertProgram(Program program);
 	// 프로그램 진행 요일 등록
 	void insertProgramDays(ProgramDay programDay);
-	// 프로그램 진행 요일 삭제
-	void deleteProgramDays(int programNo);
+	// 프로그램 수정
+	void updateProgram(Program program);
+	// 프로그램 요일 수정
+	void updateProgramDay(ProgramDay programDay);
 	// 프로그램 삭제
 	void deleteProgram(int programNo);
+	// 프로그램 진행 요일 삭제
+	void deleteProgramDays(int programNo);
 	
 }

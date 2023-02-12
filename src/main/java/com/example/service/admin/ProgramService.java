@@ -1,7 +1,6 @@
 package com.example.service.admin;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +15,7 @@ import com.example.vo.Program;
 import com.example.vo.ProgramCategory;
 import com.example.vo.ProgramDay;
 import com.example.vo.User;
-import com.example.web.request.ProgramModifyForm;
+import com.example.web.request.ProgramForm;
 
 @Service
 public class ProgramService {
@@ -74,7 +73,7 @@ public class ProgramService {
 	}
 	
 	// 프로그램 등록
-	public void insertProgram(ProgramModifyForm form) {
+	public void insertProgram(ProgramForm form) {
 		Program program = new Program();
 		ProgramDay programDay = new ProgramDay();
 		BeanUtils.copyProperties(form, program);
@@ -87,6 +86,28 @@ public class ProgramService {
 		
 		for (String day : days) {
 			programDay.setProgramNo(program.getNo());
+			programDay.setDay(day);
+			programMapper.insertProgramDays(programDay);
+		}
+	}
+	
+	// 프로그램 수정
+	public void updateProgram(ProgramForm form) {
+		// 프로그램 정보 조회
+		Program program = programMapper.getProgramByProgramNo(form.getNo());
+		BeanUtils.copyProperties(form, program);
+		
+		programMapper.deleteProgramDays(form.getNo());
+		
+		programMapper.updateProgram(program);
+
+		// "," 를 기준으로 프로그램 진행 요일을 잘라서 days에 담는다.
+		String[] days = form.getDay().split(",");
+		
+		ProgramDay programDay = new ProgramDay();
+		
+		for (String day : days) {
+			programDay.setProgramNo(form.getNo());
 			programDay.setDay(day);
 			programMapper.insertProgramDays(programDay);
 		}

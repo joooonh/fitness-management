@@ -56,7 +56,7 @@
 								<td>
 									<div class="input-group">
 									  <input type="text" class="form-control" name="employeeName" style="cursor:pointer;">
-									  <button class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#seachEmployee"><i class="bi bi-search"></i></button>
+									  <button class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#searchEmployee"><i class="bi bi-search"></i></button>
 									</div> 
 								</td>
 							</tr>
@@ -111,7 +111,7 @@
 	</div>	
 	
 	<!-- 직원검색 모달창 -->
-	<div class="modal fade" id="seachEmployee" tabindex="-1" aria-labelledby="seachTitle" aria-hidden="true">
+	<div class="modal fade" id="searchEmployee" tabindex="-1" aria-labelledby="seachTitle" aria-hidden="true">
 		<div class="modal-dialog modal-fullscreen-lg-down modal-dialog-centered">
 			<div class="modal-content px-3">
 				<div class="modal-header">
@@ -120,16 +120,16 @@
 				</div>
 				<div class="modal-body">
 					<div class="row">
-						<div class="col-12 mb-5 text-center">
+						<div class="col-12 mb-4 text-center">
 							<div class="input-group mb-3">
-								<input type="text" class="form-control" placeholder="강사이름을 검색하세요" >
-								<button class="btn btn-secondary" type="button"><i class="bi bi-search"></i></button>
+								<input type="text" name="name" class="form-control" placeholder="강사이름을 검색하세요" >
+								<button type="button" id="btn-search-employee" class="btn btn-secondary"><i class="bi bi-search"></i></button>
 							</div>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-12 scroll-y">
-							<table id="userList" class="table table-hover text-center">
+							<table id="employeeTable" class="table table-hover text-center">
 								<colgroup>
 									<col width="20%" />
 									<col width="40%" />
@@ -181,18 +181,51 @@
 	$(function() {
 		// 강사 검색 모달창이 나타난다.
 		$("input[name=employeeName]").click(function() {
-			$("#seachEmployee").modal('show');
+			$("#searchEmployee").modal('show');
+		});
+		
+		$("#btn-search-employee").click(function() {
+			let name = $("#searchEmployee input[name=name]").val();
+			
+			$.getJSON("/admin/program/searchEmployees", {employeeName:name}, function(employees) {
+				let html = "";
+				
+				if (employees.length == 0) {
+					html += `
+						<tr>
+							<td colspan="3">검색된 강사가 없습니다.</td>
+						</tr>
+					`;
+					
+					$("#employeeTable tbody").html(html);		
+				};
+				
+				for (let i = 0; i < employees.length; i++) {
+					let employee = employees[i];
+					html += `
+						<tr>
+							<td class="name">
+								<input type="hidden" name="id" value="\${employee.id }">
+								<span>\${employee.name }</span>
+							</td>
+							<td>\${employee.tel }</td>
+							<td>\${employee.basicAddress }</td>
+						</tr>
+					`;
+				};
+				$("#employeeTable tbody").html(html);	
+			});
 		});
 		
 		// 강사 목록에서 선택한 강사이름과 아이디를 대입한다.
-		$("#userList tbody").on('click', 'tr', function(){
+		$("#employeeTable tbody").on('click', 'tr', function(){
 			let name = $(this).children(".name").children("span").text();
 			let id = $(this).children(".name").children("input[name=id]").val();
 			
 			$("input[name=employeeName]").val(name);
 			$("input[name=employeeId]").val(id);
 			
-			$("#seachEmployee").modal('hide');
+			$("#searchEmployee").modal('hide');
 		});
 		
 		// 현재 날짜를 구한다.

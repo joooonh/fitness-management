@@ -91,7 +91,7 @@
 											<td class="programNo">${program.no }</td>
 											<td><button type="button" class="btn btn-link btn-detail">${program.name }</button></td>
 											<td>${program.categoryName }</td>
-											<td>${program.empName }</td>
+											<td>${program.employeeName }</td>
 											<td><fmt:formatDate value="${program.startDate }" pattern="yyyy-MM-dd"/> </td>
 											<td><fmt:formatDate value="${program.endDate }" pattern="yyyy-MM-dd"/> </td>
 											<td>${program.requestCount }</td>
@@ -220,7 +220,7 @@ $(function() {
 			
 			$("#prgramName").text(detail.name);
 			$("#programCategory").text(detail.categoryName);
-			$("#empName").text(detail.empName);
+			$("#empName").text(detail.employeeName);
 			$("#status").text(detail.status);
 			$("#startDate").text(detail.startDate);
 			$("#endDate").text(detail.endDate);
@@ -309,7 +309,12 @@ $(function() {
 		if (requestCount > 0) {
 			alert("신청한 프로그램은 수정할 수 없습니다.");
 			return false;
-		}
+		};
+		
+		if (checkedLength == 0) {
+			alert("수정할 프로그램을 선택하세요.");
+			return false;
+		};
 		
 		if (checkedLength > 1) {
 			alert("수정할 프로그램은 한개만 선택가능합니다.");	
