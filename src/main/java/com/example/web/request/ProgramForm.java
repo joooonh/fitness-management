@@ -12,10 +12,10 @@ import lombok.Setter;
 @Alias("ProgramModifyForm")
 @Getter
 @Setter
-public class ProgramModifyForm {
+public class ProgramForm {
 
 	// 프로그램 정보
-	private int programNo;
+	private int no;
 	private String name;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date startDate;

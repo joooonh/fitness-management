@@ -18,5 +18,7 @@ public interface EmployeeMapper {
 	void updateEmployee(Employee employee);
 	// 재직중인 직원 
 	List<Employee> getEmployeeByStatus();
+	// 검색한 직원 정보
+	List<Employee> getSearchEmployees(String employeeName);
 
 }

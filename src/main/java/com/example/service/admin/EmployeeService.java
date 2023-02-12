@@ -54,6 +54,13 @@ public class EmployeeService {
 		employeeMapper.updateEmployee(employee);
 	}
 	
+	// 검색한 직원 정보
+	public List<Employee> getSearchEmployees(String employeeName) {
+		List<Employee> employeeList = employeeMapper.getSearchEmployees(employeeName);
+		return employeeList;
+	}
+	
+	// 재직중인 직원 정보
 	public List<Employee> getEmployeeByStatus() {
 		return employeeMapper.getEmployeeByStatus();
 	}

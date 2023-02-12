@@ -23,10 +23,13 @@
 	font-size: 4rem;
 }
 /* 프로그램 관리 css */
-#programDetail .modal-dialog, #seachEmployee .modal-dialog{
+#programDetail .modal-dialog, #searchEmployee .modal-dialog{
 	max-width: 50vw;
 }
-#seachEmployee tbody tr{
+#searchEmployee .modal-content {
+	min-height: 500px;
+}
+#searchEmployee tbody tr{
 	cursor: pointer;
 }
 .table-program-insert tr{
