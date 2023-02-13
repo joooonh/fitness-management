@@ -8,6 +8,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.dto.ProgramDayDto;
 import com.example.dto.ProgramDto;
 import com.example.mapper.ProgramMapper;
 import com.example.utils.Pagination;
@@ -51,15 +52,10 @@ public class ProgramService {
 		return result;
 	}
 	
+	// 프로그램 상세 정보
 	public ProgramDto getProgramDetail(int programNo) {
 		// 프로그램번호로 프로그램 정보 조회
-		ProgramDto programDetail = programMapper.getProgramDetail(programNo);
-		// 프로그램번호로 프로그램 진행 요일 조회
-		List<ProgramDay> days = programMapper.getProgramDayByProgramNo(programNo);
-		
-		programDetail.setDays(days);
-		
-		return programDetail;
+		return programMapper.getProgramDetail(programNo);
 	}
 	
 	// 프로그램 신청자 목록
@@ -111,6 +107,16 @@ public class ProgramService {
 			programDay.setDay(day);
 			programMapper.insertProgramDays(programDay);
 		}
+	}
+	
+	// 프로그램 선택요일 조회
+	public List<ProgramDayDto> getDayStatusByProgramNo(int programNo) {
+		return programMapper.getDaysByProgramNo(programNo);
+	}
+	
+	// 프로그램 등록 요일 조회
+	public List<ProgramDayDto> getDaysByProgramNoStatusY(int programNo) {
+		return programMapper.getDaysByProgramNoStatusY(programNo);
 	}
 	
 	// 프로그램 삭제

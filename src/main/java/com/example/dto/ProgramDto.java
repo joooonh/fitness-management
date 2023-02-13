@@ -42,6 +42,4 @@ public class ProgramDto {
 	// 분류 정보
 	private String categoryName;
 	
-	// 수업요일 정보
-	private List<ProgramDay> days;
 }

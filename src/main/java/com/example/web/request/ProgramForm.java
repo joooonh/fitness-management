@@ -29,7 +29,7 @@ public class ProgramForm {
 	private String employeeId; 
 	private String employeeName;
 	// 프로그램 분류 정보
-	private int categoryNo;
+	private String categoryNo;
 	// 프로그램 진행 요일
 	private String day;
 }
