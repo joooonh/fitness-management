@@ -229,8 +229,8 @@ $(function() {
 			$("#quota").text(detail.quota + "명");
 			$("#requestCount").text(detail.requestCount + "명");
 			$("#price").text(detail.price + "원");
-			let days = detail.days.map(function(item) { 
-				return item.day
+			let days = programInfo.programDays.map(function(item) { 
+				return item.name
 			}).join(", ") 
 			$("#days").text(days); 
 			
@@ -324,13 +324,13 @@ $(function() {
 		location.href = "modify?programNo=" + programNo;
 	});
 	
+	// 페이지 클릭 이벤트
 	$(".pagination a").click(function(event) {
 		event.preventDefault();
 		let pageNo = $(this).attr("data-page-no");
 		$("input[name=page]").val(pageNo);
 		$("#seach-form").trigger("submit");
 	});
-	
 })
 </script>
 </body>

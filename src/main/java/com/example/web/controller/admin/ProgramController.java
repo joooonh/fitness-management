@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.dto.ProgramDayDto;
 import com.example.dto.ProgramDto;
 import com.example.service.admin.EmployeeService;
 import com.example.service.admin.ProgramService;
@@ -48,11 +49,14 @@ public class ProgramController {
 	public Map<String, Object> detail(@RequestParam(name="programNo") int programNo) {
 		// 프로그램 상세정보
 		ProgramDto programDetail = programService.getProgramDetail(programNo);
+		// 프로그램 선택 요일 정보
+		List<ProgramDayDto> programDays = programService.getDaysByProgramNoStatusY(programNo);
 		// 프로그램 신청자 목록
 		List<User> users = programService.getProgramUser(programNo);
 		
 		Map<String, Object> detailInfo = new HashMap<>();
 		detailInfo.put("programDetail", programDetail);
+		detailInfo.put("programDays", programDays);
 		detailInfo.put("users", users);
 		
 		return detailInfo; 
@@ -73,10 +77,13 @@ public class ProgramController {
 		List<ProgramCategory> categories = programService.getProgramCategory();
 		// 재직중인 직원 정보 목록
 		List<Employee> employeeList = employeeService.getEmployeeByStatus();
+		// 프로그램 선택 요일 정보
+		List<ProgramDayDto> programDays = programService.getDayStatusByProgramNo(programNo);
 		
 		model.addAttribute("programDetail", programDetail);
 		model.addAttribute("categories", categories);
 		model.addAttribute("employeeList", employeeList);
+		model.addAttribute("programDays", programDays);
 		
 		return "admin/program/modify";
 	}
