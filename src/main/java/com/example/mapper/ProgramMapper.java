@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.example.dto.ProgramDayDto;
 import com.example.dto.ProgramDto;
 import com.example.vo.Program;
 import com.example.vo.ProgramCategory;
@@ -21,8 +22,10 @@ public interface ProgramMapper {
 	int getTotalRows(Map<String, Object> rows);
 	// 프로그램 상세정보
 	ProgramDto getProgramDetail(int programNo); 
-	// 프로그램 진행 요일
-	List<ProgramDay> getProgramDayByProgramNo(int programNo);
+	// 프로그램에 해당하는 요일 조회
+	List<ProgramDayDto> getDaysByProgramNo(int programNo);
+	// 프로그램에 해당하는 요일 조회
+	List<ProgramDayDto> getDaysByProgramNoStatusY(int programNo);
 	// 프로그램 신청자 목록
 	List<User> getUsersByProgramNo(int programNo);
 	// 프로그램 카테고리 목록

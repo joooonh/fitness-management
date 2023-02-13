@@ -80,16 +80,20 @@
 								<th class="table-light">수업요일</th>
 								<td>
 									<div>
-										<input id="mon" class="form-check-input" type="checkbox" name="day" value="월" />
-										<label class="form-check-label" for="mon">월</label>
-										<input id="tue" class="form-check-input" type="checkbox" name="day" value="화" />
-										<label class="form-check-label" for="tue">화</label>
-										<input id="wed" class="form-check-input" type="checkbox" name="day" value="수" />
-										<label class="form-check-label" for="wed">수</label>
-										<input id="thur" class="form-check-input" type="checkbox" name="day" value="목" />
-										<label class="form-check-label" for="thur">목</label>
-										<input id="fri" class="form-check-input" type="checkbox" name="day" value="금" />
-										<label class="form-check-label" for="fri">금</label>
+										<input class="form-check-input" type="checkbox" name="day" value="월" />
+										<label class="form-check-label">월</label>
+										<input class="form-check-input" type="checkbox" name="day" value="화" />
+										<label class="form-check-label">화</label>
+										<input class="form-check-input" type="checkbox" name="day" value="수" />
+										<label class="form-check-label">수</label>
+										<input class="form-check-input" type="checkbox" name="day" value="목" />
+										<label class="form-check-label">목</label>
+										<input class="form-check-input" type="checkbox" name="day" value="금" />
+										<label class="form-check-label">금</label>
+										<input class="form-check-input" type="checkbox" name="day" value="토" />
+										<label class="form-check-label">토</label>
+										<input class="form-check-input" type="checkbox" name="day" value="일" />
+										<label class="form-check-label">일</label>
 									</div>
 								</td>
 							</tr> 
@@ -153,8 +157,7 @@
 											<c:forEach var="employee" items="${employeeList }">
 												<tr>
 													<td class="name">
-														<input type="hidden" name="id" value="${employee.id }">
-														<span>${employee.name }</span>
+														<span data-employee-id="${employee.id }">${employee.name }</span>
 													</td>
 													<td>${employee.tel }</td>
 													<td>${employee.basicAddress }</td>
@@ -220,7 +223,7 @@
 		// 강사 목록에서 선택한 강사이름과 아이디를 대입한다.
 		$("#employeeTable tbody").on('click', 'tr', function(){
 			let name = $(this).children(".name").children("span").text();
-			let id = $(this).children(".name").children("input[name=id]").val();
+			let id = $(this).children(".name").children("span").attr("data-employee-id");
 			
 			$("input[name=employeeName]").val(name);
 			$("input[name=employeeId]").val(id);

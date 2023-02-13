@@ -204,15 +204,43 @@
 		    and P.program_no = #{value}
 	</select>
 	
-	<!-- 프로그램 진행 요일 조회 -->
-	<select id="getProgramDayByProgramNo" parameterType="int" resultType="ProgramDay">
-		select
-			program_no			as programNo,
-			program_open_day	as day
-		from
-			fitness_program_days
-		where
-			program_no = #{value}
+	<!-- 프로그램에 해당하는 요일 조회 -->
+	<select id="getDaysByProgramNo" parameterType="int" resultType="ProgramDayDto">
+		with dayNames 
+		as (select '월' dayName, 1 seq from dual union
+		    select '화' dayName, 2 seq from dual union
+		    select '수' dayName, 3 seq from dual union
+		    select '목' dayName, 4 seq from dual union
+		    select '금' dayName, 5 seq from dual union
+		    select '토' dayName, 6 seq from dual union
+		    select '일' dayName, 7 seq from dual)
+		
+		select dayName as name, nvl2(program_open_day, 'Y', 'N') as status
+		from dayNames A, (select program_no, program_open_day
+		                               from fitness_program_days
+		                               where program_no = #{value}) B	
+		where A.dayName = B.program_open_day(+)
+		order by A.seq asc
+	</select>
+	
+	<!-- 프로그램에 해당하는 요일 조회 -->
+	<select id="getDaysByProgramNoStatusY" parameterType="int" resultType="ProgramDayDto">
+		with dayNames 
+		as (select '월' dayName, 1 seq from dual union
+		    select '화' dayName, 2 seq from dual union
+		    select '수' dayName, 3 seq from dual union
+		    select '목' dayName, 4 seq from dual union
+		    select '금' dayName, 5 seq from dual union
+		    select '토' dayName, 6 seq from dual union
+		    select '일' dayName, 7 seq from dual)
+		
+		select dayName as name, nvl2(program_open_day, 'Y', 'N') as status
+		from dayNames A, (select program_no, program_open_day
+		                               from fitness_program_days
+		                               where program_no = #{value}) B	
+		where A.dayName = B.program_open_day(+)
+		and B.program_open_day is not null
+		order by A.seq asc
 	</select>
 	
 	<!-- 프로그램 신청자 목록 조회 -->
