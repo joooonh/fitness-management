@@ -6,7 +6,7 @@
 		</a>
 	</li>
 	<li class="nav-item mb-2">
-		<a href="" class="nav-link text-white p-3 mb-2 sidebar-link">
+		<a href="/admin/club/club" class="nav-link text-white p-3 mb-2 sidebar-link">
 			<i class="bi bi-shop-window"></i> 매장관리
 		</a>
 	</li>
