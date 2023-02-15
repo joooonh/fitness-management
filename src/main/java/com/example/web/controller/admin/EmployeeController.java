@@ -1,7 +1,6 @@
 package com.example.web.controller.admin;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -23,11 +22,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.dto.EmployeeDetail;
 import com.example.service.admin.EmployeeService;
-import com.example.vo.Employee;
 import com.example.web.request.EmployeeModifyForm;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/admin/employee")
 @SessionAttributes({"form"})
 public class EmployeeController {
 
@@ -47,21 +45,21 @@ public class EmployeeController {
 	
 	// 내 정보 수정페이지
 	@GetMapping("/modify")
-	public String modifyForm(@RequestParam(name = "empId") String empId, Model model) {
+	public String mypageModifyForm(@RequestParam(name = "empId") String empId, Model model) {
 		EmployeeDetail employeeDetail = employeeService.getEmployeeDetail(empId);
 		EmployeeModifyForm form = new EmployeeModifyForm();
 		BeanUtils.copyProperties(employeeDetail, form);
 		model.addAttribute("form", form);
 		
-		return "admin/employee/modify";
+		return "admin/employee/mypage-modify";
 	}
 	
 	// 내 정보 수정
 	@PostMapping("/modify")
-	public String modify(@Valid @ModelAttribute("form") EmployeeModifyForm form, BindingResult errors) throws IOException {
+	public String mypageModify(@Valid @ModelAttribute("form") EmployeeModifyForm form, BindingResult errors) throws IOException {
 		System.out.println(errors);
 		if (errors.hasErrors()) {			
-			return "admin/employee/modify";
+			return "admin/employee/mypage-modify";
 		}
 		
 		MultipartFile upfile = form.getUpfile();
