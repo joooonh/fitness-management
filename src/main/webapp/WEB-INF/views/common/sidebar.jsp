@@ -24,8 +24,8 @@
 			<i class="bi bi-person-video"></i> 직원관리
 		</a>
 		<ul class="submenu  mb-2">
-			<a href="" class="nav-link text-white">직원조회</a>
-			<a href="" class="nav-link text-white">직원등록</a>
+			<a href="/admin/employee/list" class="nav-link text-white">직원조회</a>
+			<a href="/admin/employee/insert" class="nav-link text-white">직원등록</a>
 		</ul>
 	</li>
 	<li class="nav-item mb-2">
