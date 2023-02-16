@@ -34,7 +34,8 @@
 						<input type="hidden" name="page" />
 						<div class="col-auto">
 							<select class="form-select" name="sort">
-								<option>상태</option>
+								<option selected disabled>상태</option>
+								<option value="전체" ${param.sort eq '전체' ? 'selected' : '' }>전체</option>
 								<option value="신청중" ${param.sort eq '신청중' ? 'selected' : '' }>신청중</option>
 								<option value="진행중" ${param.sort eq '진행중' ? 'selected' : '' }>진행중</option>
 								<option value="마감" ${param.sort eq '마감' ? 'selected' : '' }>마감</option>
@@ -267,8 +268,6 @@ $(function() {
 	// 프로그램 삭제 
 	$("#btn-delete-program").click(function(event) {
 		event.preventDefault();
-		
-		confirm("선택한 프로그램을 삭제하시겠습니까?");
 
 		// 체크된 프로그램 갯수 조회
 		let checkedLength = $("input[name='programNo']:checked").length;

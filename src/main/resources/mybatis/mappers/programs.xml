@@ -154,8 +154,6 @@
 		    P.employee_id = E.employee_id
 		    and P.fitness_program_category_no = C.fitness_program_category_no
 			<choose>
-				<when test="sort == '상태'">
-				</when>
 				<when test="sort == '신청중'">
 					and program_status = '신청중'
 				</when>
