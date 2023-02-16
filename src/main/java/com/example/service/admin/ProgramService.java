@@ -31,7 +31,7 @@ public class ProgramService {
 		rows.put("keyword", keyword);
 		
 		// 총 프로그램 갯수 조회
-		int totalRows = programMapper.getTotalRows(rows);
+		int totalRows = programMapper.getTotalRowsBySearch(rows);
 		Pagination pagination = new Pagination(page, totalRows);
 		
 		// 페이징처리에 필요한 Map<String, Object>객체 생성
