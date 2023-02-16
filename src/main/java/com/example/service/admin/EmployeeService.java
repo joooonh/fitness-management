@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +24,8 @@ public class EmployeeService {
 	EmployeeMapper employeeMapper;
 	@Autowired
 	EmployeeRoleMapper employeeRoleMapper;
+	@Autowired
+	PasswordEncoder passwordEncoder;
 	
 	public Employee getEmployee(String empId) {
 		return employeeMapper.getEmployeeById(empId);
@@ -45,6 +48,20 @@ public class EmployeeService {
 		Employee employee = employeeMapper.getEmployeeById(form.getId());
 		BeanUtils.copyProperties(form, employee);
 		
+		// 비밀번호 암호화
+		employee.setPassword(passwordEncoder.encode(form.getPassword()));
+		
 		employeeMapper.updateEmployee(employee);
+	}
+	
+	// 검색한 직원 정보
+	public List<Employee> getSearchEmployees(String employeeName) {
+		List<Employee> employeeList = employeeMapper.getSearchEmployees(employeeName);
+		return employeeList;
+	}
+	
+	// 재직중인 직원 정보
+	public List<Employee> getEmployeeByStatus() {
+		return employeeMapper.getEmployeeByStatus();
 	}
 }

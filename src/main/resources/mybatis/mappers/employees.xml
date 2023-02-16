@@ -2,6 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.example.mapper.EmployeeMapper">
 
+	<update id="updateEmployee" parameterType="Employee">
+		update 
+			employees
+		set
+			employee_name = #{name},
+			<if test="password != null">
+			employee_password = #{password},
+			</if>
+			employee_tel = #{tel},
+			<if test="photo != null">
+			employee_photo = #{photo},
+			</if>
+			employee_zipcode = #{zipcode},
+			employee_basic_address = #{basicAddress},
+			employee_detail_address = #{detailAddress},
+			employee_employment_status = #{status},
+			employee_updated_date = sysdate,
+			fitness_no = #{fitnessNo}
+		where
+			employee_id	= #{id}
+	</update>
+	
 	<select id="getEmployeeById" parameterType="string" resultType="Employee">
 		select
 			employee_id						as id,
@@ -45,25 +67,32 @@
             E.employee_id = R.employee_id
             and E.employee_id = #{value}
 	</select>
-
-	<update id="updateEmployee" parameterType="Employee">
-		update 
+	
+	<!-- 재직중인 직원 정보 -->
+	<select id="getEmployeeByStatus" resultType="Employee">
+		select
+			employee_id				as id,
+			employee_name			as name,
+			employee_tel			as tel,
+			employee_basic_address	as basicAddress
+		from
 			employees
-		set
-			employee_name = #{name},
-			<if test="password != null">
-			employee_password = #{password},
-			</if>
-			employee_tel = #{tel},
-			employee_photo = #{photo},
-			employee_zipcode = #{zipcode},
-			employee_basic_address = #{basicAddress},
-			employee_detail_address = #{detailAddress},
-			employee_employment_status = #{status},
-			employee_updated_date = sysdate,
-			fitness_no = #{fitnessNo}
 		where
-			employee_id	= #{id}
-	</update>
+			employee_employment_status = '재직'
+	</select>
+	
+	<!-- 검색한 직원 정보 -->
+	<select id="getSearchEmployees" parameterType="string" resultType="Employee">
+		select
+			employee_id				as id,
+			employee_name			as name,
+			employee_tel			as tel,
+			employee_basic_address	as basicAddress
+		from
+			employees
+		where
+			employee_employment_status = '재직'
+			and employee_name like '%' || #{value} || '%'
+	</select>
 
 </mapper>

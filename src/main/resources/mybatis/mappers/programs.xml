@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.mapper.ProgramMapper">
+
+	<!-- 프로그램 등록 -->
+	<insert id="insertProgram" parameterType="Program"> 
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+			select fitness_programs_seq.nextval from dual
+		</selectKey>
+		insert into fitness_programs
+			(program_no, program_name, program_start_date, program_end_date, program_start_hour, program_end_hour, program_quota, program_price, employee_id, fitness_program_category_no)
+		values
+			(#{no}, #{name}, #{startDate}, #{endDate}, #{startHour}, #{endHour}, #{quota}, #{price}, #{employeeId}, #{categoryNo})
+	</insert>
+	
+	<!-- 프로그램 진행 요일 등록 -->
+	<insert id="insertProgramDays" parameterType="ProgramDay">
+		insert into fitness_program_days
+			(program_no, program_open_day)
+		values
+			(#{programNo}, #{day})
+	</insert>
+	
+	<!-- 프로그램 수정 -->
+	<update id="updateProgram" parameterType="Program">
+		update 
+			fitness_programs
+		set
+			program_name = #{name},
+			program_start_date = #{startDate},
+			program_end_date = #{endDate},
+			program_start_hour = #{startHour},
+			program_end_hour = #{endHour},
+			program_quota = #{quota},
+			program_request_count = #{requestCount},
+			program_price = #{price},
+			program_status = #{status},
+			program_updated_date = sysdate,
+			employee_id = #{employeeId},
+			fitness_program_category_no = #{categoryNo}
+		where
+			program_no = #{no}
+	</update>
+	
+	<!-- 프로그램 요일 수정 -->
+	<update id="updateProgramDay" parameterType="ProgramDay">
+		update 
+		    fitness_program_days
+		set
+		    PROGRAM_OPEN_DAY = #{day}
+		where
+		    PROGRAM_NO = #{programNo}
+	</update>
+	
+	<!-- 프로그램 진행 요일 삭제 -->
+	<delete id="deleteProgramDays" parameterType="int">
+		delete from
+			fitness_program_days
+		where
+			program_no = #{value}
+	</delete>
+	
+	<!-- 프로그램 삭제 -->
+	<delete id="deleteProgram" parameterType="int">
+		delete from
+			fitness_programs
+		where
+			program_no = #{value}
+	</delete>
+	
+	<!-- 프로그램 번호로 해당 프로그램 정보 조회 -->
+	<select id="getProgramByProgramNo" parameterType="int" resultType="Program">
+		select
+			PROGRAM_NO						as no,
+			PROGRAM_NAME					as name,
+			PROGRAM_START_DATE				as startDate,
+			PROGRAM_END_DATE				as endDate,
+			PROGRAM_START_HOUR				as startHour,
+			PROGRAM_END_HOUR				as endHour,
+			PROGRAM_QUOTA					as quota,
+			PROGRAM_REQUEST_COUNT			as requestCount,
+			PROGRAM_PRICE					as price,
+			PROGRAM_STATUS					as status,
+			PROGRAM_CREATED_DATE			as createdDate,
+			PROGRAM_UPDATED_DATE			as updatedDate,
+			EMPLOYEE_ID						as employeeId,
+			FITNESS_PROGRAM_CATEGORY_NO		as categoryNo
+		from
+			fitness_programs
+		where
+			program_no = #{value}
+	</select>
+
+	<!-- 모든 프로그램 목록 조회 -->
+	<select id="getAllPrograms" parameterType="map" resultType="ProgramDto">
+		select 
+			*
+		from (
+				select
+		            row_number() over (order by P.program_no desc) row_numbers,
+		            P.program_no					as no,
+		            P.program_name					as name,
+		            P.program_start_date			as startDate,
+		            P.program_end_date				as endDate,
+		            P.program_start_hour			as startHour,
+		            P.program_end_hour				as endHour,
+		            P.program_quota					as quota,
+		            P.program_request_count			as requestCount,
+		            P.program_price					as price,
+		            P.program_status				as status,
+		            P.program_created_date			as createdDate,
+		            P.program_updated_date			as updatedDate,
+		            P.employee_id					as employeeId,
+		            P.fitness_program_category_no	as categoryNo,
+		            E.employee_name					as employeeName,
+		            C.fitness_program_category_name	as categoryName
+				from
+				    fitness_programs P, employees E, fitness_program_category C
+				where
+				    P.employee_id = E.employee_id
+				    and P.fitness_program_category_no = C.fitness_program_category_no
+				    <choose>
+					    <when test="sort == '신청중'">
+					    	and P.program_status = '신청중'
+					    </when>
+					    <when test="sort == '진행중'">
+					    	and P.program_status = '진행중'
+					    </when>
+					    <when test="sort == '마감'">
+					    	and P.program_status = '마감'
+					    </when>
+					</choose>
+				    <if test="keyword != null">
+				    	and (P.program_name like '%' || #{keyword} || '%'
+				    	or C.fitness_program_category_name like '%' || #{keyword} || '%'
+				    	or E.employee_name like '%' || #{keyword} || '%'
+				    	or P.program_start_date like '%' || #{keyword} || '%'
+				    	or P.program_start_date like '%' || #{keyword} || '%'
+				    	or P.program_request_count like '%' || #{keyword} || '%'
+				    	or P.program_status like '%' || #{keyword} || '%')
+				    </if>
+		    	)
+		where
+		    row_numbers between #{begin} and #{end}
+	</select>
+	
+	<!-- 검색조건에 해당하는 행의 갯수 조회 -->
+	<select id="getTotalRows" parameterType="map" resultType="int">
+		select 
+		    count(*)
+		from
+		    fitness_programs P, employees E, fitness_program_category C
+	    where
+		    P.employee_id = E.employee_id
+		    and P.fitness_program_category_no = C.fitness_program_category_no
+			<choose>
+				<when test="sort == '상태'">
+				</when>
+				<when test="sort == '신청중'">
+					and program_status = '신청중'
+				</when>
+			    <when test="sort == '진행중'">
+			    	and P.program_status = '진행중'
+			    </when>
+			    <when test="sort == '마감'">
+			    	and P.program_status = '마감'
+			    </when>
+			</choose>
+			<if test="keyword != null">
+				and (P.program_name like '%' || #{keyword} || '%'
+		    	or C.fitness_program_category_name like '%' || #{keyword} || '%'
+		    	or E.employee_name like '%' || #{keyword} || '%'
+		    	or P.program_start_date like '%' || #{keyword} || '%'
+		    	or P.program_start_date like '%' || #{keyword} || '%'
+		    	or P.program_request_count like '%' || #{keyword} || '%'
+		    	or P.program_status like '%' || #{keyword} || '%')
+			</if>
+	</select>
+	
+	<!-- 프로그램 상세정보 조회 -->
+	<select id="getProgramDetail" parameterType="int" resultType="ProgramDto">
+		select
+			P.program_no					as no,
+			P.program_name					as name,
+			P.program_start_date			as startDate,
+			P.program_end_date				as endDate,
+			P.program_start_hour			as startHour,
+			P.program_end_hour				as endHour,
+			P.program_quota					as quota,
+			P.program_request_count			as requestCount,
+			P.program_price					as price,
+			P.program_status				as status,
+			P.program_created_date			as createdDate,
+			P.program_updated_date			as updatedDate,
+			P.employee_id					as employeeId,
+			P.fitness_program_category_no	as categoryNo,
+			E.employee_name					as employeeName,
+			C.fitness_program_category_name	as categoryName
+		from
+		    fitness_programs P, employees E, fitness_program_category C
+		where
+		    P.employee_id = E.employee_id
+		    and P.fitness_program_category_no = C.fitness_program_category_no
+		    and P.program_no = #{value}
+	</select>
+	
+	<!-- 프로그램에 해당하는 요일 조회 -->
+	<select id="getDaysByProgramNo" parameterType="int" resultType="ProgramDayDto">
+		with dayNames 
+		as (select '월' dayName, 1 seq from dual union
+		    select '화' dayName, 2 seq from dual union
+		    select '수' dayName, 3 seq from dual union
+		    select '목' dayName, 4 seq from dual union
+		    select '금' dayName, 5 seq from dual union
+		    select '토' dayName, 6 seq from dual union
+		    select '일' dayName, 7 seq from dual)
+		
+		select dayName as name, nvl2(program_open_day, 'Y', 'N') as status
+		from dayNames A, (select program_no, program_open_day
+		                               from fitness_program_days
+		                               where program_no = #{value}) B	
+		where A.dayName = B.program_open_day(+)
+		order by A.seq asc
+	</select>
+	
+	<!-- 프로그램에 해당하는 요일 조회 -->
+	<select id="getDaysByProgramNoStatusY" parameterType="int" resultType="ProgramDayDto">
+		with dayNames 
+		as (select '월' dayName, 1 seq from dual union
+		    select '화' dayName, 2 seq from dual union
+		    select '수' dayName, 3 seq from dual union
+		    select '목' dayName, 4 seq from dual union
+		    select '금' dayName, 5 seq from dual union
+		    select '토' dayName, 6 seq from dual union
+		    select '일' dayName, 7 seq from dual)
+		
+		select dayName as name, nvl2(program_open_day, 'Y', 'N') as status
+		from dayNames A, (select program_no, program_open_day
+		                               from fitness_program_days
+		                               where program_no = #{value}) B	
+		where A.dayName = B.program_open_day(+)
+		and B.program_open_day is not null
+		order by A.seq asc
+	</select>
+	
+	<!-- 프로그램 신청자 목록 조회 -->
+	<select id="getUsersByProgramNo" parameterType="int" resultType="User">
+		select
+		    U.user_no				as no,
+		    U.user_name				as name,
+		    U.user_tel				as tel,
+		    U.user_basic_address	as basicAddr
+		from
+		    fitness_programs P, class_registration_histories R, users U
+		where
+		    P.program_no = R.program_no
+		    and R.user_no = U.user_no
+		    and P.program_no = #{value}
+	</select>
+	
+	<!-- 프로그램 카테고리 -->
+	<select id="getProgramCategory" resultType="ProgramCategory">
+		select
+			fitness_program_category_no		as no,
+			fitness_program_category_name	as name
+		from
+			fitness_program_category
+	</select> 
+
+</mapper>

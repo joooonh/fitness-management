@@ -1,7 +1,9 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
-<nav class="navbar navbar-expand-md navbar-dark">		
-	<button class="navbar-toggler ml-auto mb-2 bg-light" type="button" data-toggle="collapse" data-target="#sidebar">
-	    <span class="navbar-toggler-icon"></span>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"
+	trimDirectiveWhitespaces="true"%>
+<nav class="navbar navbar-expand-md navbar-dark">
+	<button class="navbar-toggler ml-auto mb-2 bg-light" type="button"
+		data-toggle="collapse" data-target="#sidebar">
+		<span class="navbar-toggler-icon"></span>
 	</button>
 	<div class="collapse navbar-collapse" id="sidebar">
 		<div class="container-fluid">

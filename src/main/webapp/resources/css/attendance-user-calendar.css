@@ -1,0 +1,14 @@
+@charset "UTF-8";
+.memberH {
+	color: #424242;
+	font-size: 20px;
+}
+#personnel {
+	background-color: #353535;
+	border-radius: 10px;
+}
+
+.perssonnel-number {
+	color: white;
+	top: 2px;
+}
