@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.mapper.ClassRegistrationHistoryMapper" >
+
+	<select id="getAllClassRegistrationHistoryByUserNo" parameterType="int" resultType="ClassRegistrationHistory">
+		select 
+			class_registration_no 			as no,
+			user_no							as userNo,
+			program_no						as programNo,
+			class_payment_status			as paymentStatus,
+			total_price						as totalPrice,
+			payment_type					as paymentType,
+			total_discount_price			as totalDiscountPrice,
+			total_payment_price				as totalPaymentPrice,
+			payment_completed_date			as paymentCompletedDate,
+			class_created_date				as createdDate,
+			class_updated_date				as updatedDate
+		from
+			class_registration_histories
+		where
+			user_no = #{value}
+	</select>
+	
+</mapper>
