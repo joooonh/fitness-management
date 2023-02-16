@@ -9,5 +9,5 @@ import com.example.vo.EmployeeRole;
 @Mapper
 public interface EmployeeRoleMapper {
 
-	public List<EmployeeRole> getEmployeeRoles(String empId);
+	List<EmployeeRole> getEmployeeRolesByEmployeeId(String empId);
 }

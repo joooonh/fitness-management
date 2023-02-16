@@ -64,7 +64,7 @@ public class EmployeeService {
 	public EmployeeDetail getEmployeeDetail(String empId) {
 		// 직원아이디로 직원정보, 직원권한을 조회한다.
 		Employee employee = employeeMapper.getEmployeeById(empId);
-		List<EmployeeRole> employeeRole = employeeRoleMapper.getEmployeeRoles(empId);
+		List<EmployeeRole> employeeRole = employeeRoleMapper.getEmployeeRolesByEmployeeId(empId);
 		
 		// 조회한 직원정보, 직원권한을 EmployeeDetail에 대입한다.
 		EmployeeDetail employeeDetail = new EmployeeDetail();

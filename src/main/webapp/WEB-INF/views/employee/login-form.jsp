@@ -55,7 +55,6 @@
 </style>
 </head>
 <body class="pt-5">
-<c:set var="menu" value="login" />
 <%@ include file="../common/header.jsp" %>
 <div class="container">
    <div class="row" id="row">
@@ -63,12 +62,12 @@
    			<form class="form" id="form-login" method="post" action="/login">
    			<!-- csrf 토큰값을 히든필드로 추가한다. -->
 			<sec:csrfInput />
-			<!-- userType을 히든필드로 추가한다.  -->
-			<input type="hidden" name="userType" value="사용자" />
+			<!-- userType을 히든필드로 추가한다. -->
+			<input type="hidden" name="userType" value="관리자" />
    				<div class="row mb-3">
    					<div  id="login-head">
    						<img src="/resources/images/logo.svg" alt="Logo" width="40" height="27" class="text-black me-3">
-   						중앙피트니스
+   						중앙피트니스 관리자
    					</div>
    				</div>
    				<c:if test="${param.error eq 'fail' }">
@@ -78,7 +77,7 @@
    				</c:if>
    				<div class="row mb-3">
 					<div >
-						<input type="text" class="form-control" name="id" placeholder="아이디" value="shin" />
+						<input type="text" class="form-control" name="id" placeholder="아이디" value="moon" />
 					</div>
 				</div>
 				<div class="row mb-3">
