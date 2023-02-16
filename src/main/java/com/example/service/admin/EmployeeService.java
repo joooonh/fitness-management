@@ -1,6 +1,8 @@
 package com.example.service.admin;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.dto.EmployeeDetail;
 import com.example.mapper.EmployeeMapper;
 import com.example.mapper.EmployeeRoleMapper;
+import com.example.utils.Pagination;
 import com.example.vo.Employee;
 import com.example.vo.EmployeeRole;
 import com.example.web.request.EmployeeModifyForm;
@@ -27,10 +30,37 @@ public class EmployeeService {
 	@Autowired
 	PasswordEncoder passwordEncoder;
 	
-	public Employee getEmployee(String empId) {
+	// 모든 직원 정보 조회
+	public Map<String, Object> getAllEmployee(int page, String status, String keyword) {
+		// 검색 조건에 해당하는 직원 목록 갯수 조회
+		Map<String, Object> rows = new HashMap<>();
+		rows.put("status", status);
+		rows.put("keyword", keyword);
+		int totalRows = employeeMapper.getTotalRows(rows);
+		
+		Pagination pagination = new Pagination(page, totalRows);
+		
+		Map<String, Object> param = new HashMap<>();
+		param.put("begin", pagination.getBegin());
+		param.put("end", pagination.getEnd());
+		param.put("keyword", keyword);
+		param.put("status", status);
+		
+		List<Employee> employees = employeeMapper.getAllEmployee(param);
+		
+		Map<String, Object> result = new HashMap<>();
+		result.put("employees", employees);
+		result.put("pagination", pagination);
+		
+		return result;
+	}
+	
+	// 아이디로 직원 정보 조회
+	public Employee getEmployeeById(String empId) {
 		return employeeMapper.getEmployeeById(empId);
 	}
 	
+	// 아이디로 직원 상세정보 조회
 	public EmployeeDetail getEmployeeDetail(String empId) {
 		// 직원아이디로 직원정보, 직원권한을 조회한다.
 		Employee employee = employeeMapper.getEmployeeById(empId);
@@ -44,6 +74,7 @@ public class EmployeeService {
 		return employeeDetail;
 	}
 	
+	// 직원 정보 수정
 	public void updateEmployee(EmployeeModifyForm form) {
 		Employee employee = employeeMapper.getEmployeeById(form.getId());
 		BeanUtils.copyProperties(form, employee);
