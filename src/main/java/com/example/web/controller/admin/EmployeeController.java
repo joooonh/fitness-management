@@ -7,7 +7,6 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,12 +22,14 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.dto.EmployeeDetail;
+import com.example.security.AuthenticatedUser;
+import com.example.security.vo.LoginUser;
 import com.example.service.admin.EmployeeService;
 import com.example.vo.Employee;
 import com.example.web.request.EmployeeModifyForm;
 
 @Controller
-@RequestMapping("/admin/employee")
+@RequestMapping("/emp")
 @SessionAttributes({"form"})
 public class EmployeeController {
 
@@ -60,22 +61,20 @@ public class EmployeeController {
 	
 	// 내 정보 조회
 	@GetMapping("/mypage")
-	public String mypage(@RequestParam(name = "empId") String empId, Model model) {
-		EmployeeDetail employeeDetail = employeeService.getEmployeeDetail(empId);
+	public String mypage(@AuthenticatedUser LoginUser loginUser, Model model) {
+		EmployeeDetail employeeDetail = employeeService.getEmployeeDetail(loginUser.getId());
 		model.addAttribute("employee", employeeDetail);
 		
-		return "admin/employee/mypage";
+		return "/employee/mypage";
 	}
 	
 	// 내 정보 수정페이지
 	@GetMapping("/modify")
-	public String mypageModifyForm(@RequestParam(name = "empId") String empId, Model model) {
-		EmployeeDetail employeeDetail = employeeService.getEmployeeDetail(empId);
-		EmployeeModifyForm form = new EmployeeModifyForm();
-		BeanUtils.copyProperties(employeeDetail, form);
-		model.addAttribute("form", form);
+	public String modifyForm(@AuthenticatedUser LoginUser loginUser, Model model) {
+		EmployeeDetail employeeDetail = employeeService.getEmployeeDetail(loginUser.getId());
+		model.addAttribute("employee", employeeDetail);
 		
-		return "admin/employee/mypage-modify";
+		return "/employee/modify";
 	}
 	
 	// 내 정보 수정
