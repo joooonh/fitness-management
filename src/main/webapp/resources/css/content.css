@@ -1,5 +1,5 @@
 @charset "UTF-8";
-/* 직원 관리 css */
+/* 마이페이지 css */
 .profile{
 	width: 350px; 
 	height: 350px; 
@@ -23,7 +23,7 @@
 	font-size: 4rem;
 }
 /* 프로그램 관리 css */
-#programDetail .modal-dialog, #searchEmployee .modal-dialog{
+#programDetail .modal-dialog, #searchEmployee .modal-dialog, #employeeDetail .modal-dialog{
 	max-width: 50vw;
 }
 #searchEmployee .modal-content {
@@ -39,7 +39,7 @@
 	width: 50% !important;
 	margin: 0 auto;
 }
- .program-insert-wrap table {
+.program-insert-wrap table {
 	word-break: keep-all;
 }
 .program-insert-wrap .scroll-y {
@@ -55,4 +55,9 @@
 .club-wrap #map {
 	width: 100%;
 	height: 250px !important;
+}
+/* 직원관리 css */
+#employeeDetail .profile{
+	width: 100%; 
+	height: 90%;
 }
