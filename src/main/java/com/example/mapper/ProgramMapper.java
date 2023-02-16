@@ -19,7 +19,7 @@ public interface ProgramMapper {
 	Program getProgramByProgramNo(int programNo);
 	// 모든 프로그램 목록
 	List<Program> getAllPrograms(Map<String, Object> param);
-	int getTotalRows(Map<String, Object> rows);
+	int getTotalRowsBySearch(Map<String, Object> rows);
 	// 프로그램 상세정보
 	ProgramDto getProgramDetail(int programNo); 
 	// 프로그램에 해당하는 요일 조회

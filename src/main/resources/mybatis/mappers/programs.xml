@@ -145,7 +145,7 @@
 	</select>
 	
 	<!-- 검색조건에 해당하는 행의 갯수 조회 -->
-	<select id="getTotalRows" parameterType="map" resultType="int">
+	<select id="getTotalRowsBySearch" parameterType="map" resultType="int">
 		select 
 		    count(*)
 		from
