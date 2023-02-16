@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.mapper.ClubMapper">
+
+	<!-- 피트니스 매장 정보 -->
+	<select id="getClub" resultType="Club">
+		select
+			fitness_no					as no,
+			fitness_name				as name,
+			fitness_tel					as tel,
+			fitness_zipcode				as zipcode,
+			fitness_basic_address		as basicAddress,
+			fitness_detail_address		as detailAddress,
+			fitness_latitude			as latitude,
+			fitnuss_longitude			as longitude,
+			fitness_description			as description,
+			fitness_weekdays_open_hours	as weekdaysOpenHours,
+			fitness_weekends_open_hours	as weekendsOpenHours,
+			fitness_closed_days			as closedDays,
+			fitness_created_date		as createdDate,
+			fitness_updated_date		as updatedDate
+		from
+			fitness_clubs
+	</select>
+	
+	<!-- 매장번호로 매장 정보 조회 -->
+	<select id="getClubByNo" parameterType="int" resultType="Club">
+		select
+			fitness_no					as no,
+			fitness_name				as name,
+			fitness_tel					as tel,
+			fitness_zipcode				as zipcode,
+			fitness_basic_address		as basicAddress,
+			fitness_detail_address		as detailAddress,
+			fitness_latitude			as latitude,
+			fitnuss_longitude			as longitude,
+			fitness_description			as description,
+			fitness_weekdays_open_hours	as weekdaysOpenHours,
+			fitness_weekends_open_hours	as weekendsOpenHours,
+			fitness_closed_days			as closedDays,
+			fitness_created_date		as createdDate,
+			fitness_updated_date		as updatedDate
+		from
+			fitness_clubs
+		where
+			fitness_no = #{value}	
+	</select>
+	
+	<!-- 매장정보 수정 -->
+	<update id="updateClub" parameterType="Club">
+		update
+			fitness_clubs
+		set
+			fitness_name = #{name},
+			fitness_tel = #{tel},
+			fitness_zipcode = #{zipcode},
+			fitness_basic_address = #{basicAddress},
+			fitness_detail_address = #{detailAddress},
+			fitness_latitude = #{latitude},
+			fitnuss_longitude = #{longitude},
+			fitness_description = #{description},
+			fitness_weekdays_open_hours = #{weekdaysOpenHours},
+			fitness_weekends_open_hours = #{weekendsOpenHours},
+			fitness_closed_days = #{closedDays},
+			fitness_updated_date = sysdate
+		where
+			fitness_no = #{no}
+	</update>
+</mapper>

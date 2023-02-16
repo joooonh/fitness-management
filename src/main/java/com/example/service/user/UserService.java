@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.dto.UserListAttDto;
 import com.example.exception.AlreadyRegisteredEmailException;
 import com.example.exception.AlreadyRegisteredUserIdException;
 import com.example.exception.ApplicationException;
@@ -22,6 +23,8 @@ import com.example.mapper.UserRoleMapper;
 import com.example.vo.ClassRegistrationHistory;
 import com.example.vo.FitnessVisitant;
 import com.example.vo.MembershipHistory;
+import com.example.utils.Pagination;
+import com.example.vo.FitnessProgramCategory;
 import com.example.vo.User;
 import com.example.vo.UserRole;
 import com.example.web.request.UserModifyForm;
@@ -30,7 +33,7 @@ import com.example.web.request.UserRegisterForm;
 @Service
 @Transactional
 public class UserService {
-
+	
 	@Autowired
 	PasswordEncoder passwordEncoder;
 	@Autowired
@@ -44,6 +47,33 @@ public class UserService {
 	@Autowired
 	FitnessVisitantMapper visitantMapper;
 	
+	
+	//출석리스트 조회
+	public Map<String,Object> getUserList(int page) {
+		int totalRows = userMapper.getTotalRows();
+		Pagination pagination = new Pagination(page,totalRows);
+		
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("begin", pagination.getBegin());
+		param.put("end", pagination.getEnd());
+		
+		List<UserListAttDto> users = userMapper.getUserList(param);
+		
+		Map<String,Object> result = new HashMap<>();
+		result.put("userAtts", users );
+		result.put("pagination", pagination);
+		
+		
+		return result;
+	}
+	
+	
+	public List<FitnessProgramCategory> getPrograms() {
+		
+		return userMapper.getPrograms();
+	}
+	
+
 	
 	// 회원가입
 	public void registerUser(UserRegisterForm userRegisterForm) {
@@ -139,8 +169,4 @@ public class UserService {
 		userMapper.updateUser(user);
 		
 	}
-	
-	
-	
-	
 }
