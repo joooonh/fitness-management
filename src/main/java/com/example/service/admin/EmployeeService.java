@@ -36,7 +36,7 @@ public class EmployeeService {
 		Map<String, Object> rows = new HashMap<>();
 		rows.put("status", status);
 		rows.put("keyword", keyword);
-		int totalRows = employeeMapper.getTotalRows(rows);
+		int totalRows = employeeMapper.getTotalRowsBySearchCondition(rows);
 		
 		Pagination pagination = new Pagination(page, totalRows);
 		
