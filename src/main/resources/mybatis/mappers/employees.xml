@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.example.mapper.EmployeeMapper">
 
+	<!-- 직원정보 수정 -->
 	<update id="updateEmployee" parameterType="Employee">
 		update 
 			employees
@@ -24,6 +25,54 @@
 			employee_id	= #{id}
 	</update>
 	
+	<!-- 모든 직원 정보 -->
+	<select id="getAllEmployee" parameterType="map" resultType="Employee">
+		select
+			*
+		from(
+			select
+				row_number() over(order by employee_name desc) 	as row_numbers,
+				employee_id						as id,
+				employee_name					as name,
+				employee_password				as password,
+				employee_email					as email,
+				employee_tel					as tel,
+				employee_photo					as photo,
+				employee_zipcode				as zipcode,
+				employee_basic_address			as basicAddress,
+				employee_detail_address			as detailAddress,
+				employee_employment_status		as status,
+				employee_created_date			as createdDate,
+				employee_updated_date			as updatedDate,
+				fitness_no						as fitnessNo
+			from
+				employees	
+			<where>
+				<choose>
+					<when test="status == '재직'">
+						employee_employment_status = '재직'
+					</when>
+					<when test="status == '휴직'">
+						employee_employment_status = '휴직'
+					</when>
+					<when test="status == '퇴직'">
+						employee_employment_status = '퇴직'
+					</when>
+				</choose>
+				<if test="keyword != null">
+					and (employee_id like '%' || #{keyword} || '%'
+					or employee_name like '%' || #{keyword} || '%'
+					or employee_tel like '%' || #{keyword} || '%'
+					or employee_email like '%' || #{keyword} || '%'
+					or employee_employment_status like '%' || #{keyword} || '%')
+				</if>
+			</where>
+			)
+		where
+			row_numbers between #{begin} and #{end}
+	</select>
+	
+	<!-- 직원 아이디에 해당하는 직원 정보 -->
 	<select id="getEmployeeById" parameterType="string" resultType="Employee">
 		select
 			employee_id						as id,
@@ -45,6 +94,7 @@
 			employee_id	= #{value}
 	</select>
 	
+	<!-- 직원 상세정보 -->
 	<select id="getEmployeeDetail" parameterType="string" resultType="EmployeeDetail">
 		select
 			E.employee_id					as id,
@@ -81,7 +131,7 @@
 			employee_employment_status = '재직'
 	</select>
 	
-	<!-- 검색한 직원 정보 -->
+	<!-- 직원이름으로 검색한 직원 정보 -->
 	<select id="getSearchEmployees" parameterType="string" resultType="Employee">
 		select
 			employee_id				as id,
@@ -93,6 +143,34 @@
 		where
 			employee_employment_status = '재직'
 			and employee_name like '%' || #{value} || '%'
+	</select>
+	
+	<!-- 총 직원 목록 갯수 -->
+	<select id="getTotalRows" parameterType="map" resultType="int">
+		select
+			count(*)
+		from
+			employees
+		<where>
+			<choose>
+				<when test="status == '재직'">
+					employee_employment_status = '재직'
+				</when>
+				<when test="status == '휴직'">
+					employee_employment_status = '휴직'
+				</when>
+				<when test="status == '퇴직'">
+					employee_employment_status = '퇴직'
+				</when>
+			</choose>
+				<if test="keyword != null">
+					and (employee_id like '%' || #{keyword} || '%'
+					or employee_name like '%' || #{keyword} || '%'
+					or employee_tel like '%' || #{keyword} || '%'
+					or employee_email like '%' || #{keyword} || '%'
+					or employee_employment_status like '%' || #{keyword} || '%')
+				</if>
+		</where>
 	</select>
 
 </mapper>
