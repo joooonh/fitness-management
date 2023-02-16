@@ -5,19 +5,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/admin")
-public class HomeController {
+@RequestMapping("/emp")
+public class EmployeeHomeController {
 
 	// 관리자 홈
-	@GetMapping("/")
+	@GetMapping("/home")
 	public String home() {
-		return "home";
+		return "employee/home";
 	}
 	
 	// 관리자 로그인 요청
 	@GetMapping("/login")
 	public String loginform() {
-		return "admin/login-form";
+		return "employee/login-form";
 	}
 	
 }

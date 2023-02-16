@@ -4,6 +4,8 @@ import java.util.Date;
 
 import org.apache.ibatis.type.Alias;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,6 +19,7 @@ public class User {
 	private String encryptPassword;
 	private String name; 
 	private String gender; 
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date birth;
 	private String email;
 	private String photo; 
@@ -25,6 +28,7 @@ public class User {
 	private String detailAddr;
 	private String tel;
 	private String deleted;
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date createdDate;
 	private Date updatedDate;
 

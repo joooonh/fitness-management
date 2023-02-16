@@ -13,14 +13,14 @@
 <title>중앙피트니스</title>
 </head>
 <body>
-
+<c:set var="menu" value="mypage" />
 <!------------------------------------ 헤더 navbar 영역 ---------------------------------------->
-<%@ include file="../../common/header.jsp" %>
+<%@ include file="../common/header.jsp" %>
 <div class="container-fluid mt-4">
 	<div class="row">
 		<div class="col-md-2 sidebar">
 			<!---------------------------------- 사이드 바 영역  ----------------------------------------->
-			<%@ include file="../../common/sidebar.jsp" %>
+			<%@ include file="../common/sidebar.jsp" %>
 		</div>
 		<div class="col-md-10 ps-4 pt-5">
 			<!--------------------------------- Content 영역 ------------------------------------------->

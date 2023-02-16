@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <ul class="navbar-nav flex-column mt-4" id="open-submenu">
 	<li class="nav-item mb-2">
-		<a href="../admin/member" class="nav-link text-white p-3 mb-2 sidebar-link">
+		<a href="/emp/userList" class="nav-link text-white p-3 mb-2 sidebar-link">
 			<i class="bi bi-people-fill"></i> 회원관리
 		</a>
 	</li>
