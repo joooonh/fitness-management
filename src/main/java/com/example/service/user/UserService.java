@@ -10,9 +10,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
 import com.example.dto.ProgramDetailDto;
 import com.example.dto.ClassRegHistoryDto;
 import com.example.dto.ConsultingHistoryDto;
+
+
 import com.example.dto.UserListAttDto;
 import com.example.exception.AlreadyRegisteredEmailException;
 import com.example.exception.AlreadyRegisteredUserIdException;
@@ -21,10 +24,14 @@ import com.example.exception.InconsistentPasswordException;
 import com.example.mapper.UserMapper;
 import com.example.mapper.UserMypageMapper;
 import com.example.mapper.UserRoleMapper;
+
 import com.example.vo.MembershipHistory;
 import com.example.vo.ProgramDay;
 import com.example.utils.Pagination;
 import com.example.vo.FitnessProgram;
+
+import com.example.utils.Pagination;
+
 import com.example.vo.FitnessProgramCategory;
 import com.example.vo.User;
 import com.example.vo.UserAttendance;
@@ -39,12 +46,18 @@ import com.example.web.request.UserRegisterForm;
 @Transactional
 public class UserService {
 	
+
 	@Autowired
 	PasswordEncoder passwordEncoder;
+
 	@Autowired
 	UserMapper userMapper;
 	@Autowired
+
 	UserRoleMapper userRoleMapper;
+
+	private UserRoleMapper userRoleMapper;
+
 	@Autowired
 	UserMypageMapper userMypageMapper;
 	
@@ -109,6 +122,33 @@ public class UserService {
 	
 	
 	
+	//출석리스트 조회
+	public Map<String,Object> getUserList(int page) {
+		int totalRows = userMapper.getTotalRows();
+		Pagination pagination = new Pagination(page,totalRows);
+		
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("begin", pagination.getBegin());
+		param.put("end", pagination.getEnd());
+		
+		List<UserListAttDto> users = userMapper.getUserList(param);
+		
+		Map<String,Object> result = new HashMap<>();
+		result.put("userAtts", users );
+		result.put("pagination", pagination);
+		
+		
+		return result;
+	}
+	
+	
+	public List<FitnessProgramCategory> getPrograms() {
+		
+		return userMapper.getPrograms();
+	}
+	
+
+	
 	// 회원가입
 	public void registerUser(UserRegisterForm userRegisterForm) {
 		User savedUser = userMapper.getUserById(userRegisterForm.getId());
@@ -132,6 +172,7 @@ public class UserService {
 		UserRole userRole = new UserRole(user.getNo(), "ROLE_USER");
 		userRoleMapper.insertUserRole(userRole);
 	}
+
 	
 	// 내 정보 조회
 	public User getUserinfo(String userId) {
@@ -209,4 +250,5 @@ public class UserService {
 		userMapper.updateUser(user);
 		
 	}
+
 }
