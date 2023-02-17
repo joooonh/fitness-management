@@ -1,19 +1,25 @@
 package com.example.web.controller.user;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.exception.AlreadyRegisteredEmailException;
 import com.example.exception.AlreadyRegisteredUserIdException;
-import com.example.security.LoginUser;
+import com.example.exception.InconsistentPasswordException;
 import com.example.service.user.UserService;
 import com.example.web.request.UserRegisterForm;
 
@@ -21,13 +27,16 @@ import com.example.web.request.UserRegisterForm;
 @RequestMapping("/user")
 public class UserHomeController {
 
+	private final String directory = "C:\\app\\eGovFrameDev-4.0.0-64bit\\workspace\\fitness-management\\src\\main\\webapp\\resources\\images\\profile";
+	
 	@Autowired
 	private UserService userService;
 	
-	// 이용자 홈화면 요청
-	@GetMapping("/home")
-	public String home() {
-		return "user/home";
+	// 이용자 로그인 화면 요청 
+	@GetMapping("/login")
+	public String loginform() {
+		
+		return "user/login-form";
 	}
 	
 	// 회원가입 폼 요청 
@@ -41,10 +50,18 @@ public class UserHomeController {
 	
 	// 회원가입 요청 
 	@PostMapping("/register")
-	public String register(@ModelAttribute("userRegisterForm") @Valid UserRegisterForm userRegisterForm, BindingResult errors) {
-		
+	public String register(@ModelAttribute("userRegisterForm") @Valid UserRegisterForm userRegisterForm, BindingResult errors) throws IOException {
+
 		if(errors.hasErrors()) {
 			return "user/register-form";
+		}
+		
+		MultipartFile upfile = userRegisterForm.getUpfile();
+		if(!upfile.isEmpty()) {
+			String filename = upfile.getOriginalFilename();
+			userRegisterForm.setPhoto(filename);
+			
+			FileCopyUtils.copy(upfile.getInputStream(), new FileOutputStream(new File(directory, filename)));
 		}
 		
 		try {
@@ -54,6 +71,9 @@ public class UserHomeController {
 			return "user/register-form";
 		} catch(AlreadyRegisteredEmailException ex) {
 			errors.rejectValue("email", null, "이미 사용중인 이메일입니다.");
+			return "user/register-form";
+		} catch(InconsistentPasswordException ex) {
+			errors.rejectValue("passwordConfirm", null, "비밀번호가 일치하지 않습니다.");
 			return "user/register-form";
 		}
 		
@@ -66,13 +86,5 @@ public class UserHomeController {
 		
 		return "user/register-success";
 	}
-	
-	// 이용자 로그인 화면 요청 
-	@GetMapping("/login")
-	public String loginform() {
-		
-		return "user/login-form";
-	}
-	
 	
 }

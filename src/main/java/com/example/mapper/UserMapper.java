@@ -16,8 +16,6 @@ import com.example.vo.UserClassAttendance;
 @Mapper
 public interface UserMapper {
 
-	void insertUser(User user);
-	void updateUser(User user);
 	User getUserById(String userId);
 	User getUserByEmail(String email);
 	
@@ -25,6 +23,10 @@ public interface UserMapper {
 	int getTotalRows(Map<String,Object>param);
 	
 	// 출석조회
+	List<User> getAllUsers();
+	void insertUser(User user);
+	void updateUser(User user);
+	int getTotalRows();
 	List<UserListAttDto> getUserList(Map<String,Object>param);
 	// 프로그램조회
 	List<FitnessProgramCategory> getPrograms();

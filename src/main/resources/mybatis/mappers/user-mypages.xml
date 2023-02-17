@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.mapper.UserMypageMapper">
+
+	<select id="getAllMembershipsByUserNo" parameterType="int" resultType="MembershipHistory">
+		select
+			membership_no				as no,
+			membership_start_date 		as startDate,
+			membership_end_date			as endDate,
+			membership_period			as period,
+			membership_payment_status	as paymentStatus,
+			membership_created_date		as createdDate,
+			membership_updated_date		as updatedDate,
+			total_price					as totalPrice,
+			payment_type				as paymentType,
+			total_discount_price		as totalDiscountPrice,
+			total_payment_price			as totalPaymentPrice,
+			payment_completed_date		as paymentCompletedDate,
+			user_no						as userNo
+		from
+			membership_histories
+		where
+			user_no = #{value}
+	</select>
+	
+	<select id="getAllClassRegHistoriesDtoByUserNo" parameterType="int" resultType="ClassRegHistoryDto">
+		select
+		    A.class_registration_no         as classRegNo,
+		    C.fitness_program_category_name as programCategoryName,
+		    B.program_name                  as programName,
+		    E.employee_name                 as empName,
+		    B.program_start_hour            as startHour,
+		    B.program_end_hour              as endHour,
+		    A.total_payment_price           as totalPaymentPrice,
+		    A.payment_completed_date        as paymentCompletedDate,
+		    A.program_no					as programNo
+		from
+		    class_registration_histories A, fitness_programs B, fitness_program_category C, 
+		    employees E
+		where
+		    A.user_no = #{value}
+		    and A.program_no = B.program_no
+		    and B.fitness_program_category_no = C.fitness_program_category_no
+		    and B.employee_id = E.employee_id
+	</select>
+	
+	<select id="getAllConsultingHistoryDtosByUserNo" parameterType="int" resultType="ConsultingHistoryDto">
+		select
+		    V.consulting_no             	as no,
+		    E.employee_name             	as empName,
+		    P.program_name              	as programName,
+		    V.consulting_reservation_date   as reservationDate,
+		    V.consulting_created_date   	as createdDate,
+		    V.consulting_status         	as status
+		from
+		    fitness_visitant V, employees E, fitness_programs P
+		where
+		    V.user_no = #{value}
+		    and V.employee_id = E.employee_id
+		    and V.program_no = P.program_no
+	</select>
+	
+	<select id="getProgramDayByProgramNo" parameterType="int" resultType="ProgramDay">
+		select
+			program_no			as programNo,
+			program_open_day	as day
+		from 
+			fitness_program_days
+		where
+			program_no = #{value}
+	</select>
+
+</mapper>

@@ -1,4 +1,4 @@
-package com.example.controller.user;
+package com.example.web.controller.user;
 
 import java.io.IOException;
 import java.util.List;

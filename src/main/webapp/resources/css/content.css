@@ -1,0 +1,63 @@
+@charset "UTF-8";
+/* 마이페이지 css */
+.profile{
+	width: 350px; 
+	height: 350px; 
+	margin: 0 auto;
+	position: relative;
+}
+.profile img{
+	width: 100%;
+	height: 100%;
+}
+.profile label{
+	position: absolute; 
+	right: 0; 
+	bottom: -20%; 
+	cursor: pointer;
+}
+.profile #file-profile{
+	display: none;
+}
+.profile i{
+	font-size: 4rem;
+}
+/* 프로그램 관리 css */
+#programDetail .modal-dialog, #searchEmployee .modal-dialog, #employeeDetail .modal-dialog{
+	max-width: 50vw;
+}
+#searchEmployee .modal-content {
+	min-height: 500px;
+}
+#searchEmployee tbody tr{
+	cursor: pointer;
+}
+.table-program-insert tr{
+	vertical-align: middle;
+}
+.program-insert-wrap, .program-modify-wrap {
+	width: 50% !important;
+	margin: 0 auto;
+}
+.program-insert-wrap table {
+	word-break: keep-all;
+}
+.program-insert-wrap .scroll-y {
+	height: 200px; 
+	overflow-y: auto;
+}
+/* 매장관리 css */
+.club-wrap {
+	width: 65% !important;
+	margin: 0 auto;
+	padding-bottom: 50px;
+}
+.club-wrap #map {
+	width: 100%;
+	height: 250px !important;
+}
+/* 직원관리 css */
+#employeeDetail .profile{
+	width: 100%; 
+	height: 90%;
+}
