@@ -226,8 +226,8 @@ $(function() {
 			return false;
 		};
 		
-		if (status != "퇴사") {
-			alert("퇴사한 직원만 삭제 가능합니다.");
+		if (status != "퇴직") {
+			alert("퇴직한 직원만 삭제 가능합니다.");
 			return false;
 		}
 		
