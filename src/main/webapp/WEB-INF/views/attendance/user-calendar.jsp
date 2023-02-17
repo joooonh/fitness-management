@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <link rel="stylesheet" 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
-<link rel="stylesheet" href="resources/css/attendance-user-calendar.css">
-<link rel="stylesheet" href="resources/css/common.css">
+<link rel="stylesheet" href="../resources/css/attendance-user-calendar.css">
+<link rel="stylesheet" href="../resources/css/common.css">
 <style type="text/css">
 </style>
 <title>애플리케이션</title>
@@ -34,9 +34,9 @@
 				</div>
 				<div class="row mb-2">
 					<div class="col-12">
-							<a class="btn btn-secondary" href="userList"> <i class="bi bi-list-columns-reverse"></i> 출석리스트 </a></button>
-							<a class="btn btn-secondary" href="userDay"><i class="bi bi-calendar3"></i>일별출석리스트</a> 
-							<a class="btn btn-secondary" href="userCalendar"><i class="bi bi-calendar-week"></i>출석달력</a>
+						<a class="btn btn-secondary" href="/emp/userAttList"> <i class="bi bi-list-columns-reverse"></i> 출석리스트 </a></button>
+						<a class="btn btn-secondary" href="/emp/userDay"><i class="bi bi-calendar3"></i>일별출석리스트</a> 
+						<a class="btn btn-secondary" href="/emp/userCalendar"><i class="bi bi-calendar-week"></i>출석달력</a>
 					</div>
 				</div>
 				<div class="row">
