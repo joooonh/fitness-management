@@ -14,7 +14,7 @@ public interface EmployeeMapper {
 	// 직원 목록 조회
 	List<Employee> getAllEmployee(Map<String, Object> param);
 	// 직원 목록 갯수
-	Integer getTotalRowsBySearchCondition(Map<String, Object> rows);
+	Integer getTotalRows(Map<String, Object> rows);
 	// 직원아이디로 직원정보 조회
 	Employee getEmployeeById(String empId);
 	// 직원아이디로 직원 상세정보 조회

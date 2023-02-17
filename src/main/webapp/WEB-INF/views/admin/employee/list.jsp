@@ -38,7 +38,7 @@
 								<option value="전체" ${param.status eq '전체' ? 'selected' : '' }>전체</option>
 								<option value="재직" ${param.status eq '재직' ? 'selected' : '' }>재직</option>
 								<option value="휴직" ${param.status eq '휴직' ? 'selected' : '' }>휴직</option>
-								<option value="퇴사" ${param.status eq '퇴사' ? 'selected' : '' }>퇴사</option>
+								<option value="퇴직" ${param.status eq '퇴직' ? 'selected' : '' }>퇴직</option>
 							</select>
 						</div>
 						<div class="col-auto">
