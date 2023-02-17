@@ -41,18 +41,26 @@
 				</div>
 				<div class="row">
 					<div class="col-12 mb-2 text-end">
-						<input class="form-control form-control-sm d-inline-block border-secondary" type="date" value="today" style="width: 120px;"> 
-						<input class="form-control form-control-sm d-inline-block border-secondary"	name="keyword" style="width: 150px;">
-						<button type="button" class="btn btn-sm" style="background-color: #E0E0E0;"> <i class="bi bi-search"></i>
-						</button>
-
+						<input class="form-control form-control-sm d-inline-block border-secondary" type="date" value="today" style="width: 120px;">
+						
 						<select class="form-select form-select-sm d-inline-block border-secondary"	name="프로그램" style="width: 130px;">
 							<option value="">프로그램명</option>
 							<option value="">크로스핏</option>
 							<option value="">요가</option>
 							<option value="">스피닝</option>
 							<option value="">줌바</option>
-						</select>
+						</select> 
+						
+						<select class="form-select form-select-sm d-inline-block border-secondary"	name="opt" style="width: 130px;">
+								<option value="none" selected disabled>선택하세요</option>
+								<option value="userName" ${param.opt eq 'userName' ? 'selected' : '' }>회원이름</option>
+								<option value="userNo" ${param.opt  == 'userNo' ? 'selected' : ''} >회원번호</option>
+								<option value="userTel" ${param.opt  == 'userTel' ? 'selected' : ''}>휴대폰</option>
+						</select> 
+						
+						<input class="form-control form-control-sm d-inline-block border-secondary"	name="keyword" style="width: 150px;">
+						<button type="button" class="btn btn-sm" style="background-color: #E0E0E0;"> <i class="bi bi-search"></i>
+						</button>
 					</div>
 				</div>
 				<div class="row ">
