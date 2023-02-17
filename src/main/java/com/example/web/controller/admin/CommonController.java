@@ -28,9 +28,9 @@ import com.example.web.request.EmployeeModifyForm;
 @Controller
 @RequestMapping("/emp")
 @SessionAttributes({"form"})
-public class MypageController {
+public class CommonController {
 
-	private final String directory = "/resources/images";
+	private final String directory = "C:\\app\\eGovFrameDev-4.0.0-64bit\\workspace\\fitness-management\\src\\main\\webapp\\resources\\images";
 	
 	@Autowired
 	EmployeeService employeeService;
