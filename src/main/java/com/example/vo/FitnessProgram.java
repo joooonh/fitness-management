@@ -20,7 +20,6 @@ public class FitnessProgram {
 	private String endHour;
 	private int quota;
 	private int requestCount;
-	private int price;
 	private String status;
 	private Date createdDate;
 	private Date updatedDate;

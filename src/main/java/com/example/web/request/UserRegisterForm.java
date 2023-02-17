@@ -20,7 +20,7 @@ import lombok.Setter;
 public class UserRegisterForm {
 
 	private MultipartFile upfile; 
-	private String filename;
+	private String photo;
 	
 	@NotBlank(message = "아이디는 필수입력값입니다.")
 	@Pattern(regexp = "^[a-z0-9]{3,12}$", message = "* 아이디는 3~12자의 영문 소문자와 숫자로 입력하세요.")
