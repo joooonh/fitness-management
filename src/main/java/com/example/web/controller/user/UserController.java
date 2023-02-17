@@ -92,7 +92,7 @@ public class UserController {
 	@GetMapping("/reservation")
 	public String getReservation(@AuthenticatedUser LoginUser loginUser, Model model) {
 		
-		Map<String, Object> param = userService.getClassRegHistory(loginUser.getId());
+		Map<String, Object> param = userService.getRegistrationHistory(loginUser.getId());
 		
 		model.addAttribute("classRegList", param.get("classRegList"));
 		model.addAttribute("consultingList", param.get("consultingList"));
