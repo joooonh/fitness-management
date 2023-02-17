@@ -36,7 +36,7 @@ public class EmployeeService {
 		Map<String, Object> rows = new HashMap<>();
 		rows.put("status", status);
 		rows.put("keyword", keyword);
-		int totalRows = employeeMapper.getTotalRowsBySearchCondition(rows);
+		int totalRows = employeeMapper.getTotalRows(rows);
 		
 		Pagination pagination = new Pagination(page, totalRows);
 		
@@ -77,10 +77,18 @@ public class EmployeeService {
 	// 직원 정보 수정
 	public void updateEmployee(EmployeeModifyForm form) {
 		Employee employee = employeeMapper.getEmployeeById(form.getId());
+		String originalPassword = employee.getPassword();
+		
 		BeanUtils.copyProperties(form, employee);
 		
-		// 비밀번호 암호화
-		employee.setPassword(passwordEncoder.encode(form.getPassword()));
+		// 비밀번호가 빈칸이 아니면 비밀번호를 암호화한다.
+		if (!form.getPassword().isBlank()) {
+			// 비밀번호 암호화
+			employee.setPassword(passwordEncoder.encode(form.getPassword()));			
+		} else {
+			// 비밀번호가 빈칸이면 원래 비밀번호를 설정한다. 
+			employee.setPassword(originalPassword);
+		}
 		
 		employeeMapper.updateEmployee(employee);
 	}
