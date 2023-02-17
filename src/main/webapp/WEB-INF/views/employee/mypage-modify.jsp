@@ -14,12 +14,12 @@
 <body>
 
 <!------------------------------------ 헤더 navbar 영역 ---------------------------------------->
-<%@ include file="../../common/header.jsp" %>
+<%@ include file="../common/header.jsp" %>
 <div class="container-fluid mt-4">
 	<div class="row">
 		<div class="col-md-2 sidebar">
 			<!---------------------------------- 사이드 바 영역  ----------------------------------------->
-			<%@ include file="../../common/sidebar.jsp" %>
+			<%@ include file="../common/sidebar.jsp" %>
 		</div>
 		<div class="col-md-10 ps-4 pt-5">
 			<!--------------------------------- Content 영역 ------------------------------------------->
@@ -126,7 +126,7 @@
 							</table>
 							
 							<div class="text-end">
-								<a href="mypage?empId=${form.id }" class="btn btn-secondary">취소</a>
+								<a href="mypage" class="btn btn-secondary">취소</a>
 								<button type="button" id="btn-save-employee" class="btn btn-primary">저장</a>
 							</div>
 					</div>
@@ -209,7 +209,7 @@ $(function() {
 			return false;
 		}
 		
-		$("#modifyEmployee").submit();
+		$("#modifyEmployee").trigger("submit");
 	});
 	
 })

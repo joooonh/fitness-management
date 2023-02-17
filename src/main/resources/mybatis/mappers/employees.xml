@@ -146,7 +146,7 @@
 	</select>
 	
 	<!-- 총 직원 목록 갯수 -->
-	<select id="getTotalRowsBySearchCondition" parameterType="map" resultType="int">
+	<select id="getTotalRows" parameterType="map" resultType="int">
 		select
 			count(*)
 		from
