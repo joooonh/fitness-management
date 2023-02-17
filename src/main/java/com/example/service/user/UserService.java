@@ -10,19 +10,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.dto.ClassRegHistoryDto;
+import com.example.dto.ConsultingHistoryDto;
 import com.example.dto.UserListAttDto;
 import com.example.exception.AlreadyRegisteredEmailException;
 import com.example.exception.AlreadyRegisteredUserIdException;
 import com.example.exception.ApplicationException;
 import com.example.exception.InconsistentPasswordException;
-import com.example.mapper.ClassRegistrationHistoryMapper;
-import com.example.mapper.FitnessVisitantMapper;
-import com.example.mapper.MembershipHistoryMapper;
 import com.example.mapper.UserMapper;
+import com.example.mapper.UserMypageMapper;
 import com.example.mapper.UserRoleMapper;
-import com.example.vo.ClassRegistrationHistory;
-import com.example.vo.FitnessVisitant;
 import com.example.vo.MembershipHistory;
+import com.example.vo.ProgramDay;
 import com.example.utils.Pagination;
 import com.example.vo.FitnessProgramCategory;
 import com.example.vo.User;
@@ -41,11 +40,7 @@ public class UserService {
 	@Autowired
 	UserRoleMapper userRoleMapper;
 	@Autowired
-	MembershipHistoryMapper membershipMapper;
-	@Autowired
-	ClassRegistrationHistoryMapper classRegMapper;
-	@Autowired
-	FitnessVisitantMapper visitantMapper;
+	UserMypageMapper userMypageMapper;
 	
 	
 	//출석리스트 조회
@@ -130,23 +125,29 @@ public class UserService {
 			throw new ApplicationException("[" + userId + "] 존재하지 않는 아이디입니다.");
 		}
 		
-		List<MembershipHistory> membershipList = membershipMapper.getAllMembershipsByUserNo(user.getNo());
+		List<MembershipHistory> membershipList = userMypageMapper.getAllMembershipsByUserNo(user.getNo());
 		
 		return membershipList;
 	}
 	
 	// 수업신청내역, 상담예약 조회
-	public Map<String, Object> getClassRegHistory(String userId){
+	public Map<String, Object> getRegistrationHistory(String userId){
 		
 		User user = userMapper.getUserById(userId);
 		if(user == null) {
 			throw new ApplicationException("[" + userId + "] 존재하지 않는 아이디입니다.");
 		}
 		
-		List<ClassRegistrationHistory> classRegList = classRegMapper.getAllClassRegistrationHistoryByUserNo(user.getNo());
-		List<FitnessVisitant> consultingList = visitantMapper.getAllFitnessVisitantsByUserNo(user.getNo());
-		// map에 담아서 map을 반환하기 ( *** 수업프로그램도 map에 넣어야함 !! ) 
-		Map<String, Object> map = new HashMap<String, Object>();
+		// 수업 신청 내역 조회
+		List<ClassRegHistoryDto> classRegList = userMypageMapper.getAllClassRegHistoriesDtoByUserNo(user.getNo());
+		for(ClassRegHistoryDto dto : classRegList) {
+			List<ProgramDay> openDay = userMypageMapper.getProgramDayByProgramNo(dto.getProgramNo()); // [화, 목]
+			dto.setOpenDay(openDay);
+		}
+		// 상담 예약 내역 조회
+		List<ConsultingHistoryDto> consultingList = userMypageMapper.getAllConsultingHistoryDtosByUserNo(user.getNo());
+		
+		Map<String, Object> map = new HashMap<>();
 		map.put("classRegList", classRegList);
 		map.put("consultingList", consultingList);
 		

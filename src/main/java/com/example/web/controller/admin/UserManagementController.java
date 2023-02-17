@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.dto.ClassRegHistoryDto;
 import com.example.service.admin.UserManagementService;
 import com.example.service.user.UserService;
 import com.example.vo.MembershipHistory;
@@ -45,10 +46,15 @@ public class UserManagementController {
 		User user = userService.getUserinfo(userId);
 		// 아이디로 회원권 조회
 		List<MembershipHistory> membershipList = userService.getMembershipHistory(userId);
+		// 아이디로 수업 신청, 상담 예약 내역 조회
+		Map<String, Object> param = userService.getRegistrationHistory(userId);
+		
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("user", user);
 		map.put("membershipList", membershipList);
+		map.put("classRegList", param.get("classRegList"));
+		map.put("consultingList", param.get("consultingList"));
 		
 		return map;
 	}

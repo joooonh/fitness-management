@@ -20,5 +20,5 @@ public interface UserMapper {
 	int getTotalRows();
 	List<UserListAttDto> getUserList(Map<String,Object>param);
 	List<FitnessProgramCategory> getPrograms();
-
+	
 }
