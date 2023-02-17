@@ -162,15 +162,6 @@
 				row_numbers between #{begin} and #{end}
 	</select>
 	
-	<select id="getTotalRows" resultType="int">
-		select
-			count(*)
-		from
-			users
-		where
-			user_deleted = 'N'
-	</select>
-	
 	<select id="getPrograms" parameterType="map" resultType="FitnessProgramCategory">
 		select
     		fitness_program_category_no as categoryNo,

@@ -79,6 +79,7 @@
 						<li class="tab-button active">수업신청 내역</li>
 						<li class="tab-button">상담문의 내역</li>
 					</div>
+					<!-- 수업 신청 내역 테이블 -->
 					<table class="table table-bordered" id="table-class-registered">
 						<colgroup>
 							<col width="*">
@@ -111,20 +112,21 @@
 								<c:otherwise>
 									<c:forEach var="classReg" items="${classRegList }" >
 										<tr>
-											<td class="text-center">${classRegList.no }</td>
-											<td class="text-center"></td>
-											<td class="text-center"></td>
-											<td class="text-center"></td>
-											<td class="text-center"></td>
-											<td class="text-center"></td>
-											<td class="text-center">${classRegList.totalPaymentPrice } 원</td>
-											<td class="text-center"><fmt:formatDate value="${classRegList.paymentCompletedDate }" pattern="yyyy-MM-dd" /></td>
+											<td class="text-center">${classReg.classRegNo }</td>
+											<td class="text-center">${classReg.programCategoryName }</td>
+											<td class="text-center">${classReg.programName }</td>
+											<td class="text-center">${classReg.empName }</td>
+											<td class="text-center">${classReg.openDays }</td>
+											<td class="text-center">${classReg.startHour } ~ ${classReg.endHour }</td>
+											<td class="text-center">${classReg.totalPaymentPrice } 원</td>
+											<td class="text-center"><fmt:formatDate value="${classReg.paymentCompletedDate }" pattern="yyyy-MM-dd" /></td>
 										</tr>
 									</c:forEach>
 								</c:otherwise>
 							</c:choose>
 						</tbody>
 					</table>
+					<!-- 예약 내역 테이블 -->
 					<table class="table table-bordered" id="table-class-cs" style="display:none;">
 						<colgroup>
 							<col width="*">
@@ -132,7 +134,7 @@
 							<col width="*">
 							<col width="*">
 							<col width="*">
-							<col width="*">
+							<col width="10%">
 						</colgroup>
 						<thead>
 							<tr class="border table-secondary">
@@ -152,14 +154,23 @@
 									</tr>
 								</c:when>
 								<c:otherwise>
-									<c:forEach var="classReg" items="${consultingList }" >
-										<tr>
-											<td class="text-center">${consultingList.no }</td>
-											<td class="text-center"></td>
-											<td class="text-center"></td>
-											<td class="text-center"><fmt:formatDate value="${consultingList.reservationDate }" pattern="yyyy-MM-dd" /></td>
-											<td class="text-center"><fmt:formatDate value="${consultingList.createdDate }" pattern="yyyy-MM-dd" /></td>
-											<td class="text-center">${consultingList.status }</td>
+									<c:forEach var="consulting" items="${consultingList }" >
+										<tr class="align-middle">
+											<td class="text-center">${consulting.no }</td>
+											<td class="text-center">${consulting.empName }</td>
+											<td class="text-center">${consulting.programName }</td>
+											<td class="text-center"><fmt:formatDate value="${consulting.reservationDate }" pattern="yyyy-MM-dd" /></td>
+											<td class="text-center"><fmt:formatDate value="${consulting.createdDate }" pattern="yyyy-MM-dd" /></td>
+											<td>
+												<c:choose>
+													<c:when test="${consulting.status eq '예약완료' }">
+														<p class="badge rounded-pill p-2 mt-2 ms-2 bg-success">${consulting.status }</p>
+													</c:when> 
+													<c:when test="${consulting.status eq '예약취소' }">
+														<p class="badge rounded-pill p-2 mt-2 ms-2 bg-danger">${consulting.status }</p>
+													</c:when> 
+												</c:choose>
+											</td>
 										</tr>
 									</c:forEach>
 								</c:otherwise>
