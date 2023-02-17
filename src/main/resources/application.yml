@@ -27,5 +27,5 @@ mybatis:
   - mybatis/mappers/*.xml                                   # mybatis의 mapper 파일 경로 설정
   type-aliases-package: com.example.vo, com.example.dto
   configuration:
-    jdbc-type-for-null: 'NULL'                               # null값이 허용되는 컬럼에 null값이 저장될 때 값의 타입을 null로 지정
+    jdbc-type-for-null: 'NULL'                              # null값이 허용되는 컬럼에 null값이 저장될 때 값의 타입을 null로 지정
     log-impl: org.apache.ibatis.logging.log4j2.Log4j2Impl   # mybatis 실행 로그를 출력할 구현 클래스 이름을 지정
