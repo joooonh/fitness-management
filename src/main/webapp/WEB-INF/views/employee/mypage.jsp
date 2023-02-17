@@ -33,7 +33,7 @@
 			<div class="row">
 				<div class="col-4">
 					<div class="profile">
-						<img src="../../../resources/images/${employee.photo }" class="rounded-circle" alt="직원 프로필 사진" style="width:100%">
+						<img src="/resources/images/${employee.photo }" class="rounded-circle" alt="직원 프로필 사진" style="width:100%">
 					</div>
 				</div>
 				
@@ -94,7 +94,7 @@
 					</table>
 					
 					<div class="text-end">
-						<a href="modify?empId=${employee.id }" class="btn btn-primary">수정</a>
+						<a href="modify" class="btn btn-primary">수정</a>
 					</div>
 				</div>
 			</div>
