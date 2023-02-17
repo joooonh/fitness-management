@@ -9,18 +9,18 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
 <link rel="stylesheet" href="../../../resources/css/common.css">
-<link rel="stylesheet" href="../../../resources/css/employee.css">
+<link rel="stylesheet" href="../../../resources/css/content.css">
 <title>중앙피트니스</title>
 </head>
 <body>
-
+<c:set var="menu" value="mypage" />
 <!------------------------------------ 헤더 navbar 영역 ---------------------------------------->
-<%@ include file="../../common/header.jsp" %>
+<%@ include file="../common/header.jsp" %>
 <div class="container-fluid mt-4">
 	<div class="row">
 		<div class="col-md-2 sidebar">
 			<!---------------------------------- 사이드 바 영역  ----------------------------------------->
-			<%@ include file="../../common/sidebar.jsp" %>
+			<%@ include file="../common/sidebar.jsp" %>
 		</div>
 		<div class="col-md-10 ps-4 pt-5">
 			<!--------------------------------- Content 영역 ------------------------------------------->
@@ -33,7 +33,7 @@
 			<div class="row">
 				<div class="col-4">
 					<div class="profile">
-						<img src="../../../resources/images/${employee.photo }" class="rounded-circle" alt="직원 프로필 사진" style="width:100%">
+						<img src="/resources/images/${employee.photo }" class="rounded-circle" alt="직원 프로필 사진" style="width:100%">
 					</div>
 				</div>
 				
@@ -94,7 +94,7 @@
 					</table>
 					
 					<div class="text-end">
-						<a href="modify?empId=${employee.id }" class="btn btn-primary">수정</a>
+						<a href="modify" class="btn btn-primary">수정</a>
 					</div>
 				</div>
 			</div>

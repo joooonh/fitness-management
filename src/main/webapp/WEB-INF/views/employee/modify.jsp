@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
 <link rel="stylesheet" href="../../../resources/css/common.css">
-<link rel="stylesheet" href="../../../resources/css/employee.css">
+<link rel="stylesheet" href="../../../resources/css/content.css">
 <title>중앙피트니스</title>
 </head>
 <body>
@@ -29,18 +29,18 @@
 				</div>
 			</div>
 			
-			<form method="post" action="modify" id="updateEmployee" enctype="multipart/form-data">
+			<form:form method="post" modelAttribute="form" action="modify" id="modifyEmployee" enctype="multipart/form-data">
 				<div class="row">
 					<div class="col-4">
 						<div class="profile">
-							<img src="../../../resources/images/${employee.photo }" id="img-profile" class="rounded-circle" alt="직원 프로필 사진">
+							<img src="../../../resources/images/${form.photo }" id="img-profile" class="rounded-circle" alt="직원 프로필 사진">
 							<label for="file-profile" class="form-label"><i class="bi bi-camera-fill"></i></label>
 							<input class="form-control" type="file" id="file-profile" name="upfile">
 						</div>
 					</div>
 					
 					<div class="col-8">
-							<input type="hidden" name="fitnessNo" value="${employee.fitnessNo }" />
+							<input type="hidden" name="fitnessNo" value="${form.fitnessNo }" />
 							<table class="table table-bordered">
 								<colgroup>
 									<col width="25%">
@@ -48,80 +48,90 @@
 								</colgroup>
 								 <tr>
 								 	<th class="table-secondary">이름</th>
-								 	<td><input type="text" class="form-control form-control-sm" name="name" value="${employee.name }"></td>
+								 	<td>
+								 		<form:input path="name" class="form-control form-control-sm" />
+										<form:errors path="name" cssClass="text-danger" />
+								 	</td>
 								 </tr>
 								 <tr>
 								 	<th class="table-secondary">아이디</th>
-								 	<td><input type="text" class="form-control form-control-sm" name="id" value="${employee.id }" readonly></td>
+								 	<td>
+								 		<form:input path="id" class="form-control form-control-sm" readonly="true" />
+								 		<form:errors path="id" cssClass="text-danger" />
+								 	</td>
 								 </tr>
 								 <tr>
 								 	<th class="table-secondary">비밀번호</th>
-								 	<td><input type="password" class="form-control form-control-sm" name="passwrod"></td>
+								 	<td>
+								 		<form:password path="password" class="form-control form-control-sm" />
+								 		<form:errors path="password" cssClass="text-danger" />
+								 		<span id="passwordCheck" class="text-danger"></span>
+								 	</td>
 								 </tr>
 								 <tr>
 								 	<th class="table-secondary">비밀번호 확인</th>
-								 	<td><input type="password" class="form-control form-control-sm" name="passwordConfirm"></td>
+								 	<td>
+								 		<form:password path="passwordConfirm" class="form-control form-control-sm" />
+								 		<form:errors path="passwordConfirm" cssClass="text-danger" />
+								 		<span id="passwordConfirmCheck" class="text-danger"></span>
+								 	</td>
 								 </tr>
 								 <tr>
 								 	<th class="table-secondary">전화번호</th>
-								 	<td><input type="text" class="form-control form-control-sm" name="tel" value="${employee.tel }"></td>
+								 	<td>
+								 		<form:input path="tel" class="form-control form-control-sm" />
+								 		<form:errors path="tel" cssClass="text-danger" />
+								 	</td>
 								 </tr>
 								 <tr>
 								 	<th class="table-secondary">이메일</th>
-								 	<td><input type="text" class="form-control form-control-sm" name="email" value="${employee.email }" readonly></td>
+								 	<td>
+								 		<form:input path="email" class="form-control form-control-sm" readonly="true" />
+								 		<form:errors path="email" cssClass="text-danger" />
+							 		</td>
 								 </tr>
 								 <tr>
 								 	<th class="form-label table-secondary">우편번호</th>
 								    <td class="d-flex justify-content-start">
-								      <input type="text" class="form-control w-25 me-3" name="zipcode" value="${employee.zipcode }" readonly="readonly"/>
-								      <button type="button" class="btn btn-outline-secondary btn-sm" id="btn-search-zipcode">우편번호검색</button>
+										<form:input path="zipcode" class="form-control w-25 me-3" readonly="true" />
+										<form:errors path="zipcode" cssClass="text-danger" />
+										<button type="button" class="btn btn-outline-secondary btn-sm" id="btn-search-zipcode">우편번호검색</button>
 								    </td>
 								 </tr>
 								 <tr>
 								 	<th class="table-secondary">주소</th>
 								 	<td>
-								 		<input type="text" class="form-control form-control-sm" name="basicAddress" value="${employee.basicAddress }">
+								 		<form:input path="basicAddress" class="form-control form-control-sm" />
+										<form:errors path="basicAddress" cssClass="text-danger" />
 								 	</td>
 								 </tr>
 								 <tr>
 								 	<th class="table-secondary">상세주소</th>
-								 	<td><input type="text" class="form-control form-control-sm" name="detailAddress" value="${employee.detailAddress }"></td>
+								 	<td>
+								 		<form:input path="detailAddress" class="form-control form-control-sm" />
+										<form:errors path="detailAddress" cssClass="text-danger" />
+								 	</td>
 								 </tr>
-								 <tr>
-								 	<th class="table-secondary">등록일</th>
-								 	<td><input type="text" class="form-control form-control-sm" value="<fmt:formatDate value="${employee.createdDate }" pattern="yyyy-MM-dd"/>"></td>
-								 </tr>
+								
 								 <tr>
 								 	<th class="table-secondary">재직상태</th>
 								 	<td>
-								 		<select class="form-select" name="status">
-								 			<option value="재직" ${employee.status eq '재직' ? 'selected' : '' }>재직</option>
-								 			<option value="퇴사" ${employee.status eq '퇴사' ? 'selected' : '' }>퇴사</option>
-								 			<option value="휴직" ${employee.status eq '휴직' ? 'selected' : '' }>휴직</option>
-								 		</select>
+								 		<form:select path="status" class="form-select">
+								 			<form:option value="재직" />
+								 			<form:option value="퇴사" />
+								 			<form:option value="휴직" />
+								 		</form:select>
 								 	</td>
-								 </tr>
-								 <tr>
-								 	<th class="table-secondary">권한</th>
-								 	<td>
-								 		<c:forEach var="role" items="${employee.employeeRole }">
-								 			<c:choose>
-								 				<c:when test="${role.roleName eq 'ROLE_ADMIN' }"><span class="badge text-bg-primary py-1">관리자</span> </c:when>
-						 				<c:when test="${role.roleName eq 'ROLE_EMP' }"><span class="badge text-bg-success py-1">강사</span> </c:when>
-						 				<c:when test="${role.roleName eq 'ROLE_USER' }"><span class="badge text-bg-warning py-1">유저</span> </c:when>
-								 			</c:choose>
-								 		</c:forEach>
-							 		</td>
 								 </tr>
 							</table>
 							
 							<div class="text-end">
-								<a href="mypage?empId=${employee.id }" class="btn btn-secondary">취소</a>
-								<button type="submit" class="btn btn-primary">저장</a>
+								<a href="mypage?empId=${form.id }" class="btn btn-secondary">취소</a>
+								<button type="button" id="btn-save-employee" class="btn btn-primary">저장</a>
 							</div>
 					</div>
 				</div>
-			</form>
+			</form:form>
 		</div>
 	</div>
 </div>
@@ -164,6 +174,42 @@ $(function() {
 		reader.onload = function() {
 			imgProfile.src = reader.result;
 		}
+	});
+	
+	// 직원 정보 유효성 검사
+	$("#btn-save-employee").click(function() {		
+		let password = $("#password").val();
+		let passwordConfirm = $("#passwordConfirm").val();
+		
+		// 비밀번호를 변경하지 않을 경우 비밀번호 제외하고 서버로 제출
+		if (password == 0) {
+			$("#modifyEmployee").submit();
+			
+			return true;
+		}
+		
+		// 비밀번호 유효성 체크
+		let check = RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,20}$/);
+		if (!check.test(password)) {
+			$("#passwordCheck").text("* 비밀번호는 8~20자의 영문 대소문자와 숫자,특수문자를 각각 1개 이상 입력하세요.");
+			$("#password").val("");
+			$("#passwordConfirm").val("");
+			$("#password").focus();
+			
+			return false;
+		};
+		
+		// 비밀번호 일치 확인
+		if (password != passwordConfirm) {
+			$("#passwordCheck").text("* 비밀번호와 비밀번호 확인이 서로 다릅니다.");
+			$("#password").val("");
+			$("#passwordConfirm").val("");
+			$("#password").focus();
+			
+			return false;
+		}
+		
+		$("#modifyEmployee").submit();
 	});
 	
 })

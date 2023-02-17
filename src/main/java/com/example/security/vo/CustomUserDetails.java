@@ -1,4 +1,4 @@
-package com.example.security;
+package com.example.security.vo;
 
 import java.util.Collection;
 
@@ -9,13 +9,18 @@ public class CustomUserDetails extends LoginUser implements UserDetails{
 
 	private static final long serialVersionUID = -692518506074118282L;
 	
-	private Collection<? extends GrantedAuthority> authorities;
+	// db에서 조회한 비밀번호
+	private final String encryptPassword;
+	private final Collection<? extends GrantedAuthority> authorities;
 	
+	// 로그인한 id로 사용자/직원 정보를 조회해서 UserDetails 객체에 로그인한 사용자의 아이디, 비밀번호, 이름, 권한정보를 저장
 	public CustomUserDetails(String id, String encryptPassword, String name, Collection<? extends GrantedAuthority> authorities) {
-		super(id, encryptPassword, name);
+		setId(id);
+		setName(name);
+		this.encryptPassword = encryptPassword;
 		this.authorities = authorities;
 	}
-	
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return authorities;
@@ -23,7 +28,7 @@ public class CustomUserDetails extends LoginUser implements UserDetails{
 
 	@Override
 	public String getPassword() {
-		return getEncryptPassword();
+		return encryptPassword;
 	}
 
 	@Override

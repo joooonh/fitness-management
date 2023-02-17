@@ -8,10 +8,10 @@
 		</selectKey>
 		insert into users
 			(user_no, user_id, user_password, user_name, user_gender, user_birthday, user_email, 
-			 user_zipcode, user_basic_address, user_detail_address, user_tel)
+			 user_photo, user_zipcode, user_basic_address, user_detail_address, user_tel)
 		values
 			(#{no}, #{id}, #{encryptPassword}, #{name}, #{gender}, #{birth}, #{email},
-			 #{zipcode}, #{basicAddr}, #{detailAddr}, #{tel})
+			 #{photo}, #{zipcode}, #{basicAddr}, #{detailAddr}, #{tel})
 	</insert>
 	
 	<!--회원 출석등록 -->
@@ -29,6 +29,82 @@
 			(user_class_attendance_seq.nextval ,#{userNo}, #{programNo}, #{classAttDate})
 	</insert>
 	
+	<update id="updateUser" parameterType="User">
+		update 
+			users
+		set
+			user_password = #{encryptPassword},
+			user_name = #{name},
+			user_gender = #{gender},
+			user_birthday = #{birth},
+			user_email = #{email},
+			user_photo = #{photo},
+			user_zipcode = #{zipcode},
+			user_basic_address = #{basicAddr},
+			user_detail_address = #{detailAddr},
+			user_tel = #{tel},
+			user_deleted = #{deleted},
+			user_updated_date = sysdate
+		where
+			user_id = #{id}
+		
+	</update>
+	
+	<select id="getTotalRows" resultType="int">
+		select
+			count(*)
+		from
+			users
+		where
+			user_deleted = 'N'
+	</select>
+	
+	<select id="getAllUsers" resultType="User">
+		select
+			user_no 				as no, 
+			user_id 				as id,
+			user_password 			as encryptPassword,
+			user_name 				as name,
+			user_gender 			as gender,
+			user_birthday			as birth,
+			user_email				as email,
+			user_photo				as photo,
+			user_zipcode			as zipcode,
+			user_basic_address		as basicAddr,
+			user_detail_address		as detailAddr,
+			user_tel				as tel,
+			user_deleted			as deleted,
+			user_created_date		as createdDate,
+			user_updated_date		as updatedDate
+		from
+			users
+		where
+			user_deleted = 'N'
+	</select>
+	
+	<select id="getUserById" parameterType="string" resultType="User">
+		select
+			user_no 				as no, 
+			user_id 				as id,
+			user_password 			as encryptPassword,
+			user_name 				as name,
+			user_gender 			as gender,
+			user_birthday			as birth,
+			user_email				as email,
+			user_photo				as photo,
+			user_zipcode			as zipcode,
+			user_basic_address		as basicAddr,
+			user_detail_address		as detailAddr,
+			user_tel				as tel,
+			user_deleted			as deleted,
+			user_created_date		as createdDate,
+			user_updated_date		as updatedDate
+		from
+			users
+		where
+			user_id = #{value}
+			and user_deleted = 'N'
+	</select>
 	
 	<select id="getUserByEmail" parameterType="string" resultType="User">
 		select
@@ -51,6 +127,7 @@
 			users
 		where
 			user_email = #{value}
+			and user_deleted = 'N'
 	</select>
 	
 	<!-- 프로그램 요일과 프로그램명 조회 -->
