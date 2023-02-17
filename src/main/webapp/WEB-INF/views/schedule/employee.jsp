@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -6,22 +7,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
-<link rel="stylesheet" href="../resources/css/common.css">
+<link rel="stylesheet" href="../../resources/css/common.css">
 <style>
 	#title {
 	border-bottom: solid 3px grey;
 	}
-	#search {
-	padding-left: 1em;
+	input {
+	background-color: #dc143c;
+	color: white;
+	border: 0;
 	}
-	.table {
-	text-align: center;
+	#title a {
+  	text-decoration: none; /* 링크의 밑줄 제거 */
+  	color: inherit; /* 링크의 색상 제거 */
 	}
 </style>
 <title>중앙피트니스</title>
 </head>
 <body>
-<c:set var="menu" value="employeeschedule">
+<c:set var="menu" value="employeeschedule"/>
 <!------------------------------------ 헤더 navbar 영역 ---------------------------------------->
 <%@ include file="../common/header.jsp" %>
 <div class="container-fluid mt-4">
@@ -29,48 +33,26 @@
 		<div class="col-md-2 sidebar">
 			<!---------------------------------- 사이드 바 영역  ----------------------------------------->
 			<%@ include file="../common/sidebar.jsp" %>
-		</div>
+		</div> 
 		<div class="col-md-10 ps-4 pt-5">
 			<!--------------------------------- Content 영역 ------------------------------------------->
-   	   	<div id="title">
-				<p class="fs-2"><i class="bi bi-calendar3"></i> 강사일정관리</p>
-		</div>
-			<p>
-			<div class="btn-group">
-					  <button type="button" class="btn btn-sm dropdown-toggle border border-dark" data-bs-toggle="dropdown" aria-expanded="false">강사명</button>
-					  <ul class="dropdown-menu">
-					    <li><a class="dropdown-item">문지훈</a></li>
-					    <li><a class="dropdown-item">이순신</a></li>
-					    <li><a class="dropdown-item">레이나</a></li>
-					    <li><a class="dropdown-item">류관순</a></li>
-					    <li><hr class="dropdown-divider"></li>
-					    <li><a class="dropdown-item" href="#">Separated link</a></li>
-					  </ul>
-			 <div id='search'>
-			 	<button type="button" class="btn btn-danger btn-sm">검색</button>
-			 </div>
+	   	   	<div id="title">
+					<p class="fs-2"><i class="bi bi-calendar3"></i><a href="employee"> 강사일정관리</a></p>
+			</div>
+				<p>
+			<div>
+		        <form method="get" action="employeesearch">
+			        <select name="empId">
+			        		<option selected disabled>강사명</option>
+			        		<c:forEach var="employee" items="${employees }">
+			               		<option value="${employee.id }">${employee.name }</option>
+			        		</c:forEach>
+			        </select>
+		       	 <input type="submit" value="검색" />
+		    	</form>
 			</div>
 			</p>
-			<p>
- 		<div class="table" class="col-6">
-			<table class="table table-bordered">
-				<colgroup>
-					<col width="5%">
-					<col width="15%">
-					<col width="5%">
-					<col width="15%">
-				</colgroup>
-				<tbody>
-					<tr>
-						<th>강사명</th>
-						<td></td>
-						<th>프로그램명</th>
-						<td></td>
-					</tr>
-				</tbody>
-			</table>
-	</div>
-		</p>
+			<!-- calendar API 추가 -->
 			 <div class="calendar">
 				 <%@ include file="calendar.jsp" %> 
 			 </div>

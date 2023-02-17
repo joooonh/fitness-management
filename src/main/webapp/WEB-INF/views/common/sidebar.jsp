@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <ul class="navbar-nav flex-column mt-4" id="open-submenu">
 	<li class="nav-item mb-2">
 		<a href="../admin/member" class="nav-link text-white p-3 mb-2 sidebar-link">
@@ -56,12 +57,12 @@
 		</ul>
 	</li>
 	<li class="nav-item mb-2">
-		<a href="/schedule/employee" class="nav-link text-white p-3 mb-2 sidebar-link">
+		<a href="/emp/schedule/employee" class="nav-link text-white p-3 mb-2 sidebar-link">
 			<i class="bi bi-calendar3"></i> 일정관리
 		</a>
 		<ul class="submenu  mb-2">
-			<a href="/schedule/employee" class="nav-link text-white ${menu eq 'employee' ? 'active' : '' }">강사일정관리</a>
-			<a href="/schedule/program" class="nav-link text-white ${menu eq 'program' ? 'active' : '' }">프로그램일정관리</a>
+			<a href="/emp/schedule/employee" class="nav-link text-white ${menu eq 'employee' ? 'active' : '' }">강사일정관리</a>
+			<a href="/emp/schedule/program" class="nav-link text-white ${menu eq 'program' ? 'active' : '' }">프로그램일정관리</a>
 		</ul>
 	</li>
 	<li class="nav-item mb-2">
