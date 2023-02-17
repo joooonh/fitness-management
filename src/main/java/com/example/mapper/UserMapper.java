@@ -5,9 +5,13 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+
 import com.example.dto.ProgramDetailDto;
 import com.example.dto.UserListAttDto;
 import com.example.vo.FitnessProgram;
+
+import com.example.dto.UserListAttDto;
+
 import com.example.vo.FitnessProgramCategory;
 import com.example.vo.User;
 import com.example.vo.UserAttendance;
@@ -18,6 +22,7 @@ public interface UserMapper {
 
 	User getUserById(String userId);
 	User getUserByEmail(String email);
+
 	
 	
 	int getTotalRows(Map<String,Object>param);
@@ -45,4 +50,9 @@ public interface UserMapper {
 	
 	
 	
+
+	int getTotalRows();
+	List<UserListAttDto> getUserList(Map<String,Object>param);
+	List<FitnessProgramCategory> getPrograms();
+
 }
