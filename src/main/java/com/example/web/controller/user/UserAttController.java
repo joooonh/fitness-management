@@ -33,7 +33,7 @@ public class UserAttController {
 	
 
 	
-	@GetMapping("/userList")
+	@GetMapping("/emp/userAttList")
 	public String userList(@RequestParam(name = "page" , required = false , defaultValue ="1") int page, 
 			@RequestParam(name = "opt", required = false, defaultValue = "") String opt, 
 			@RequestParam(name = "keyword", required = false, defaultValue = "") String keyword,
@@ -48,12 +48,13 @@ public class UserAttController {
 	}
 	
 	// 회원출석등록
-	@PostMapping("/userAttRegister")
+	@PostMapping("/emp/userAttList")
 	public String insertUserAtt(UserAttRegisterForm form) throws IOException {
 		userService.insertUserAtt(form);
 		
-		return "redirect:userList";
+		return "redirect:/emp/userAttList";
 	}
+	
 	// 프로그램출석등록
 	@PostMapping("/classAttRegister")
 	public String insertUserClassAtt(UserClassAttRegisterForm form) throws IOException {
@@ -72,12 +73,12 @@ public class UserAttController {
 	
 	
 	
-	@GetMapping("/userDay")
+	@GetMapping("/emp/userDay")
 	public String userDay() {
 		return "attendance/user-day";
 	}
 	
-	@GetMapping("/userCalendar")
+	@GetMapping("/emp/userCalendar")
 	public String userCalendar() {
 		return "attendance/user-calendar";
 	}

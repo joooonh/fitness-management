@@ -8,8 +8,8 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
-<link rel="stylesheet" href="resources/css/attendance-user-list.css">
-<link rel="stylesheet" href="resources/css/common.css">
+<link rel="stylesheet" href="../resources/css/attendance-user-list.css">
+<link rel="stylesheet" href="../resources/css/common.css">
 <title>중앙피트니스</title>
 </head>
 <body>
@@ -38,13 +38,12 @@
 
 
 				<div class="row mb-3">
-					<div class="col-12">
-						<a class="btn btn-secondary" href="userList"> <i class="bi bi-list-columns-reverse"></i> 출석리스트 </a></button>
-						<a class="btn btn-secondary" href="userDay"><i class="bi bi-calendar3"></i>일별출석리스트</a> 
-						<a class="btn btn-secondary" href="userCalendar"><i class="bi bi-calendar-week"></i>출석달력</a>
+						<div class="col-12">
+							<a class="btn btn-secondary" href="/emp/userAttList"> <i class="bi bi-list-columns-reverse"></i> 출석리스트 </a></button>
+							<a class="btn btn-secondary" href="/emp/userDay"><i class="bi bi-calendar3"></i>일별출석리스트</a> 
+							<a class="btn btn-secondary" href="/emp/userCalendar"><i class="bi bi-calendar-week"></i>출석달력</a>
+						</div>
 					</div>
-				</div>
-
 				
 				<div class="row mb-2">
 					<div class="col">
@@ -59,7 +58,7 @@
 						</div>
 					</div>
 					<div class="col-5">
-						<form action="userList" method="get">
+						<form action="/emp/userAttList" method="get">
 							<select class="form-select form-select-sm d-inline-block border-secondary" name="programInfo" style="width: 130px;">
 										
 								<option value="none" selected disabled>= 프로그램 =</option>
@@ -255,7 +254,7 @@
  <!-------회원출석등록 모달창 ----------------------------------------------------------------------------------------- -->
   <div class="modal" tabindex="-1" id="modal-form-att">
   	<div class="modal-dialog">
-  		<form id="att-check" class="border p-3 bg-light" method="post" action="userAttRegister">
+  		<form id="att-check" class="border p-3 bg-light" method="post" action="/emp/userAttList">
   			<div class="modal-content">
   				<div class="modal-header">
   					<h5 class="modal-title">회원출석등록</h5>
@@ -303,7 +302,7 @@
 				</div>
 				<div class="modal-footer">
 					<button type="submit" class="">등록</button>
-					<a href="user-list?userNo=">취소</a>
+					<%--<a href="user-list?userNo=">취소</a> --%>
 				</div>
   			</div>
   		</form>
