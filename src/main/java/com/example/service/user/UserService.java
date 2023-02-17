@@ -53,9 +53,6 @@ public class UserService {
 	@Autowired
 	UserMapper userMapper;
 	@Autowired
-
-	UserRoleMapper userRoleMapper;
-
 	private UserRoleMapper userRoleMapper;
 
 	@Autowired
@@ -142,10 +139,6 @@ public class UserService {
 	}
 	
 	
-	public List<FitnessProgramCategory> getPrograms() {
-		
-		return userMapper.getPrograms();
-	}
 	
 
 	
