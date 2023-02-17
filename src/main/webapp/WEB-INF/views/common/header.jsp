@@ -11,8 +11,14 @@
 				<div class="col-md-12 top-navbar ms-auto fixed-top py-2">
 					<div class="row ">
 						<div class="col-md-2 mt-2">
+
 							<a href="/" class="navbar-brand" >
 								<img src="/resources/images/logo.svg" alt="Logo" width="40" height="27" class="d-inline-block align-text-top me-2 img-logo">중앙피트니스
+
+							<a href="/user/home" class="navbar-brand" >
+								<img src="../../../resources/images/logo.svg" alt="Logo" width="40" height="27" class="d-inline-block align-text-top me-2 img-logo">중앙피트니스
+
+
 							</a>
 						</div>
 						<div class="col-md-10">
