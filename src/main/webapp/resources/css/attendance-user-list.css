@@ -1,0 +1,44 @@
+@charset "UTF-8";
+
+#personnel {
+	background-color: #353535;
+	border-radius: 10px;
+}
+
+.perssonnel-number {
+	color: white;
+	top: 2px;
+}
+
+table {
+    width: 100%;
+    border-top: 1px solid #444444;
+    border-collapse: collapse;
+    border-color: #E0E0E0;
+    border-radius: 10px;
+  }
+th, td {
+  	border-color: none;
+   /*  border-bottom: 1px solid #444444; */
+    padding: 10px;
+  }
+th {
+	background-color: #757575;
+	color: white;
+}
+
+tbody tr:nth-child(2n) {
+    background-color: #E0E0E0;
+  }
+  
+tbody tr:nth-child(2n+1) {
+    background-color:  #EEEEEE;
+  }
+.memberH {
+	color: #424242;
+	font-size: 20px;
+}
+/*
+#E0E0E0
+ #EEEEEE
+  */
