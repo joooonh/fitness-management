@@ -323,35 +323,46 @@ $(function(){
 				
 				// 회원권 조회
 				$("#tbody-membership").empty(); 
-				let membership = ""; 	// 이건 왜 안되지?
-				
-				for(let index in membershipList){
+				let membership = ""; 	
+				if(membershipList.length > 0) {
+					for(let index in membershipList){
+						membership += "<tr>";
+						membership += "	<td class='text-center'>" + membershipList[index].no + "</td>";
+						membership += "	<td class='text-center'>" + membershipList[index].period + " 개월" + "</td>";
+						membership += "	<td class='text-center'>" + membershipList[index].startDate + "</td>";
+						membership += "	<td class='text-center'>" + membershipList[index].endDate + "</td>";
+						membership += "	<td class='text-center'>" + membershipList[index].createdDate + "</td>";
+						membership += "	<td class='text-center'>" + membershipList[index].totalPaymentPrice + " 원 </td>";
+						membership += "	<td class='text-center'>" + membershipList[index].paymentCompletedDate + "</td>";
+						membership += "</tr>";
+					}
+				} else {
 					membership += "<tr>";
-					membership += "	<td class='text-center'>" + membershipList[index].no + "</td>";
-					membership += "	<td class='text-center'>" + membershipList[index].period + " 개월" + "</td>";
-					membership += "	<td class='text-center'>" + membershipList[index].startDate + "</td>";
-					membership += "	<td class='text-center'>" + membershipList[index].endDate + "</td>";
-					membership += "	<td class='text-center'>" + membershipList[index].createdDate + "</td>";
-					membership += "	<td class='text-center'>" + membershipList[index].totalPaymentPrice + " 원 </td>";
-					membership += "	<td class='text-center'>" + membershipList[index].paymentCompletedDate + "</td>";
+					membership += "	<td colspan='12' class='text-center'>회원권이 없습니다.</td>"
 					membership += "</tr>";
 				}
+				
 				$("#tbody-membership").append(membership);
 					
 				// 수업 조회
 				$("#tbody-class").empty();
 				let classReg = "";
-				
-				for(let index in classList){
+				if(classList.length > 0){
+					for(let index in classList){
+						classReg += "<tr>";
+						classReg += "	<td class='text-center'>" + classList[index].classRegNo + "</td>";
+						classReg += "	<td class='text-center'>" + classList[index].programCategoryName + "</td>";
+						classReg += "	<td class='text-center'>" + classList[index].programName + "</td>";
+						classReg += "	<td class='text-center'>" + classList[index].empName + "</td>";
+						classReg += "	<td class='text-center'>" + classList[index].openDays + "</td>";
+						classReg += "	<td class='text-center'>" + classList[index].startHour + " ~ " + classList[index].endHour + "</td>";
+						classReg += "	<td class='text-center'>" + classList[index].totalPaymentPrice + " 원 </td>";
+						classReg += "	<td class='text-center'>" + classList[index].paymentCompletedDate + "</td>";
+						classReg += "</tr>";
+					}
+				} else {
 					classReg += "<tr>";
-					classReg += "	<td class='text-center'>" + classList[index].classRegNo + "</td>";
-					classReg += "	<td class='text-center'>" + classList[index].programCategoryName + "</td>";
-					classReg += "	<td class='text-center'>" + classList[index].programName + "</td>";
-					classReg += "	<td class='text-center'>" + classList[index].empName + "</td>";
-					classReg += "	<td class='text-center'>" + classList[index].openDay + "</td>";
-					classReg += "	<td class='text-center'>" + classList[index].startHour + " ~ " + classList[index].endHour + "</td>";
-					classReg += "	<td class='text-center'>" + classList[index].totalPaymentPrice + " 원 </td>";
-					classReg += "	<td class='text-center'>" + classList[index].paymentCompletedDate + "</td>";
+					classReg += "	<td colspan='12' class='text-center'>수업신청 내역이 존재하지 않습니다.</td>"
 					classReg += "</tr>";
 				}
 				$("#tbody-class").append(classReg);
@@ -359,17 +370,21 @@ $(function(){
 				// 상담 조회 
 				$("#tbody-consulting").empty();
 				let consulting = "";
-				
-				for(let index in consultingList){
+				if(consultingList){
+					for(let index in consultingList){
+						consulting += "<tr>";
+						consulting += "	<td class='text-center'>" + consultingList[index].no + "</td>";
+						consulting += "	<td class='text-center'>" + consultingList[index].empName + "</td>";
+						consulting += "	<td class='text-center'>" + consultingList[index].programName + "</td>";
+						consulting += "	<td class='text-center'>" + consultingList[index].reservationDate + "</td>";
+						consulting += "	<td class='text-center'>" + consultingList[index].createdDate + "</td>";
+						consulting += "	<td class='text-center'>" + consultingList[index].status + "</td>";
+						consulting += "</tr>";
+					}
+				} else {
 					consulting += "<tr>";
-					consulting += "	<td class='text-center'>" + consultingList[index].no + "</td>";
-					consulting += "	<td class='text-center'>" + consultingList[index].empName + "</td>";
-					consulting += "	<td class='text-center'>" + consultingList[index].programName + "</td>";
-					consulting += "	<td class='text-center'>" + consultingList[index].reservationDate + "</td>";
-					consulting += "	<td class='text-center'>" + consultingList[index].createdDate + "</td>";
-					consulting += "	<td class='text-center'>" + consultingList[index].status + "</td>";
+					consulting += "	<td colspan='12' class='text-center'>상담내역이 존재하지 않습니다.</td>"
 					consulting += "</tr>";
-					
 				}
 				$("#tbody-consulting").append(consulting);
 			}
