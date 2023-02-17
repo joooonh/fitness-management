@@ -50,14 +50,7 @@
 		
 	</update>
 	
-	<select id="getTotalRows" resultType="int">
-		select
-			count(*)
-		from
-			users
-		where
-			user_deleted = 'N'
-	</select>
+
 	
 	<select id="getAllUsers" resultType="User">
 		select

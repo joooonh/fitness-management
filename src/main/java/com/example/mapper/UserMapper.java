@@ -23,8 +23,6 @@ public interface UserMapper {
 	User getUserById(String userId);
 	User getUserByEmail(String email);
 
-	
-	
 	int getTotalRows(Map<String,Object>param);
 	
 	// 출석조회
@@ -51,8 +49,5 @@ public interface UserMapper {
 	
 	
 
-	int getTotalRows();
-	List<UserListAttDto> getUserList(Map<String,Object>param);
-	List<FitnessProgramCategory> getPrograms();
 
 }
