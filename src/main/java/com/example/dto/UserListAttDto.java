@@ -3,6 +3,7 @@ package com.example.dto;
 import java.util.Date;
 
 import org.apache.ibatis.type.Alias;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Getter;
@@ -39,5 +40,8 @@ public class UserListAttDto {
 	
 	// 번호 조회
 	private String telInfo;
+	
+	
+
 	
 }
