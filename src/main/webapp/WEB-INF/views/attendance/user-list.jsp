@@ -172,7 +172,7 @@
  <!-------회원출석등록 모달창 ----------------------------------------------------------------------------------------- -->
   <div class="modal" tabindex="-1" id="modal-form-att">
   	<div class="modal-dialog">
-  		<form id="att-check" class="border p-3 bg-light" method="post" action="/emp/userAttList">
+  		<form id="att-check" class="border p-3 bg-light" method="post" action="/emp/userRegisterAtt">
   			<div class="modal-content">
   				<div class="modal-header">
   					<h5 class="modal-title">회원출석등록</h5>
