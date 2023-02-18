@@ -29,7 +29,7 @@
 		</ul>
 	</li>
 	<li class="nav-item mb-2">
-		<a href="userList" class="nav-link text-white p-3 mb-2 sidebar-link">
+		<a href="/emp/userAttList" class="nav-link text-white p-3 mb-2 sidebar-link">
 			<i class="bi bi-card-checklist"></i> 출석관리
 		</a>
 		<ul class="submenu  mb-2">
