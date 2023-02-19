@@ -17,6 +17,7 @@ import com.example.utils.Pagination;
 import com.example.vo.Employee;
 import com.example.vo.EmployeeRole;
 import com.example.web.request.EmployeeModifyForm;
+import com.example.web.request.EmployeeRegisterForm;
 
 
 @Service
@@ -102,5 +103,14 @@ public class EmployeeService {
 	// 재직중인 직원 정보
 	public List<Employee> getEmployeeByStatus() {
 		return employeeMapper.getEmployeeByStatus();
+	}
+
+	// 직원 등록
+	public void insertEmployee(EmployeeRegisterForm employeeRegisterForm) {
+		Employee employee = new Employee();
+		BeanUtils.copyProperties(employeeRegisterForm, employee);
+		
+		employeeMapper.insertEmployee(employee);
+		employeeRoleMapper.insertEmployeeRole(employeeRegisterForm.getId());
 	}
 }
