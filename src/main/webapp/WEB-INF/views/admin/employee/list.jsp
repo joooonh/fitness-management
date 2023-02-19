@@ -24,7 +24,7 @@
 			<!--------------------------------- Content 영역 ------------------------------------------->
 			<div class="row">
 				<div class="col-12">
-					<h1>직원 조회</h1>
+					<h1>직원 목록</h1>
 				</div>
 			</div>
 			
@@ -136,7 +136,7 @@
 		<div class="modal-dialog modal-fullscreen-lg-down modal-dialog-centered">
 			<div class="modal-content px-3">
 				<div class="modal-header">
-					<h1 class="modal-title fs-5">상세보기</h1>
+					<h1 class="modal-title fs-5">상세정보</h1>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
@@ -258,7 +258,7 @@ $(function() {
 			return false;
 		};
 		
-		location.href = "modify?empId=" + id;
+		location.href = "modify-form?empId=" + id;
 	});
 	
 	// 페이지 클릭 이벤트

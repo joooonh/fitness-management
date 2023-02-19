@@ -173,4 +173,11 @@
 		</where>
 	</select>
 
+	<!-- 직원 등록 -->
+	<insert id="insertEmployee" parameterType="Employee">
+		insert into employees
+			(employee_id, employee_name, employee_password, employee_email, employee_tel, employee_photo, employee_zipcode, employee_basic_address, employee_detail_address, fitness_no)
+		values
+			(#{id}, #{name}, #{password}, #{email}, #{tel}, #{photo}, #{zipcode}, #{basicAddress}, #{detailAddress}, fitness_clubs_seq.currval)
+	</insert>
 </mapper>
