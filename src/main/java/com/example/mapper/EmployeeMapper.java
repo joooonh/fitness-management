@@ -25,5 +25,6 @@ public interface EmployeeMapper {
 	List<Employee> getEmployeeByStatus();
 	// 직원이름으로 검색한 직원 정보
 	List<Employee> getSearchEmployees(String employeeName);
-
+	// 직원 등록
+	void insertEmployee(Employee employee);
 }
