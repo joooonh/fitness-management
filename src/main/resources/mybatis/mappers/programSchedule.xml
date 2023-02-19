@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.mapper.ProgramScheduleMapper">
+
+	<select id="getProgramByProgramName" parameterType="string" resultType="ProgramScheduleDto">
+		select
+			A.employee_id as id,
+			A.employee_name as employeeName,
+			B.program_name as programName
+		from
+			employees A, fitness_programs B
+		where
+			A.employee_id = B.employee_id
+			and B.program_name = #{value}
+	</select>
+
+	<select id="getAllPrograms" resultType="Program">
+			select
+				program_no as no,
+				program_name as name,
+				program_start_date as stardDate,
+				program_end_date as endDate,
+				program_start_hour as startHour,
+				program_end_hour as endHour,
+				program_quota as quota,
+				program_request_count as requestCount,
+				program_price as price,
+				program_status as status,
+				program_created_date as createdDate,
+				program_updated_date as updatedDate,
+				employee_id as employeeId,
+				fitness_program_category_no as fitnessProgramCategoryNo
+			from
+				fitness_programs
+			order by
+				program_no asc
+	</select>
+	
+</mapper>
