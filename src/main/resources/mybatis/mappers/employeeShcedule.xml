@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.mapper.EmployeeScheduleMapper">
+
+	<select id="getEmployeeById" parameterType="string" resultType="Employee">
+		select
+			employee_id as id,
+			employee_name as name,
+			employee_tel as tel
+		from
+			employees
+		where
+			employee_id = #{value}
+	</select>
+
+	<select id="getAllEmployees" resultType="Employee">
+		select
+			employee_id as id,
+			employee_name as name,
+			employee_tel as tel
+		from
+			employees
+		order by
+			employee_name asc
+	</select>
+
+</mapper>
