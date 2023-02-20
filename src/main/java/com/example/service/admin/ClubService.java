@@ -3,6 +3,7 @@ package com.example.service.admin;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.exception.ApplicationException;
 import com.example.mapper.ClubMapper;
@@ -10,6 +11,7 @@ import com.example.vo.Club;
 import com.example.web.request.ClubModifyForm;
 
 @Service
+@Transactional
 public class ClubService {
 	
 	@Autowired

@@ -11,12 +11,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.dto.EmployeeDetail;
+import com.example.exception.ApplicationException;
 import com.example.mapper.EmployeeMapper;
 import com.example.mapper.EmployeeRoleMapper;
 import com.example.utils.Pagination;
 import com.example.vo.Employee;
 import com.example.vo.EmployeeRole;
 import com.example.web.request.EmployeeModifyForm;
+import com.example.web.request.EmployeeRegisterForm;
 
 
 @Service
@@ -102,5 +104,39 @@ public class EmployeeService {
 	// 재직중인 직원 정보
 	public List<Employee> getEmployeeByStatus() {
 		return employeeMapper.getEmployeeByStatus();
+	}
+
+	// 직원 등록
+	public void insertEmployee(EmployeeRegisterForm employeeRegisterForm) {
+		// 입력받은 아이디로 직원 정보를 조회
+		Employee existEmp = employeeMapper.getEmployeeById(employeeRegisterForm.getId());
+		// 아이디로 조회한 직원 정보가 있으면 예외를 던진다.
+		if (existEmp != null) {
+			throw new ApplicationException("이미 존재하는 아이디 입니다.");
+		}
+		// 입력받은 이메일로 직원 정보를 조회
+		existEmp = employeeMapper.getEmployeeByEmail(employeeRegisterForm.getEmail());
+		// 이메일로 조회한 직원 정보가 있으면 예외를 던진다.
+		if (existEmp != null) {
+			throw new ApplicationException("이미 존재하는 이메일 입니다.");
+		}
+		
+		Employee employee = new Employee();
+		BeanUtils.copyProperties(employeeRegisterForm, employee);
+		// 비밀번호 암호화
+		employee.setPassword(passwordEncoder.encode(employeeRegisterForm.getPassword()));
+		
+		// 직원 정보를 등록한다.
+		employeeMapper.insertEmployee(employee);
+		// 직원 권한을 등록한다.
+		employeeRoleMapper.insertEmployeeRole(employeeRegisterForm.getId());
+	}
+
+	// 직원 삭제
+	public void deleteEmployee(String empId) {
+		String[] employeeIdList = empId.split(",");
+		for(String employeeId : employeeIdList) {
+			employeeMapper.deleteEmployee(employeeId);
+		}
 	}
 }
