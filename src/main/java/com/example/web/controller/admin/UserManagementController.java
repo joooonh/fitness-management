@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.dto.ClassRegHistoryDto;
 import com.example.service.admin.UserManagementService;
 import com.example.service.user.UserService;
 import com.example.vo.MembershipHistory;
@@ -28,20 +29,11 @@ public class UserManagementController {
 
 	// 회원 목록 조회
 	@GetMapping("/userList")
-	public String getUserList(Model model,
-			@RequestParam(name = "page", required = false, defaultValue = "1") int page,
-			@RequestParam(name = "programNo", required = false, defaultValue = "0") int programNo,
-			@RequestParam(name = "keyword", required = false, defaultValue = "") String keyword) {
+	public String getUserList(Model model) {
 		
-		Map<String, Object> map = userManagementService.getUserList(page, programNo, keyword);
-		// 전체 프로그램 목록 (검색용)
-		model.addAttribute("programList", map.get("programList"));
-		// 회원목록 
+		Map<String, Object> map = userManagementService.getUserList();
 		model.addAttribute("userList", map.get("userList"));
-		// 전체 행
 		model.addAttribute("totalRows", map.get("totalRows"));
-		// 페이징처리
-		model.addAttribute("pagination", map.get("pagination"));
 		
 		return "management/user-management";
 	}

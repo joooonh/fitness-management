@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.dto.ProgramDetailDto;
-import com.example.service.user.UserService;
+import com.example.service.admin.UserAttService;
 import com.example.vo.FitnessProgramCategory;
 import com.example.web.request.UserAttRegisterForm;
 import com.example.web.request.UserClassAttRegisterForm;
@@ -22,23 +22,24 @@ import com.example.web.request.UserClassAttRegisterForm;
 public class UserAttController {
 
 	@Autowired
-	private UserService userService;
+	private UserAttService userAttService;
 	
 	
 	@ModelAttribute("FitnessProgramCategories")
 	public List<FitnessProgramCategory> FitnessProgramCategories(Model model) {
 		
-		return userService.getPrograms();
+		return userAttService.getPrograms();
 	}
 	
+
 	@GetMapping("/emp/userAttList")
-	public String userList(@RequestParam(name = "page" , required = false , defaultValue ="1") int page, 
+	public String userAttList(@RequestParam(name = "page" , required = false , defaultValue ="1") int page, 
 			@RequestParam(name = "opt", required = false, defaultValue = "") String opt, 
 			@RequestParam(name = "keyword", required = false, defaultValue = "") String keyword,
 			@RequestParam(name = "programInfo" , required = false, defaultValue = "")String programInfo, Model model) {
 
 		
-		Map<String,Object> result = userService.getUserList(page, opt ,keyword, programInfo);
+		Map<String,Object> result = userAttService.getUserList(page, opt ,keyword, programInfo);
 		model.addAttribute("userAtts", result.get("userAtts"));
 		model.addAttribute("pagination", result.get("pagination"));
 		
@@ -46,9 +47,9 @@ public class UserAttController {
 	}
 	
 	// 회원출석등록
-	@PostMapping("/emp/userAttList")
+	@PostMapping("/emp/userRegisterAtt")
 	public String insertUserAtt(UserAttRegisterForm form) throws IOException {
-		userService.insertUserAtt(form);
+		userAttService.insertUserAtt(form);
 		
 		return "redirect:/emp/userAttList";
 	}
@@ -57,17 +58,19 @@ public class UserAttController {
 	@PostMapping("/classAttRegister")
 	public String insertUserClassAtt(UserClassAttRegisterForm form) throws IOException {
 	
-		userService.insertUserClassAtt(form);
+		userAttService.insertUserClassAtt(form);
 		
 		return "redirect:userList";
 	}
 	
 	// 프로그램 요일 조회
 	public ProgramDetailDto programDays(@RequestParam("programNo") String programNo) {
-		ProgramDetailDto dto = userService.getProgramDay(programNo);
+		ProgramDetailDto dto = userAttService.getProgramDay(programNo);
 		
 		return dto;
 	}
+	
+	
 	
 	@GetMapping("/emp/userDay")
 	public String userDay() {

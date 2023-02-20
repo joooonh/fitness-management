@@ -24,7 +24,7 @@
 			<!--------------------------------- Content 영역 ------------------------------------------->
 			<div class="row">
 				<div class="col-12">
-					<h1>직원 조회</h1>
+					<h1>직원 목록</h1>
 				</div>
 			</div>
 			
@@ -136,7 +136,7 @@
 		<div class="modal-dialog modal-fullscreen-lg-down modal-dialog-centered">
 			<div class="modal-content px-3">
 				<div class="modal-header">
-					<h1 class="modal-title fs-5">상세보기</h1>
+					<h1 class="modal-title fs-5">상세정보</h1>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
@@ -216,8 +216,6 @@ $(function() {
 
 		// 체크된 직원 인원 조회
 		let checkedLength = $("input[name='id']:checked").length;
-		// 클릭한 직원의 재직여부를 가져온다.
-		let status = $("input[name='id']:checked").closest("tr").children("td:last-child").text();
 		// 여러명 삭제할 직원의 아이디를 담을 배열을 생성		
 		let idList = [];
 		
@@ -226,17 +224,15 @@ $(function() {
 			return false;
 		};
 		
-		if (status != "퇴직") {
-			alert("퇴직한 직원만 삭제 가능합니다.");
-			return false;
-		}
-		
 		// 체크한 직원의 아이디를 배열에 담는다.
 		$("input[name='id']:checked").each(function() {
 			idList.push($(this).val());
 		});
 		
-		location.href = "delete?empId=" + idList;
+		// 삭제여부를 확인한다.
+		if (confirm("삭제한 직원은 복구가 안됩니다. 삭제하시겠습니까?")) {
+			location.href = "delete?empId=" + idList;
+		}
 	});
 	
 	// 직원 정보 수정 페이지 이동
@@ -252,13 +248,13 @@ $(function() {
 			alert("수정할 직원을 선택하세요.");
 			return false;
 		};
-		
+		// 수정할 직원은 한명만 선택하도록 한다.
 		if (checkedLength > 1) {
 			alert("수정할 직원은 한명만 선택가능합니다.");	
 			return false;
 		};
 		
-		location.href = "modify?empId=" + id;
+		location.href = "modify-form?empId=" + id;
 	});
 	
 	// 페이지 클릭 이벤트
