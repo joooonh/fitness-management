@@ -24,9 +24,8 @@
 			<!--------------------------------- Content 영역 ------------------------------------------->
 			<div class="row">
 				<div class="col-12">
-					<div class="alert alert-danger">
-						<h1 class="mb-4">샘플 애플리케이션 오류 페이지</h1>
-						<p class="fs-4">오류 내용 : 접근 권한이 없습니다.<p>
+					<div class="alert alert-danger text-center">
+						<h1 class="mb-4">해당 메뉴는 관리자만 접근 가능합니다.</h1>
 					</div>
 				</div>
 			</div>
