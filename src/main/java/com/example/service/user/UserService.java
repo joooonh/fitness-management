@@ -147,7 +147,6 @@ public class UserService {
 		return userMapper.getPrograms();
 	}
 	
-
 	
 	// 회원가입
 	public void registerUser(UserRegisterForm userRegisterForm) {
