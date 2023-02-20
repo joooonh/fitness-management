@@ -46,7 +46,6 @@
 	
 </style>
 </head>
-
 <body class="pt-5">
 <%@ include file="common/header.jsp" %>
 <div class="container border">
@@ -63,26 +62,5 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-
-<body>
-<!------------------------------------ 헤더 navbar 영역 ---------------------------------------->
-<%@ include file="common/header.jsp"%>
-	<div class="container-fluid mt-4">
-		<div class="row">
-			<div class="col-md-2 sidebar">
-				<!---------------------------------- 사이드 바 영역  ----------------------------------------->
-				<%@ include file="common/sidebar.jsp"%>
-			</div>
-			<div class="col-md-10 ps-4 pt-5">
-				<!--------------------------------- Content 영역 ------------------------------------------->
-				<p>개인화면구현</p>
-				<p>개인화면구현</p>
-				<p>개인화면구현</p>
-			</div>
-		</div>
-	</div>
-<script	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-
 </body>
 </html>
