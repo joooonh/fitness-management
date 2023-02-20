@@ -17,7 +17,6 @@ public interface UserAttMapper {
 	
 		// 출석조회
 		
-	
 		List<UserListAttDto> getUserList(Map<String,Object>param);
 		// 프로그램조회
 		List<FitnessProgramCategory> getPrograms();
@@ -33,5 +32,11 @@ public interface UserAttMapper {
 		void insertUserClassAtt(UserClassAttendance classAtt);
 		
 		int getTotalRows(Map<String,Object>param);
+
+		// 회원번호 조회
+		UserAttendance getUserAttByNo(int userNo);
+		
+		// userNo번 회원출석 삭제
+		void deleteUserAtt(int userNo);
 		
 }
