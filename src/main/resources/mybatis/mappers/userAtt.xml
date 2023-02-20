@@ -204,7 +204,7 @@
 			
 	</select>
 	
-	<!-- 로그램 조회 -->
+	<!-- 프로그램 조회 -->
 	<select id="getPrograms" parameterType="map" resultType="FitnessProgramCategory">
 		select
     		program_no as categoryNo,
@@ -213,4 +213,24 @@
    			 fitness_programs
 	</select>
 
+	<!--user_Attendances의 회원번호 조회 -->
+	<select id="getUserAttByNo" parameterType="int" resultType="UserAttendance">
+		select
+			user_no 				as userNo,
+			user_start_time 		as startTime,
+			user_attendance_no 		as attNo,
+			user_attendance_date	as userAttDate
+		from
+			user_attendances
+		where
+			user_no = #{value}
+	</select>
+	
+	<!-- 회원삭제 -->
+	<delete id="deleteUserAtt" parameterType="int">
+		delete from
+			user_attendances
+		where
+			user_no = #{value}
+	</delete>
 </mapper>
