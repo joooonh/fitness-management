@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.dto.ProgramDetailDto;
 import com.example.dto.UserListAttDto;
+import com.example.exception.ApplicationException;
 import com.example.mapper.UserAttMapper;
 import com.example.utils.Pagination;
 import com.example.vo.FitnessProgram;
@@ -85,5 +86,16 @@ public class UserAttService {
 		userAttMapper.insertUserClassAtt(classAtt);
 	}
 	
+	
+	// 출석글 삭제
+	public void deleteAtt(int userNo) {
+		
+		UserAttendance userAtt = userAttMapper.getUserAttByNo(userNo);
+		if(userAtt == null) {
+			throw new ApplicationException("["+userNo+"]번 회원은 없습니다.");
+		}
+		userAttMapper.deleteUserAtt(userNo);
+		
+	}
 	
 }
