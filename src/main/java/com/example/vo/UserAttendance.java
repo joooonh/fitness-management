@@ -12,8 +12,8 @@ import lombok.Setter;
 @Setter
 public class UserAttendance {
 	
-	private int attNo;
 	private int userNo;
 	private String startTime;
+	private int attNo;
 	private Date userAttDate;
 }
