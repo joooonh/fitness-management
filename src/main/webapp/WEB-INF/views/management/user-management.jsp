@@ -26,6 +26,18 @@
 		background-color: black;
 		color: white;
 	}
+	#btn-upload {
+		position: relative;
+		background-color: transparent;
+		border: none;
+		top: 30px;
+		left: -40px;
+	}
+	
+	#camera-img {
+		width: 40px;
+		heith: 40px;
+	}
 </style>
 </head>
 <body>
@@ -43,21 +55,27 @@
 				<!--------------------------- (좌) 회원 목록 ------------------------------>
 				<div class="col-5 border">
 					<div class="row mb-3">
-						<div class="col">
-							<input type="search" class="form-control" name="keyword" placeholder="회원명 검색">
-						</div>
-						<div class="col">
-							<select name="programName" class="form-select d-inline">
-								<option value="">프로그램명 선택</option>
-							</select>
-						</div>
-						<div class="col">
-							<button type="button" class="btn btn-xs btn-dark">검색</button>
-						</div>
+						<form id="search-form" class="row">
+							<input type="hidden" name="page" />
+							<div class="col">
+								<select name="programNo" class="form-select d-inline">
+									<option value="0">프로그램명 선택</option>
+									<c:forEach var="program" items="${programList }">
+										<option value="${program.no }" ${param.programNo eq program.no ? 'selected' : '' }>${program.name }</option>
+									</c:forEach>
+								</select>
+							</div>
+							<div class="col">
+								<input type="search" class="form-control" name="keyword" placeholder="검색어를 입력하세요." value="${param.keyword }">
+							</div>
+							<div class="col">
+								<button type="submit" class="btn btn-xs btn-dark">검색</button>
+							</div>
+						</form>
 					</div>
 					<div class="row mb-3">
 						<div class="col">
-							<button type="button" class="btn btn-xs btn-dark">등록</button>
+							<button type="button" class="btn btn-xs btn-dark" data-bs-toggle="modal" data-bs-target="#modal-registerUser">등록</button>
 							<button type="button" class="btn btn-xs btn-secondary">삭제</button>
 							<button type="button" class="btn btn-xs btn-success">sms 전송</button>
 						</div>
@@ -66,7 +84,7 @@
 							<a href="" class="text-decoration-none text-dark">이름순</a>
 						</div>
 					</div>
-					<table class="table table-sm border" id="table-member-list">
+					<table class="table table-sm table-hover border" id="table-member-list">
 						<colgroup>
 							<col width="5%">
 							<col width="*">
@@ -97,7 +115,7 @@
 								<c:otherwise>
 									<c:forEach var="user" items="${userList }">
 										<tr>
-											<td class="text-center"><input type="checkbox" /></td>
+											<td class="text-center"><input type="checkbox" name="userNo" value="${user.no }" /></td>
 											<td class="text-center">${user.no }</td>
 											<td class="text-center"><a href="" class="text-decoration-none text-dark" data-user-id="${user.id }" >${user.name }</a></td>
 											<td class="text-center">${user.gender }</td>
@@ -105,7 +123,9 @@
 											<td class="text-center">${user.tel }</td>
 											<td class="text-center">
 												<select name="programName" class="form-select form-select-sm">
-													<option value="">프로그램명</option>
+													<c:forEach var="prog" items="${user.programs }">
+													<option value="${prog.no }">${prog.name }</option>
+													</c:forEach>
 												</select>
 											</td>
 										</tr>
@@ -116,6 +136,25 @@
 					</table>
 					<div class="row">
 						<span><p>총 ${totalRows }명</p></span>
+					</div>
+					<div class="row">
+						<div class="col-12">
+							<nav aria-label="Page navigation example">
+								<ul class="pagination justify-content-center">
+									<li class="page-item ${pagination.first ? 'disabled' : '' }">
+										<a href="userList?page=${pagination.prevPage }" data-page-no="${pagination.prevPage }" class="page-link">이전</a>
+							    	</li>
+							    	<c:forEach var="number" begin="${pagination.beginPage }" end="${pagination.endPage }">
+									    <li class="page-item ${pagination.page eq number ? 'active' : '' }">
+									    	<a href="userList?page=${number }" data-page-no="${number }" class="page-link">${number }</a>
+									    </li>
+							    	</c:forEach>
+								    <li class="page-item ${pagination.last ? 'disabled' : '' }">
+								    	<a href="userList?page=${pagination.nextPage }" data-page-no="${pagination.nextPage }" class="page-link">다음</a>
+								    </li>
+								</ul>
+							</nav>
+						</div>
 					</div>
 				</div>
 				<!--------------------------- (우) 회원 정보 ------------------------------>
@@ -285,16 +324,125 @@
 		</div>
 	</div>
 </div>
+<!-- 회원 등록 모달폼 -->
+<div class="modal fade" id="modal-registerUser" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-fullscreen-lg-down modal-dialog-centered">
+		<form modelAttribute="userRegisterForm" id="form-register" class="border bg-light p-3" method="post" action="/user/register" enctype="multipart/form-data">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="exampleModalLabel">회원 등록</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="row mb-3" style="margin:auto;text-align:center;">
+						<div>
+							<img id="profile-img" src="/resources/images/default.png" width="100" height="100" class="inline-block align-text-center rounded-circle">
+							<button type="button" id="btn-upload" class="btn-image"><img src="/resources/images/camera-fill.svg" id="camera-img"></button>
+							<input type="file" accept="image/*" path="upfile" id="file-upload" style="display:none" />
+						</div>
+					</div>
+					<div class="row mb-3">
+						<div class="col-3">
+							<label class="form-label">아이디 *</label>
+						</div>
+						<div class="col-7 ">
+							<input class="form-control" name="id" placeholder="3~12자의 영문 소문자와 숫자" />
+						</div>
+					</div>
+					<div class="row mb-3">
+						<div class="col-3">
+							<label class="form-label">비밀번호 *</label>
+						</div>
+						<div class="col-7">
+							<input type="password" class="form-control" name="encryptPassword" placeholder="8~20자의 영문 대/소문자와 숫자, 특수문자" />
+						</div>
+					</div>
+					<div class="row mb-3">
+						<div class="col-3">
+							<label class="form-label">이름 *</label>
+						</div>
+						<div class="col-7">
+							<input class="form-control" name="name" placeholder="예) 홍길동" />
+						</div>
+					</div>
+					<div class="row mb-3">
+						<div class="col-3">
+							<label class="form-label">성별 *</label>
+						</div>
+						<div class="col-2">
+							<input type="radio" class="me-3" name="gender" value="m" checked="checked" />남
+						</div>
+						<div class="col-2">
+							<input type="radio" class="me-3" name="gender" value="f" />여
+						</div>
+					</div>
+					<div class="row mb-3">
+						<div class="col-3">
+							<label class="form-label">생년월일 *</label>
+						</div>
+						<div class="col-7">
+							<input type="date" class="form-control" name="birth" />
+						</div>
+					</div>
+					<div class="row mb-3">
+						<div class="col-3">
+							<label class="form-label">이메일 *</label>
+						</div>
+						<div class="col-7">
+							<input class="form-control" name="email" placeholder="예) hong@gmail.com" />
+						</div>
+					</div>
+					<div class="row mb-3">
+						<div class="col-3">
+							<label class="form-label">연락처 *</label>
+						</div>
+						<div class="col-7">
+							<input class="form-control" name="tel" placeholder="예) 010-0000-0000" />
+						</div>
+					</div>
+					<div class="row mb-3">
+						<div class="col-3">
+							<label class="form-label">주소 *</label>
+						</div>
+						<div class="col-4">
+							<input class="form-control" name="zipcode" placeholder="우편번호 입력"/>
+						</div>
+						<div class="col-5">
+							<button type="button" class="btn btn-secondary" id="btn-search-zipcode" >우편번호 찾기</button>
+						</div>
+					</div>
+					<div class="row mb-3">
+						<div class="col-3">
+						</div>
+						<div class="col-7">
+							<input class="form-control" name="basicAddr" placeholder="기본주소를 입력하세요." />
+						</div>
+					</div>
+					<div class="row mb-3">
+						<div class="col-3">
+						</div>
+						<div class="col-7">
+							<input class="form-control" name="detailAddr" placeholder="상세주소를 입력하세요. (아파트 동/호수)" />
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+					<button type="submit" class="btn btn-dark">등록</button>
+				</div>
+			</div>
+		</form> 
+	</div>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript">
 $(function(){
 	
 	// 회원 상세정보 - ajax
 	$("#table-member-list").on('click', 'a', function(event){
-		
 		event.preventDefault();
-		
 		let userId = $(this).attr("data-user-id");
 		
 		$.ajax({
@@ -370,7 +518,7 @@ $(function(){
 				// 상담 조회 
 				$("#tbody-consulting").empty();
 				let consulting = "";
-				if(consultingList){
+				if(consultingList.length > 0){
 					for(let index in consultingList){
 						consulting += "<tr>";
 						consulting += "	<td class='text-center'>" + consultingList[index].no + "</td>";
@@ -401,6 +549,47 @@ $(function(){
 		$("#tab-table-list .table-sm").eq(index).show();
 	})
 	
+	// 체크박스 클릭
+	$("#checkbox-all").change(function(){
+		let checkboxAllChecked = $(this).prop("checked");
+		$(":checkbox[name=userNo]").prop("checked", checkboxAllChecked);
+	})
+	
+	// 페이지 클릭 이벤트
+	$(".pagination a").click(function(event) {
+		event.preventDefault();
+		let pageNo = $(this).attr("data-page-no");
+		$("input[name=page]").val(pageNo);
+		$("search-form").trigger("submit");
+	})
+	
+	// 우편번호 API
+	$("#btn-search-zipcode").click(function(){
+	    new daum.Postcode({
+	        oncomplete: function(data) {
+	            $(":input[name=zipcode]").val(data.zonecode);
+	            $(":input[name=basicAddr]").val(data.roadAddress);
+	        }
+	    }).open();
+	})
+	
+	// 프로필 사진 업로드 버튼
+	$("#btn-upload").click(function(){
+		$("#file-upload").click();
+	})
+	
+	// 프로필 사진 업로드 미리보기
+	let profileImg = document.querySelector("#profile-img");
+	let fileUpload = document.querySelector("#file-upload");
+	
+	fileUpload.addEventListener("change", function(event){
+		let reader = new FileReader();
+		reader.readAsDataURL(event.target.files[0]);
+		reader.onload = function(){
+			profileImg.src = reader.result;
+		}
+	})
+		
 })
 </script>
 </body>
