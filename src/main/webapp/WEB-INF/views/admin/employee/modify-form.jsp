@@ -117,7 +117,7 @@
 										<td>
 											<form:select path="status" class="form-select">
 												<form:option value="재직" />
-												<form:option value="퇴사" />
+												<form:option value="퇴직" />
 												<form:option value="휴직" />
 											</form:select>
 										</td>

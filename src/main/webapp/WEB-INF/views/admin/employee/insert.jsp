@@ -47,6 +47,13 @@
 										<col width="*">
 									</colgroup>
 									<tr>
+										<th class="table-secondary">클럽명</th>
+										<td>
+											<input type="text" name="fitnessName" value="중앙피트니스센터" class="form-control" readonly />
+											<input type="hidden" name="fitnessNo" value="1" />
+										</td>
+									</tr>
+									<tr>
 										<th class="table-secondary">아이디</th>
 										<td>
 											<form:input path="id" class="form-control" placeholder="3~12자의 영문 소문자와 숫자로 입력하세요." />
@@ -92,8 +99,8 @@
 										<th class="table-secondary">우편번호</th>
 										<td class="d-flex">
 											<form:input path="zipcode" class="form-control w-25 me-3" />
-											<form:errors path="zipcode" cssClass="text-danger" />
 											<button type="button" class="btn btn-outline-secondary btn-sm" id="btn-search-zipcode">우편번호검색</button>
+											<form:errors path="zipcode" cssClass="text-danger" />
 										</td>
 									</tr>
 									<tr>
