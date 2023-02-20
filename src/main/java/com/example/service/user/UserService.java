@@ -30,8 +30,6 @@ import com.example.vo.ProgramDay;
 import com.example.utils.Pagination;
 import com.example.vo.FitnessProgram;
 
-import com.example.utils.Pagination;
-
 import com.example.vo.FitnessProgramCategory;
 import com.example.vo.User;
 import com.example.vo.UserAttendance;
@@ -49,18 +47,12 @@ public class UserService {
 
 	@Autowired
 	PasswordEncoder passwordEncoder;
-
 	@Autowired
 	UserMapper userMapper;
 	@Autowired
-
 	UserRoleMapper userRoleMapper;
-
-	private UserRoleMapper userRoleMapper;
-
 	@Autowired
 	UserMypageMapper userMypageMapper;
-	
 	
 	//출석리스트 조회
 	public Map<String,Object> getUserList(int page,String opt,String keyword, String programInfo) {
@@ -86,8 +78,6 @@ public class UserService {
 		return result;
 	}
 	
-
-		
 	// 프로그램 프로그램명 조회
 	public List<FitnessProgramCategory> getPrograms() {
 			
@@ -104,7 +94,6 @@ public class UserService {
 		return programDto;
 	}
 
-
 	//회원출석등록
 	public void insertUserAtt(UserAttRegisterForm form) {
 		
@@ -112,6 +101,7 @@ public class UserService {
 		BeanUtils.copyProperties(form, userAtt );
 		userMapper.insertUserAtt(userAtt);
 	}
+	
 	//프로그램출석등록
 	public void insertUserClassAtt(UserClassAttRegisterForm form) {
 		
@@ -119,8 +109,6 @@ public class UserService {
 		BeanUtils.copyProperties(form, classAtt);
 		userMapper.insertUserClassAtt(classAtt);
 	}
-	
-	
 	
 	//출석리스트 조회
 	public Map<String,Object> getUserList(int page) {
@@ -140,13 +128,6 @@ public class UserService {
 		
 		return result;
 	}
-	
-	
-	public List<FitnessProgramCategory> getPrograms() {
-		
-		return userMapper.getPrograms();
-	}
-	
 	
 	// 회원가입
 	public void registerUser(UserRegisterForm userRegisterForm) {

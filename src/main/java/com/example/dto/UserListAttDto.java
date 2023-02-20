@@ -12,10 +12,6 @@ import lombok.Setter;
 @Alias("UserListAttDto")
 @Getter
 @Setter
-
-
-@Alias("UserListAttDto")
-
 public class UserListAttDto {
 	
 	private int userNo;
@@ -45,12 +41,8 @@ public class UserListAttDto {
 	
 	// 번호 조회
 	private String telInfo;
-
 	private String StartTime;
 	private String EndTime;
-	private Date classAttDate;
-	private int programNo;
-	private String programName;
 	
 	public int getUserNo() {
 		return userNo;
