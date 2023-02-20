@@ -1,6 +1,7 @@
 package com.example.web.controller.admin;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Map;
@@ -25,8 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.exception.AlreadyRegisteredEmailException;
 import com.example.exception.AlreadyRegisteredUserIdException;
 import com.example.exception.InconsistentPasswordException;
-import com.example.security.AuthenticatedUser;
-import com.example.security.vo.LoginUser;
+import com.example.service.admin.ClubService;
 import com.example.service.admin.EmployeeService;
 import com.example.vo.Employee;
 import com.example.web.request.EmployeeModifyForm;
@@ -41,6 +41,8 @@ public class EmployeeController {
 	
 	@Autowired
 	EmployeeService employeeService;
+	@Autowired
+	ClubService clubService;
 	
 	// 직원 조회
 	@GetMapping("/list")
@@ -74,7 +76,7 @@ public class EmployeeController {
 	
 	// 직원 등록 요청
 	@PostMapping("/insert")
-	public String insert(@ModelAttribute("employeeRegisterForm") @Valid EmployeeRegisterForm employeeRegisterForm, BindingResult errors) throws IOException {
+	public String insert(@Valid EmployeeRegisterForm employeeRegisterForm, BindingResult errors) throws IOException {
 		if(errors.hasErrors()) {
 			return "admin/employee/insert";
 		}
@@ -120,9 +122,27 @@ public class EmployeeController {
 	
 	// 직원 정보 수정 요청
 	@PostMapping("/modify")
-	public String modify(@ModelAttribute("form") EmployeeModifyForm form) {
+	public String modify(@ModelAttribute("form") @Valid EmployeeModifyForm form, BindingResult errors) throws IOException {
+		if(errors.hasErrors()) {
+			return "admin/employee/modify-form";
+		}
+		MultipartFile upfile = form.getUpfile();
+		if (!upfile.isEmpty()) {
+			String filename = upfile.getOriginalFilename();
+			form.setPhoto(filename);
+			
+			FileCopyUtils.copy(upfile.getInputStream(), new FileOutputStream(new File(directory, filename)));
+		}
+		
 		employeeService.updateEmployee(form);
 		
 		return "redirect:list";
+	}
+	
+	// 직원 정보 삭제
+	@GetMapping("/delete")
+	public String delete(@RequestParam(name = "empId") String empId) {
+		employeeService.deleteEmployee(empId);
+		return null;
 	}
 }
