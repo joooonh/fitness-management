@@ -35,9 +35,9 @@
 		<ul class="submenu  mb-2">
 			<p class="text-white">회원출석관리</p>
 			  <hr width="70%" color="white">
-			  <a href="userList" class="nav-link text-white">출석리스트</a>
-			  <a href="userDay" class="nav-link text-white">일별출석리스트</a>
-			  <a href="userCalendar" class="nav-link text-white">출석달력</a>
+			  <a href="/emp/userAttList" class="nav-link text-white">출석리스트</a>
+			  <a href="/emp/userDay" class="nav-link text-white">일별출석리스트</a>
+			  <a href="/emp/userCalendar" class="nav-link text-white">출석달력</a>
 			<p class="text-white pt-4">강사출석관리</p>
 			  <hr width="70%" color="white">
 			  <a href="employeeList" class="nav-link text-white">출석리스트</a>
