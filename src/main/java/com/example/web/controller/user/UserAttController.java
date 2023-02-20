@@ -70,7 +70,14 @@ public class UserAttController {
 		return dto;
 	}
 	
-	
+	// 회원출석 삭제
+	@GetMapping("/delete-userAtt")
+	public String modifyForm(@RequestParam("userNo") int userNo) {
+		
+		userAttService.deleteAtt(userNo);
+		
+		return "redirect:/emp/userAttList?userNo=" + userNo;
+	}
 	
 	@GetMapping("/emp/userDay")
 	public String userDay() {
