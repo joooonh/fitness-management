@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.example.mapper.UserMapper">
 
+	<!-- 사용자 추가 -->
 	<insert id="insertUser" parameterType="User">
 		<selectKey keyProperty="no" resultType="int" order="BEFORE">
 			select users_seq.nextval from dual
@@ -21,6 +22,7 @@
 		values
 			(user_attendance_seq.nextval ,#{userAttDate}, #{userNo} , #{startTime})
 	</insert>
+  
 	<!--프로그램 출석등록 -->
 	<insert id="insertClassAtt" parameterType="UserClassAttendance">
 		insert into user_class_attendances
@@ -29,6 +31,7 @@
 			(user_class_attendance_seq.nextval ,#{userNo}, #{programNo}, #{classAttDate})
 	</insert>
 	
+  <!-- 사용자 정보 변경 -->
 	<update id="updateUser" parameterType="User">
 		update 
 			users
@@ -47,11 +50,9 @@
 			user_updated_date = sysdate
 		where
 			user_id = #{id}
-		
 	</update>
 	
-
-	
+	<!-- 모든 사용자 조회 -->
 	<select id="getAllUsers" resultType="User">
 		select
 			user_no 				as no, 
@@ -75,6 +76,7 @@
 			user_deleted = 'N'
 	</select>
 	
+	<!-- 아이디로 사용자 조회 -->
 	<select id="getUserById" parameterType="string" resultType="User">
 		select
 			user_no 				as no, 
@@ -99,6 +101,7 @@
 			and user_deleted = 'N'
 	</select>
 	
+	<!-- 이메일로 사용자 조회 -->
 	<select id="getUserByEmail" parameterType="string" resultType="User">
 		select
 			user_no 				as no, 
@@ -122,7 +125,6 @@
 			user_email = #{value}
 			and user_deleted = 'N'
 	</select>
-	
 
 	<!-- 프로그램 요일과 프로그램명 조회 -->
 	<select id="getProgramDays" parameterType="string" resultType="ProgramDetailDto">
@@ -319,8 +321,6 @@
 		from
    			 fitness_programs
 	</select>
-	
-	
 
 	<select id="getUserList" parameterType="map" resultType="UserListAttDto">
 		select
@@ -369,15 +369,7 @@
 				row_numbers between #{begin} and #{end}
 	</select>
 	
-	<select id="getTotalRows" resultType="int">
-		select
-			count(*)
-		from
-			users
-		where
-			user_deleted = 'N'
-	</select>
-	
+	<!-- 프로그램 분류 조회 -->
 	<select id="getPrograms" parameterType="map" resultType="FitnessProgramCategory">
 		select
     		fitness_program_category_no as categoryNo,
@@ -385,6 +377,5 @@
 		from
    			 fitness_program_category
 	</select>
-	
 
 </mapper>
