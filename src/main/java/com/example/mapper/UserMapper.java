@@ -31,7 +31,7 @@ public interface UserMapper {
 	// 사용자 정보 변경
 	void updateUser(User user);
 	
-  // 모든 사용자 조회
+	// 모든 사용자 조회
 	int getTotalRows(Map<String,Object>param);
   
 	// 출석 조회
@@ -46,5 +46,6 @@ public interface UserMapper {
 	void insertUserAtt(UserAttendance userAtt);
 	// 프로그램 출석 등록
 	void insertUserClassAtt(UserClassAttendance classAtt);
+	int getTotalRows();
 
 }

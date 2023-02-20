@@ -31,8 +31,6 @@ public class UserAttController {
 		return userService.getPrograms();
 	}
 	
-
-	
 	@GetMapping("/emp/userAttList")
 	public String userList(@RequestParam(name = "page" , required = false , defaultValue ="1") int page, 
 			@RequestParam(name = "opt", required = false, defaultValue = "") String opt, 
@@ -70,8 +68,6 @@ public class UserAttController {
 		
 		return dto;
 	}
-	
-	
 	
 	@GetMapping("/emp/userDay")
 	public String userDay() {
