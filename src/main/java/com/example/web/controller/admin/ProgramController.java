@@ -23,7 +23,7 @@ import com.example.vo.User;
 import com.example.web.request.ProgramForm;
 
 @Controller
-@RequestMapping("/admin/program")
+@RequestMapping("/emp/admin/program")
 public class ProgramController {
 
 	@Autowired
