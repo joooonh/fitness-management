@@ -56,8 +56,8 @@
 			<button type="button" class="btn btn-lg btn-outline-light">프로그램 조회</button>
 		</div>
 		<div class="col-6">
-			<h1>수업 예약하기</h1>
-			<button type="button" class="btn btn-lg btn-outline-light">예약하기</button>
+			<h1>프로그램 신청하기</h1>
+			<a class="btn btn-lg btn-outline-light" href="/user/classReg">프로그램 신청</a>
 		</div>
    </div>
 </div>

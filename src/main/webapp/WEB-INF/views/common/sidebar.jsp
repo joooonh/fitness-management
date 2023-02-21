@@ -49,13 +49,12 @@
 		</ul>
 	</li>
 	<li class="nav-item mb-2">
-		<a href="" class="nav-link text-white p-3 mb-2 sidebar-link">
-			<i class="bi bi-calendar-check"></i> 예약관리
+		<a href="/emp/classRegList" class="nav-link text-white p-3 mb-2 sidebar-link">
+			<i class="bi bi-calendar-check"></i> 예약신청관리
 		</a>
 		<ul class="submenu  mb-2">
-			<a href="" class="nav-link text-white">하위메뉴</a>
-			<a href="" class="nav-link text-white">하위메뉴</a>
-			<a href="" class="nav-link text-white">하위메뉴</a>
+			<a href="/emp/classRegList" class="nav-link text-white">프로그램 신청현황</a>
+			<a href="/emp/membershipRegList" class="nav-link text-white">회원권 신청현황</a>
 		</ul>
 	</li>
 	<li class="nav-item mb-2">
@@ -65,16 +64,6 @@
 		<ul class="submenu  mb-2">
 			<a href="/emp/schedule/employee" class="nav-link text-white ${menu eq 'employee' ? 'active' : '' }">강사일정관리</a>
 			<a href="/emp/schedule/program" class="nav-link text-white ${menu eq 'program' ? 'active' : '' }">프로그램일정관리</a>
-		</ul>
-	</li>
-	<li class="nav-item mb-2">
-		<a href="" class="nav-link text-white p-3 mb-2 sidebar-link">
-			<i class="bi bi-graph-up-arrow"></i> 매출통계
-		</a>
-		<ul class="submenu mb-2">
-			<a href="" class="nav-link text-white">하위메뉴</a>
-			<a href="" class="nav-link text-white">하위메뉴</a>
-			<a href="" class="nav-link text-white">하위메뉴</a>
 		</ul>
 	</li>
 </ul>
