@@ -69,11 +69,13 @@
 						</tr>
 					</table>
 					
-					<div class="row">
-						<div class="col-12">
-							<a href="modify?no=${club.no }" class="btn btn-primary float-end">수정</a>
+					<sec:authorize access="hasRole('ROLE_ADMIN')">
+						<div class="row">
+							<div class="col-12">
+								<a href="modify?no=${club.no }" class="btn btn-primary float-end">수정</a>
+							</div>
 						</div>
-					</div>
+					</sec:authorize>
 				</div>
 			</div>
 		</div>

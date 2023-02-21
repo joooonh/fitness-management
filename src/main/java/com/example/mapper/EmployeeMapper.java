@@ -17,6 +17,8 @@ public interface EmployeeMapper {
 	Integer getTotalRows(Map<String, Object> rows);
 	// 직원아이디로 직원정보 조회
 	Employee getEmployeeById(String empId);
+	// 이메일로 직원 정보 조회
+	Employee getEmployeeByEmail(String email);
 	// 직원아이디로 직원 상세정보 조회
 	EmployeeDetail getEmployeeDetail(String empId);
 	// 직원정보 업데이트
@@ -25,5 +27,8 @@ public interface EmployeeMapper {
 	List<Employee> getEmployeeByStatus();
 	// 직원이름으로 검색한 직원 정보
 	List<Employee> getSearchEmployees(String employeeName);
-
+	// 직원 등록
+	void insertEmployee(Employee employee);
+	// 직원 삭제
+	void deleteEmployee(String empId);
 }
