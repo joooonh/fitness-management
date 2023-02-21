@@ -26,18 +26,6 @@
 		background-color: black;
 		color: white;
 	}
-	#btn-upload {
-		position: relative;
-		background-color: transparent;
-		border: none;
-		top: 30px;
-		left: -40px;
-	}
-	
-	#camera-img {
-		width: 40px;
-		heith: 40px;
-	}
 </style>
 </head>
 <body>
@@ -51,12 +39,18 @@
 		</div>
 		<div class="col-md-10 ps-4 pt-5">
 			<!-- Content 영역 -->
-			<div class="row border ms-3">
+			<div class="row ms-3">
+				<div class="row pt-2 mb-3">
+					<div class="col-12">
+						<span><h5 class="" ><i class="bi bi-person-lines-fill ms-2 me-3"></i>회원정보조회</h5></span>
+						<hr width="103%" color="gray">
+					</div>
+				</div>
 				<!--------------------------- (좌) 회원 목록 ------------------------------>
-				<div class="col-5 border">
-					<div class="row mb-3">
-						<form id="search-form" class="row">
-							<input type="hidden" name="page" />
+				<div class="col-5">
+					<form id="search-form" class="">
+						<input type="hidden" name="page" />
+						<div class="row mb-3">
 							<div class="col">
 								<select name="programNo" class="form-select d-inline">
 									<option value="0">프로그램명 선택</option>
@@ -71,94 +65,93 @@
 							<div class="col">
 								<button type="submit" class="btn btn-xs btn-dark">검색</button>
 							</div>
-						</form>
-					</div>
-					<div class="row mb-3">
-						<div class="col">
-							<button type="button" class="btn btn-xs btn-dark" data-bs-toggle="modal" data-bs-target="#modal-registerUser">등록</button>
-							<button type="button" class="btn btn-xs btn-secondary">삭제</button>
-							<button type="button" class="btn btn-xs btn-success">sms 전송</button>
 						</div>
-						<div class="col text-end mt-3">
-							<a href="" class="text-decoration-none text-dark">회원번호순</a>
-							<a href="" class="text-decoration-none text-dark">이름순</a>
+						<div class="row mb-3">
+							<div class="col">
+								<button type="submit" class="btn btn-xs btn-secondary" id="btn-delete-user"><i class="bi bi-trash"></i> 회원삭제</button>
+								<button type="button" class="btn btn-xs btn-success">sms 전송</button>
+							</div>
+							<div class="col text-end mt-3">
+								<a href="" class="text-decoration-none text-dark">회원번호순</a>
+								<a href="" class="text-decoration-none text-dark">이름순</a>
+							</div>
 						</div>
-					</div>
-					<table class="table table-sm table-hover border" id="table-member-list">
-						<colgroup>
-							<col width="5%">
-							<col width="*">
-							<col width="*">
-							<col width="*">
-							<col width="*">
-							<col width="*">
-							<col width="*">
-						</colgroup>
-						<thead>
-							<tr class="border table-secondary">
-								<th class="text-center"><input type="checkbox" id="checkbox-all" /></th>
-								<th class="text-center">회원번호</th>
-								<th class="text-center">이름</th>
-								<th class="text-center">성별</th>
-								<th class="text-center">생년월일</th>
-								<th class="text-center">연락처</th>
-								<th class="text-center">수업명</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:choose>
-								<c:when test="${empty userList }">
-									<tr>
-										<td colspan="12" class="text-center">등록된 회원이 없습니다.</td>
-									</tr>
-								</c:when>
-								<c:otherwise>
-									<c:forEach var="user" items="${userList }">
+						<table class="table table-sm table-hover border" id="table-member-list">
+							<colgroup>
+								<col width="5%">
+								<col width="*">
+								<col width="*">
+								<col width="*">
+								<col width="*">
+								<col width="*">
+								<col width="*">
+							</colgroup>
+							<thead>
+								<tr class="border table-secondary">
+									<th class="text-center"><input type="checkbox" id="checkbox-all" /></th>
+									<th class="text-center">회원번호</th>
+									<th class="text-center">이름</th>
+									<th class="text-center">성별</th>
+									<th class="text-center">생년월일</th>
+									<th class="text-center">연락처</th>
+									<th class="text-center">수업명</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:choose>
+									<c:when test="${empty userList }">
 										<tr>
-											<td class="text-center"><input type="checkbox" name="userNo" value="${user.no }" /></td>
-											<td class="text-center">${user.no }</td>
-											<td class="text-center"><a href="" class="text-decoration-none text-dark" data-user-id="${user.id }" >${user.name }</a></td>
-											<td class="text-center">${user.gender }</td>
-											<td class="text-center"><fmt:formatDate value="${user.birth }" pattern="yyyy-MM-dd" /></td>
-											<td class="text-center">${user.tel }</td>
-											<td class="text-center">
-												<select name="programName" class="form-select form-select-sm">
-													<c:forEach var="prog" items="${user.programs }">
-													<option value="${prog.no }">${prog.name }</option>
-													</c:forEach>
-												</select>
-											</td>
+											<td colspan="12" class="text-center">등록된 회원이 없습니다.</td>
 										</tr>
-									</c:forEach>
-								</c:otherwise>
-							</c:choose>
-						</tbody>
-					</table>
-					<div class="row">
-						<span><p>총 ${totalRows }명</p></span>
-					</div>
-					<div class="row">
-						<div class="col-12">
-							<nav aria-label="Page navigation example">
-								<ul class="pagination justify-content-center">
-									<li class="page-item ${pagination.first ? 'disabled' : '' }">
-										<a href="userList?page=${pagination.prevPage }" data-page-no="${pagination.prevPage }" class="page-link">이전</a>
-							    	</li>
-							    	<c:forEach var="number" begin="${pagination.beginPage }" end="${pagination.endPage }">
-									    <li class="page-item ${pagination.page eq number ? 'active' : '' }">
-									    	<a href="userList?page=${number }" data-page-no="${number }" class="page-link">${number }</a>
-									    </li>
-							    	</c:forEach>
-								    <li class="page-item ${pagination.last ? 'disabled' : '' }">
-								    	<a href="userList?page=${pagination.nextPage }" data-page-no="${pagination.nextPage }" class="page-link">다음</a>
-								    </li>
-								</ul>
-							</nav>
+									</c:when>
+									<c:otherwise>
+										<c:forEach var="user" items="${userList }">
+											<tr>
+												<td class="text-center"><input type="checkbox" name="userId" value="${user.id }" /></td>
+												<td class="text-center">${user.no }</td>
+												<td class="text-center"><a href="" class="text-decoration-none text-dark" data-user-id="${user.id }" >${user.name }</a></td>
+												<td class="text-center">${user.gender }</td>
+												<td class="text-center"><fmt:formatDate value="${user.birth }" pattern="yyyy-MM-dd" /></td>
+												<td class="text-center">${user.tel }</td>
+												<td class="text-center">
+													<select name="programName" class="form-select form-select-sm">
+														<c:forEach var="prog" items="${user.programs }">
+															<option value="${prog.no }">${prog.name }</option>
+														</c:forEach>
+													</select>
+												</td>
+											</tr>
+										</c:forEach>
+									</c:otherwise>
+								</c:choose>
+							</tbody>
+						</table>
+						<div class="row">
+							<span><p>총 ${totalRows }명</p></span>
 						</div>
-					</div>
+						<div class="row">
+							<div class="col-12">
+								<nav aria-label="Page navigation example">
+									<ul class="pagination justify-content-center">
+										<li class="page-item ${pagination.first ? 'disabled' : '' }">
+											<a href="userList?page=${pagination.prevPage }" data-page-no="${pagination.prevPage }" class="page-link">이전</a>
+								    	</li>
+								    	<c:forEach var="number" begin="${pagination.beginPage }" end="${pagination.endPage }">
+										    <li class="page-item ${pagination.page eq number ? 'active' : '' }">
+										    	<a href="userList?page=${number }" data-page-no="${number }" class="page-link">${number }</a>
+										    </li>
+								    	</c:forEach>
+									    <li class="page-item ${pagination.last ? 'disabled' : '' }">
+									    	<a href="userList?page=${pagination.nextPage }" data-page-no="${pagination.nextPage }" class="page-link">다음</a>
+									    </li>
+									</ul>
+								</nav>
+							</div>
+						</div>
+					</form>
 				</div>
 				<!--------------------------- (우) 회원 정보 ------------------------------>
-				<div class="col-7 border">
+				<div class="col-7">
 					<div class="row">
 						<div class="col-3 pt-4" style="text-align:center" >
 							<div >
@@ -324,116 +317,6 @@
 		</div>
 	</div>
 </div>
-<!-- 회원 등록 모달폼 -->
-<div class="modal fade" id="modal-registerUser" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-fullscreen-lg-down modal-dialog-centered">
-		<form modelAttribute="userRegisterForm" id="form-register" class="border bg-light p-3" method="post" action="/user/register" enctype="multipart/form-data">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h1 class="modal-title fs-5" id="exampleModalLabel">회원 등록</h1>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-					<div class="row mb-3" style="margin:auto;text-align:center;">
-						<div>
-							<img id="profile-img" src="/resources/images/default.png" width="100" height="100" class="inline-block align-text-center rounded-circle">
-							<button type="button" id="btn-upload" class="btn-image"><img src="/resources/images/camera-fill.svg" id="camera-img"></button>
-							<input type="file" accept="image/*" path="upfile" id="file-upload" style="display:none" />
-						</div>
-					</div>
-					<div class="row mb-3">
-						<div class="col-3">
-							<label class="form-label">아이디 *</label>
-						</div>
-						<div class="col-7 ">
-							<input class="form-control" name="id" placeholder="3~12자의 영문 소문자와 숫자" />
-						</div>
-					</div>
-					<div class="row mb-3">
-						<div class="col-3">
-							<label class="form-label">비밀번호 *</label>
-						</div>
-						<div class="col-7">
-							<input type="password" class="form-control" name="encryptPassword" placeholder="8~20자의 영문 대/소문자와 숫자, 특수문자" />
-						</div>
-					</div>
-					<div class="row mb-3">
-						<div class="col-3">
-							<label class="form-label">이름 *</label>
-						</div>
-						<div class="col-7">
-							<input class="form-control" name="name" placeholder="예) 홍길동" />
-						</div>
-					</div>
-					<div class="row mb-3">
-						<div class="col-3">
-							<label class="form-label">성별 *</label>
-						</div>
-						<div class="col-2">
-							<input type="radio" class="me-3" name="gender" value="m" checked="checked" />남
-						</div>
-						<div class="col-2">
-							<input type="radio" class="me-3" name="gender" value="f" />여
-						</div>
-					</div>
-					<div class="row mb-3">
-						<div class="col-3">
-							<label class="form-label">생년월일 *</label>
-						</div>
-						<div class="col-7">
-							<input type="date" class="form-control" name="birth" />
-						</div>
-					</div>
-					<div class="row mb-3">
-						<div class="col-3">
-							<label class="form-label">이메일 *</label>
-						</div>
-						<div class="col-7">
-							<input class="form-control" name="email" placeholder="예) hong@gmail.com" />
-						</div>
-					</div>
-					<div class="row mb-3">
-						<div class="col-3">
-							<label class="form-label">연락처 *</label>
-						</div>
-						<div class="col-7">
-							<input class="form-control" name="tel" placeholder="예) 010-0000-0000" />
-						</div>
-					</div>
-					<div class="row mb-3">
-						<div class="col-3">
-							<label class="form-label">주소 *</label>
-						</div>
-						<div class="col-4">
-							<input class="form-control" name="zipcode" placeholder="우편번호 입력"/>
-						</div>
-						<div class="col-5">
-							<button type="button" class="btn btn-secondary" id="btn-search-zipcode" >우편번호 찾기</button>
-						</div>
-					</div>
-					<div class="row mb-3">
-						<div class="col-3">
-						</div>
-						<div class="col-7">
-							<input class="form-control" name="basicAddr" placeholder="기본주소를 입력하세요." />
-						</div>
-					</div>
-					<div class="row mb-3">
-						<div class="col-3">
-						</div>
-						<div class="col-7">
-							<input class="form-control" name="detailAddr" placeholder="상세주소를 입력하세요. (아파트 동/호수)" />
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-					<button type="submit" class="btn btn-dark">등록</button>
-				</div>
-			</div>
-		</form> 
-	</div>
-</div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -549,45 +432,33 @@ $(function(){
 		$("#tab-table-list .table-sm").eq(index).show();
 	})
 	
-	// 체크박스 클릭
-	$("#checkbox-all").change(function(){
-		let checkboxAllChecked = $(this).prop("checked");
-		$(":checkbox[name=userNo]").prop("checked", checkboxAllChecked);
-	})
-	
 	// 페이지 클릭 이벤트
 	$(".pagination a").click(function(event) {
-		event.preventDefault();
 		let pageNo = $(this).attr("data-page-no");
 		$("input[name=page]").val(pageNo);
 		$("search-form").trigger("submit");
 	})
 	
-	// 우편번호 API
-	$("#btn-search-zipcode").click(function(){
-	    new daum.Postcode({
-	        oncomplete: function(data) {
-	            $(":input[name=zipcode]").val(data.zonecode);
-	            $(":input[name=basicAddr]").val(data.roadAddress);
-	        }
-	    }).open();
+	// 전체 체크박스 클릭
+	$("#checkbox-all").change(function(){
+		let checkboxAllChecked = $(this).prop("checked");
+		$(":checkbox[name=userNo]").prop("checked", checkboxAllChecked);
 	})
 	
-	// 프로필 사진 업로드 버튼
-	$("#btn-upload").click(function(){
-		$("#file-upload").click();
-	})
-	
-	// 프로필 사진 업로드 미리보기
-	let profileImg = document.querySelector("#profile-img");
-	let fileUpload = document.querySelector("#file-upload");
-	
-	fileUpload.addEventListener("change", function(event){
-		let reader = new FileReader();
-		reader.readAsDataURL(event.target.files[0]);
-		reader.onload = function(){
-			profileImg.src = reader.result;
+	// 회원 삭제 
+	$("#btn-delete-user").click(function(){
+		
+		let checkedLength = $("input[name=userId]:checked").length;
+		let deleteUsers = [];
+		
+		if(checkedLength == 0){
+			alert("삭제할 회원을 선택하세요.");
+			return false;
 		}
+		$("input[name=userId]:checked").each(function(){
+			deleteUsers.push($(this).val());
+		});
+		location.href = "deleteUser?userId=" + deleteUsers;
 	})
 		
 })

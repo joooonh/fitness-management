@@ -9,10 +9,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.dto.UserListDto;
+import com.example.exception.ApplicationException;
 import com.example.mapper.UserListMapper;
 import com.example.mapper.UserMapper;
 import com.example.utils.Pagination;
 import com.example.vo.FitnessProgram;
+import com.example.vo.User;
 
 @Service
 @Transactional
@@ -56,6 +58,16 @@ public class UserManagementService {
 		map.put("pagination", pagination);
 		
 		return map;
+	}
+	
+	// 회원 삭제 
+	public void deleteUser(String userId) {
+		User user = userMapper.getUserById(userId);
+		if(user == null) {
+			throw new ApplicationException("[" + userId + "] 존재하지 않는 아이디입니다.");
+		}
+		user.setDeleted("Y");
+		userMapper.updateUser(user);
 	}
 	
 	

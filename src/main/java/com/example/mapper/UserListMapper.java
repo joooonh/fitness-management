@@ -12,7 +12,7 @@ import com.example.vo.FitnessProgram;
 @Mapper
 public interface UserListMapper {
 
-	// 회원 목록 전체 행 조회
+	// 검색 조건에 해당하는 회원 목록 전체 행 조회
 	int getUserListTotalRows(Map<String, Object> rows);
 	// 전체 프로그램 조회
 	List<FitnessProgram> getAllPrograms();
