@@ -23,65 +23,84 @@
 			fitness_programs
 	</select>
 	
-	
-	<!-- 전체 회원 목록 조회 -->
-	<select id="getUserListDto" parameterType="map" resultType="UserListDto">
-		select
-			*
-		from (
-				select
-					row_number() over (order by C.user_no asc) row_numbers,
-					U.user_id			as id,
-				    C.user_no           as no,
-				    U.user_name         as name,
-				    U.user_gender       as gender,
-				    U.user_birthday     as birth,
-				    U.user_tel          as tel,
-				    P.program_no      	as "programs.no",
-				    P.program_name      as "programs.name"
-				 from
-				 	users U, fitness_programs P, class_registration_histories C
-				 where
-				 	U.user_deleted = 'N'
-				 	and U.user_no = C.user_no 
-		    		and P.program_no = C.program_no
-		    		<if test="programNo != null">
-		    			and C.program_no = #{programNo}
-		    		</if>
-		    		<if test="keyword != null">
-		    			and (C.user_no like '%' || #{keyword} || '%'
-		    			or U.user_name like '%' || #{keyword} || '%'
-		    			or U.user_gender like '%' || #{keyword} || '%'
-		    			or U.user_birthday like '%' || #{keyword} || '%'
-		    			or U.user_tel like '%' || #{keyword} || '%'
-		    			or P.program_name like '%' || #{keyword} || '%')
-		    		</if>
-			)
-		where
-		    row_numbers between #{begin} and #{end}
-	</select>
-	
 	<!-- 검색조건에 해당하는 회원목록 전체 행 개수 조회 -->
 	<select id="getUserListTotalRows" parameterType="map" resultType="int">
-		select
-			count(*)
-		from
-			users U, fitness_programs P, class_registration_histories C
-		where
-			U.user_deleted = 'N'
-			and C.user_no = U.user_no
-			and C.program_no = P.program_no
-			<if test="programNo != null">
+	select
+	    count(A.userNo) as cnt
+	from
+	    (select 
+	        U.user_no as userNo, count(*)
+	     from 
+	        users U, fitness_programs P, class_registration_histories C
+	     where
+	        U.user_deleted = 'N'
+	        and U.user_no = C.user_no(+) 
+	        and P.program_no(+) = C.program_no
+	        <if test="programNo != null">
     			and C.program_no = #{programNo}
     		</if>
     		<if test="keyword != null">
-    			and (C.user_no like '%' || #{keyword} || '%'
+    			and (U.user_no like '%' || #{keyword} || '%'
     			or U.user_name like '%' || #{keyword} || '%'
     			or U.user_gender like '%' || #{keyword} || '%'
     			or U.user_birthday like '%' || #{keyword} || '%'
     			or U.user_tel like '%' || #{keyword} || '%'
     			or P.program_name like '%' || #{keyword} || '%')
     		</if>
+	     group by 
+	        U.user_no ) A
+	</select>
+	
+	<resultMap type="UserListDto" id="UserListResultMap">
+		<id column="no" property="no"/>
+		<result column="id" property="id"/>
+		<result column="name" property="name"/>
+		<result column="gender" property="gender"/>
+		<result column="birth" property="birth"/>
+		<result column="tel" property="tel"/>
+		
+		<collection property="programs" ofType="FitnessProgram">
+    		<id column="progNo" property="no"/>
+    		<result column="progName" property="name"/>
+  		</collection>
+	</resultMap>
+	<!-- 전체 회원 목록 조회 -->
+	<select id="getUserListDto" parameterType="map" resultMap="UserListResultMap">
+		select
+			*
+		from (
+				select
+					row_number() over (order by U.user_no asc) row_numbers,
+					U.user_id			as id,
+				    U.user_no           as no,
+				    U.user_name         as name,
+				    U.user_gender       as gender,
+				    U.user_birthday     as birth,
+				    U.user_tel          as tel,
+				    P.program_no      	as progNo,
+				    P.program_name      as progName
+				 from
+				 	users U, fitness_programs P, class_registration_histories C
+				 where
+				 	U.user_deleted = 'N'
+				 	and U.user_no = C.user_no(+) 
+		    		and P.program_no(+) = C.program_no
+		    		<if test="programNo != null">
+		    			and C.program_no = #{programNo}
+		    		</if>
+		    		<if test="keyword != null">
+		    			and (U.user_no like '%' || #{keyword} || '%'
+		    			or U.user_name like '%' || #{keyword} || '%'
+		    			or U.user_gender like '%' || #{keyword} || '%'
+		    			or U.user_birthday like '%' || #{keyword} || '%'
+		    			or U.user_tel like '%' || #{keyword} || '%'
+		    			or P.program_name like '%' || #{keyword} || '%')
+		    		</if>
+		    	 order by
+					no asc
+			)
+		where
+		    row_numbers between #{begin} and #{end}
 	</select>
 	
 	<!-- 회원별 신청한 프로그램명 조회 -->

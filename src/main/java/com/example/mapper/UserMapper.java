@@ -10,8 +10,6 @@ import com.example.dto.ProgramDetailDto;
 import com.example.dto.UserListAttDto;
 import com.example.vo.FitnessProgram;
 
-import com.example.dto.UserListAttDto;
-
 import com.example.vo.FitnessProgramCategory;
 import com.example.vo.User;
 import com.example.vo.UserAttendance;
