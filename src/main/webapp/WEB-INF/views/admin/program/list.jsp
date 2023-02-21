@@ -107,15 +107,16 @@
 			</div>
 			
 			<c:if test="${not empty programs }">
-				<div class="row">
-					<div class="col-12">
-						<div class="text-end">
-							<a href="/" id="btn-delete-program" class="btn btn-secondary">삭제</a>
-							<a href="/" id="btn-modify-move" class="btn btn-primary">수정</a>
+				<sec:authorize access="hasRole('ROLE_ADMIN')">
+					<div class="row">
+						<div class="col-12">
+							<div class="text-end">
+								<a href="/" id="btn-delete-program" class="btn btn-secondary">삭제</a>
+								<a href="/" id="btn-modify-move" class="btn btn-primary">수정</a>
+							</div>
 						</div>
 					</div>
-				</div>
-				
+				</sec:authorize>
 				<div class="row">
 					<div class="col-12">
 						<nav aria-label="Page navigation example">
@@ -215,7 +216,7 @@ $(function() {
 		// 클릭한 프로그램의 프로그램번호를 가져온다.
 		let no = $(this).closest("tr").children(".programNo").text();
 		
-		$.getJSON("/admin/program/detail.json", {programNo: no}, function(programInfo) {
+		$.getJSON("detail.json", {programNo: no}, function(programInfo) {
 			// 프로그램 상세정보
 			let detail = programInfo.programDetail;
 			

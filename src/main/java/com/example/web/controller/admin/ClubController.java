@@ -13,7 +13,7 @@ import com.example.vo.Club;
 import com.example.web.request.ClubModifyForm;
 
 @Controller
-@RequestMapping("/admin/club")
+@RequestMapping("/emp/admin/club")
 public class ClubController {
 
 	@Autowired

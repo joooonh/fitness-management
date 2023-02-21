@@ -40,95 +40,95 @@
 					</div>
 					
 					<div class="col-8">
-							<input type="hidden" name="fitnessNo" value="${form.fitnessNo }" />
-							<table class="table table-bordered">
-								<colgroup>
-									<col width="25%">
-									<col width="*">
-								</colgroup>
-								 <tr>
-								 	<th class="table-secondary">이름</th>
-								 	<td>
-								 		<form:input path="name" class="form-control form-control-sm" />
-										<form:errors path="name" cssClass="text-danger" />
-								 	</td>
-								 </tr>
-								 <tr>
-								 	<th class="table-secondary">아이디</th>
-								 	<td>
-								 		<form:input path="id" class="form-control form-control-sm" readonly="true" />
-								 		<form:errors path="id" cssClass="text-danger" />
-								 	</td>
-								 </tr>
-								 <tr>
-								 	<th class="table-secondary">비밀번호</th>
-								 	<td>
-								 		<form:password path="password" class="form-control form-control-sm" />
-								 		<form:errors path="password" cssClass="text-danger" />
-								 		<span id="passwordCheck" class="text-danger"></span>
-								 	</td>
-								 </tr>
-								 <tr>
-								 	<th class="table-secondary">비밀번호 확인</th>
-								 	<td>
-								 		<form:password path="passwordConfirm" class="form-control form-control-sm" />
-								 		<form:errors path="passwordConfirm" cssClass="text-danger" />
-								 		<span id="passwordConfirmCheck" class="text-danger"></span>
-								 	</td>
-								 </tr>
-								 <tr>
-								 	<th class="table-secondary">전화번호</th>
-								 	<td>
-								 		<form:input path="tel" class="form-control form-control-sm" />
-								 		<form:errors path="tel" cssClass="text-danger" />
-								 	</td>
-								 </tr>
-								 <tr>
-								 	<th class="table-secondary">이메일</th>
-								 	<td>
-								 		<form:input path="email" class="form-control form-control-sm" readonly="true" />
-								 		<form:errors path="email" cssClass="text-danger" />
-							 		</td>
-								 </tr>
-								 <tr>
-								 	<th class="form-label table-secondary">우편번호</th>
-								    <td class="d-flex justify-content-start">
-										<form:input path="zipcode" class="form-control w-25 me-3" readonly="true" />
-										<form:errors path="zipcode" cssClass="text-danger" />
-										<button type="button" class="btn btn-outline-secondary btn-sm" id="btn-search-zipcode">우편번호검색</button>
-								    </td>
-								 </tr>
-								 <tr>
-								 	<th class="table-secondary">주소</th>
-								 	<td>
-								 		<form:input path="basicAddress" class="form-control form-control-sm" />
-										<form:errors path="basicAddress" cssClass="text-danger" />
-								 	</td>
-								 </tr>
-								 <tr>
-								 	<th class="table-secondary">상세주소</th>
-								 	<td>
-								 		<form:input path="detailAddress" class="form-control form-control-sm" />
-										<form:errors path="detailAddress" cssClass="text-danger" />
-								 	</td>
-								 </tr>
-								
-								 <tr>
-								 	<th class="table-secondary">재직상태</th>
-								 	<td>
-								 		<form:select path="status" class="form-select">
-								 			<form:option value="재직" />
-								 			<form:option value="퇴사" />
-								 			<form:option value="휴직" />
-								 		</form:select>
-								 	</td>
-								 </tr>
-							</table>
+						<input type="hidden" name="fitnessNo" value="${form.fitnessNo }" />
+						<table class="table table-bordered">
+							<colgroup>
+								<col width="25%">
+								<col width="*">
+							</colgroup>
+							 <tr>
+							 	<th class="table-secondary">이름</th>
+							 	<td>
+							 		<form:input path="name" class="form-control form-control-sm" />
+									<form:errors path="name" cssClass="text-danger" />
+							 	</td>
+							 </tr>
+							 <tr>
+							 	<th class="table-secondary">아이디</th>
+							 	<td>
+							 		<form:input path="id" class="form-control form-control-sm" readonly="true" />
+							 		<form:errors path="id" cssClass="text-danger" />
+							 	</td>
+							 </tr>
+							 <tr>
+							 	<th class="table-secondary">비밀번호</th>
+							 	<td>
+							 		<form:password path="password" class="form-control form-control-sm" />
+							 		<form:errors path="password" cssClass="text-danger" />
+							 		<span id="passwordCheck" class="text-danger"></span>
+							 	</td>
+							 </tr>
+							 <tr>
+							 	<th class="table-secondary">비밀번호 확인</th>
+							 	<td>
+							 		<form:password path="passwordConfirm" class="form-control form-control-sm" />
+							 		<form:errors path="passwordConfirm" cssClass="text-danger" />
+							 		<span id="passwordConfirmCheck" class="text-danger"></span>
+							 	</td>
+							 </tr>
+							 <tr>
+							 	<th class="table-secondary">전화번호</th>
+							 	<td>
+							 		<form:input path="tel" class="form-control form-control-sm" />
+							 		<form:errors path="tel" cssClass="text-danger" />
+							 	</td>
+							 </tr>
+							 <tr>
+							 	<th class="table-secondary">이메일</th>
+							 	<td>
+							 		<form:input path="email" class="form-control form-control-sm" readonly="true" />
+							 		<form:errors path="email" cssClass="text-danger" />
+						 		</td>
+							 </tr>
+							 <tr>
+							 	<th class="form-label table-secondary">우편번호</th>
+							    <td class="d-flex justify-content-start">
+									<form:input path="zipcode" class="form-control w-25 me-3" readonly="true" />
+									<form:errors path="zipcode" cssClass="text-danger" />
+									<button type="button" class="btn btn-outline-secondary btn-sm" id="btn-search-zipcode">우편번호검색</button>
+							    </td>
+							 </tr>
+							 <tr>
+							 	<th class="table-secondary">주소</th>
+							 	<td>
+							 		<form:input path="basicAddress" class="form-control form-control-sm" />
+									<form:errors path="basicAddress" cssClass="text-danger" />
+							 	</td>
+							 </tr>
+							 <tr>
+							 	<th class="table-secondary">상세주소</th>
+							 	<td>
+							 		<form:input path="detailAddress" class="form-control form-control-sm" />
+									<form:errors path="detailAddress" cssClass="text-danger" />
+							 	</td>
+							 </tr>
 							
-							<div class="text-end">
-								<a href="mypage" class="btn btn-secondary">취소</a>
-								<button type="button" id="btn-save-employee" class="btn btn-primary">저장</a>
-							</div>
+							 <tr>
+							 	<th class="table-secondary">재직상태</th>
+							 	<td>
+							 		<form:select path="status" class="form-select">
+							 			<form:option value="재직" />
+							 			<form:option value="퇴직" />
+							 			<form:option value="휴직" />
+							 		</form:select>
+							 	</td>
+							 </tr>
+						</table>
+						
+						<div class="text-end">
+							<a href="mypage" class="btn btn-secondary">취소</a>
+							<button type="button" id="btn-save-employee" class="btn btn-primary">저장</a>
+						</div>
 					</div>
 				</div>
 			</form:form>

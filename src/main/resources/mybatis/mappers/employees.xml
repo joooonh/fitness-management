@@ -94,6 +94,28 @@
 			employee_id	= #{value}
 	</select>
 	
+	<!-- 이메일에 해당하는 직원 정보 -->
+	<select id="getEmployeeByEmail" parameterType="string" resultType="Employee">
+		select
+			employee_id						as id,
+			employee_name					as name,
+			employee_password				as password,
+			employee_email					as email,
+			employee_tel					as tel,
+			employee_photo					as photo,
+			employee_zipcode				as zipcode,
+			employee_basic_address			as basicAddress,
+			employee_detail_address			as detailAddress,
+			employee_employment_status		as status,
+			employee_created_date			as createdDate,
+			employee_updated_date			as updatedDate,
+			fitness_no						as fitnessNo
+		from
+			employees	
+		where
+			employee_email = #{value}
+	</select>
+	
 	<!-- 직원 상세정보 -->
 	<select id="getEmployeeDetail" parameterType="string" resultType="EmployeeDetail">
 		select
@@ -173,4 +195,19 @@
 		</where>
 	</select>
 
+	<!-- 직원 등록 -->
+	<insert id="insertEmployee" parameterType="Employee">
+		insert into employees
+			(employee_id, employee_name, employee_password, employee_email, employee_tel, employee_photo, employee_zipcode, employee_basic_address, employee_detail_address, fitness_no)
+		values
+			(#{id}, #{name}, #{password}, #{email}, #{tel}, #{photo}, #{zipcode}, #{basicAddress}, #{detailAddress}, #{fitnessNo})
+	</insert>
+	
+	<!-- 직원 삭제 -->
+	<delete id="deleteEmployee" parameterType="string">
+		delete from
+			employees
+		where
+			employee_id = #{value}
+	</delete>
 </mapper>

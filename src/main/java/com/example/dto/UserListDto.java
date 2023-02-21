@@ -23,3 +23,4 @@ public class UserListDto {
 	private String tel;
 	private List<FitnessProgram> programs;
 }
+
