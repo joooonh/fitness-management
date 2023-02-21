@@ -96,17 +96,17 @@
 					</table>
 				</div>				
 			</div>
-			
 			<c:if test="${not empty employees }">
-				<div class="row">
-					<div class="col-12">
-						<div class="text-end">
-							<a href="/" id="btn-delete-program" class="btn btn-secondary">삭제</a>
-							<a href="/" id="btn-modify-move" class="btn btn-primary">수정</a>
+				<sec:authorize access="hasRole('ROLE_ADMIN')">
+					<div class="row">
+						<div class="col-12">
+							<div class="text-end">
+								<a href="/" id="btn-delete-program" class="btn btn-secondary">삭제</a>
+								<a href="/" id="btn-modify-move" class="btn btn-primary">수정</a>
+							</div>
 						</div>
 					</div>
-				</div>
-				
+				</sec:authorize>
 				<div class="row">
 					<div class="col-12">
 						<nav aria-label="Page navigation example">
