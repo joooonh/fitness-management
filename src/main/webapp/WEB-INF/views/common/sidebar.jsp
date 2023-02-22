@@ -11,7 +11,7 @@
 		</a>
 	</li>
 	<li class="nav-item mb-2">
-		<a href="/admin/program/list" class="nav-link text-white p-3 mb-2 sidebar-link">
+		<a href="/emp/admin/program/list" class="nav-link text-white p-3 mb-2 sidebar-link">
 			<i class="bi bi-pc-display-horizontal"></i> 프로그램관리
 		</a>
 		<ul class="submenu  mb-2">
