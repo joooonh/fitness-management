@@ -13,4 +13,6 @@ public interface EmployeeRoleMapper {
 	List<EmployeeRole> getEmployeeRolesByEmployeeId(String empId);
 	// 직원 권한 등록
 	void insertEmployeeRole(String empId);
+	// 직원 권한 삭제
+	void deleteEmployeeRoleById(String empId);
 }

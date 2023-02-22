@@ -136,7 +136,8 @@ public class EmployeeService {
 	public void deleteEmployee(String empId) {
 		String[] employeeIdList = empId.split(",");
 		for(String employeeId : employeeIdList) {
-			employeeMapper.deleteEmployee(employeeId);
+			employeeRoleMapper.deleteEmployeeRoleById(employeeId);
+			employeeMapper.deleteEmployeeByEmpId(employeeId);
 		}
 	}
 }
