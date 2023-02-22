@@ -24,7 +24,8 @@
 			<!--------------------------------- Content 영역 ------------------------------------------->
 			<div class="row">
 				<div class="col-12">
-					<h1>직원 정보 수정</h1>
+					<span><h5 class="" ><i class="bi bi-person-video ms-2 me-3"></i>직원 정보 수정</h5></span>
+					<hr width="103%" color="gray">
 				</div>
 			</div>
 			

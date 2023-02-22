@@ -24,7 +24,8 @@
 			<!--------------------------------- Content 영역 ------------------------------------------->
 			<div class="row">
 				<div class="col-12">
-					<h1>프로그램 등록</h1>
+					<span><h5 class="" ><i class="bi bi-pc-display-horizontal ms-2 me-3"></i>프로그램 등록</h5></span>
+					<hr width="103%" color="gray">
 				</div>
 			</div>
 			
