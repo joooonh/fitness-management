@@ -94,7 +94,7 @@
 											<td>${program.categoryName }</td>
 											<td>${program.employeeName }</td>
 											<td><fmt:formatDate value="${program.startDate }" pattern="yyyy-MM-dd"/> </td>
-											<td><fmt:formatDate value="${program.endDate }" pattern="yyyy-MM-dd"/> </td>
+											<td class="endDate"><fmt:formatDate value="${program.endDate }" pattern="yyyy-MM-dd"/> </td>
 											<td>${program.requestCount }</td>
 											<td>${program.status }</td>
 										</tr>
