@@ -24,7 +24,8 @@
 			<!--------------------------------- Content 영역 ------------------------------------------->
 			<div class="row">
 				<div class="col-12">
-					<h1>매장정보</h1>
+					<span><h5 class="" ><i class="bi bi-shop-window ms-2 me-3"></i>매장정보</h5></span>
+					<hr width="103%" color="gray">
 				</div>
 			</div>
 			
