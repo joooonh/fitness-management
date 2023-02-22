@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.dto.ProgramDayDto;
 import com.example.dto.ProgramDto;
+import com.example.exception.ApplicationException;
 import com.example.mapper.ProgramMapper;
 import com.example.utils.Pagination;
 import com.example.vo.Program;
@@ -57,7 +58,11 @@ public class ProgramService {
 	// 프로그램 상세 정보
 	public ProgramDto getProgramDetail(int programNo) {
 		// 프로그램번호로 프로그램 정보 조회
-		return programMapper.getProgramDetail(programNo);
+		ProgramDto programDto = programMapper.getProgramDetail(programNo);
+		if (programDto == null) {
+			throw new ApplicationException(programNo+"에 해당하는 프로그램 정보가 없습니다.");
+		}
+		return programDto;
 	}
 	
 	// 프로그램 신청자 목록
@@ -93,6 +98,9 @@ public class ProgramService {
 	public void updateProgram(ProgramForm form) {
 		// 프로그램 정보 조회
 		Program program = programMapper.getProgramByProgramNo(form.getNo());
+		if (program == null) {
+			throw new ApplicationException(form.getNo()+"에 해당하는 프로그램 정보가 없습니다.");
+		}
 		BeanUtils.copyProperties(form, program);
 		
 		programMapper.deleteProgramDays(form.getNo());

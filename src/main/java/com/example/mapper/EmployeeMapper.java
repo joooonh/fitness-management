@@ -30,5 +30,5 @@ public interface EmployeeMapper {
 	// 직원 등록
 	void insertEmployee(Employee employee);
 	// 직원 삭제
-	void deleteEmployee(String empId);
+	void deleteEmployeeByEmpId(String empId);
 }
