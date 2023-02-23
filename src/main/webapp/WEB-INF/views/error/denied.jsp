@@ -16,16 +16,12 @@
 <%@ include file="../common/header.jsp" %>
 <div class="container-fluid mt-4">
 	<div class="row">
-		<div class="col-md-2 sidebar">
-			<!---------------------------------- 사이드 바 영역  ----------------------------------------->
-			<%@ include file="../common/sidebar.jsp" %>
-		</div>
-		<div class="col-md-10 ps-4 pt-5">
+		<div class="col-12 ps-4 pt-5">
 			<!--------------------------------- Content 영역 ------------------------------------------->
 			<div class="row">
 				<div class="col-12">
 					<div class="alert alert-danger text-center">
-						<h1 class="mb-4">해당 메뉴는 관리자만 접근 가능합니다.</h1>
+						<h1 class="mb-4">해당 메뉴에 접근할 수 없습니다.</h1>
 					</div>
 				</div>
 			</div>

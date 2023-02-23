@@ -5,12 +5,13 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-
 import com.example.dto.ProgramDetailDto;
+import com.example.dto.ScheduleCheckDto;
 import com.example.dto.UserListAttDto;
 import com.example.vo.FitnessProgram;
 
 import com.example.vo.FitnessProgramCategory;
+import com.example.vo.ProgramDay;
 import com.example.vo.User;
 import com.example.vo.UserAttendance;
 import com.example.vo.UserClassAttendance;
@@ -28,10 +29,14 @@ public interface UserMapper {
 	void insertUser(User user);
 	// 사용자 정보 변경
 	void updateUser(User user);
+	// 프로그램 신청
+	void registerClass(String userId);
+	// 회원권 신청
+	void registerMemvership(String userId);
+	
 	
 	// 모든 사용자 조회
-	int getTotalRows(Map<String,Object>param);
-  
+	int getTotalRows(Map<String,Object> param);
 	// 출석 조회
 	List<UserListAttDto> getUserList(Map<String,Object> param);
 	// 프로그램 분류 목록 조회

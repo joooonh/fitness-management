@@ -8,7 +8,6 @@
 <link rel="stylesheet" href="/resources/css/common.css">
 <title>애플리케이션</title>
 <style type="text/css">
-
 	body {
         height: 100vh;
         width: 100vw;
@@ -37,10 +36,7 @@
 		font-size: xx-large;
 		font-weight: bold;
 	}
-	.container{
-		margin: 0 auto;
-		margin-top: 90px;
-	}
+	
 	#row{
 		background-color: #eee;
 		width: 800px;
