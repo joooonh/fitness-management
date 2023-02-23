@@ -42,7 +42,7 @@
 			<div class="row ms-3">
 				<div class="row pt-2 mb-3">
 					<div class="col-12">
-						<span><h5 class="" ><i class="bi bi-person-lines-fill ms-2 me-3"></i>회원정보조회</h5></span>
+						<h5><i class="bi bi-person-lines-fill ms-2 me-3"></i><strong>회원정보 조회</strong></h5>
 						<hr width="103%" color="gray">
 					</div>
 				</div>
@@ -127,7 +127,7 @@
 							</tbody>
 						</table>
 						<div class="row">
-							<span><p>총 ${totalRows }명</p></span>
+							<strong><p>총 ${totalRows }명</p></strong>
 						</div>
 						<div class="row">
 							<div class="col-12">

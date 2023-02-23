@@ -25,7 +25,7 @@
 			<div class="row ms-3">
 				<div class="row pt-2 mb-3">
 					<div class="col-12">
-						<span><h5 class="" ><i class="bi bi-person-lines-fill ms-2 me-3"></i>프로그램 신청 현황</h5></span>
+						<h5><i class="bi bi-person-lines-fill ms-2 me-3"></i><strong>프로그램 신청현황</strong></h5>
 						<hr width="103%" color="gray">
 					</div>
 					
