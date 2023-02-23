@@ -2,43 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.example.mapper.UserMapper">
 
-	<insert id="insertUser" parameterType="User">
-		<selectKey keyProperty="no" resultType="int" order="BEFORE">
-			select users_seq.nextval from dual
-		</selectKey>
-		insert into users
-			(user_no, user_id, user_password, user_name, user_gender, user_birthday, user_email, 
-			 user_photo, user_zipcode, user_basic_address, user_detail_address, user_tel)
-		values
-			(#{no}, #{id}, #{encryptPassword}, #{name}, #{gender}, #{birth}, #{email},
-			 #{photo}, #{zipcode}, #{basicAddr}, #{detailAddr}, #{tel})
-	</insert>
-	
-	
-	
-	<update id="updateUser" parameterType="User">
-		update 
-			users
-		set
-			user_password = #{encryptPassword},
-			user_name = #{name},
-			user_gender = #{gender},
-			user_birthday = #{birth},
-			user_email = #{email},
-			user_photo = #{photo},
-			user_zipcode = #{zipcode},
-			user_basic_address = #{basicAddr},
-			user_detail_address = #{detailAddr},
-			user_tel = #{tel},
-			user_deleted = #{deleted},
-			user_updated_date = sysdate
-		where
-			user_id = #{id}
-		
-	</update>
-	
-
-	
+	<!-- 모든 사용자 조회 -->
 	<select id="getAllUsers" resultType="User">
 		select
 			user_no 				as no, 
@@ -62,6 +26,7 @@
 			user_deleted = 'N'
 	</select>
 	
+	<!-- 아이디로 사용자 조회 -->
 	<select id="getUserById" parameterType="string" resultType="User">
 		select
 			user_no 				as no, 
@@ -86,6 +51,7 @@
 			and user_deleted = 'N'
 	</select>
 	
+	<!-- 이메일로 사용자 조회 -->
 	<select id="getUserByEmail" parameterType="string" resultType="User">
 		select
 			user_no 				as no, 
@@ -110,8 +76,41 @@
 			and user_deleted = 'N'
 	</select>
 	
+	<!-- 사용자 추가 -->
+	<insert id="insertUser" parameterType="User">
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+			select users_seq.nextval from dual
+		</selectKey>
+		insert into users
+			(user_no, user_id, user_password, user_name, user_gender, user_birthday, user_email, 
+			 user_photo, user_zipcode, user_basic_address, user_detail_address, user_tel)
+		values
+			(#{no}, #{id}, #{encryptPassword}, #{name}, #{gender}, #{birth}, #{email},
+			 #{photo}, #{zipcode}, #{basicAddr}, #{detailAddr}, #{tel})
+	</insert>
+	
+	<!-- 사용자 정보 변경 -->	
+	<update id="updateUser" parameterType="User">
+		update 
+			users
+		set
+			user_password = #{encryptPassword},
+			user_name = #{name},
+			user_gender = #{gender},
+			user_birthday = #{birth},
+			user_email = #{email},
+			user_photo = #{photo},
+			user_zipcode = #{zipcode},
+			user_basic_address = #{basicAddr},
+			user_detail_address = #{detailAddr},
+			user_tel = #{tel},
+			user_deleted = #{deleted},
+			user_updated_date = sysdate
+		where
+			user_id = #{id}
+	</update>
 
-
+	
 	<select id="getUserList" parameterType="map" resultType="UserListAttDto">
 		select
 				user_no 				    as userNo,
@@ -175,6 +174,5 @@
 		from
    			 fitness_program_category
 	</select>
-	
 
 </mapper>

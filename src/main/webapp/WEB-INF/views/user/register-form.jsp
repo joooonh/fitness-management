@@ -12,7 +12,6 @@
 		width: 60%;
 		margin: 0 auto;
 	}
-		
 	#btn-upload {
 		position: relative;
 		background-color: transparent;
@@ -20,12 +19,10 @@
 		top: 30px;
 		left: -40px;
 	}
-	
 	#camera-img {
 		width: 40px;
 		heith: 40px;
 	}
-	
 </style>
 </head>
 <body class="pt-5">

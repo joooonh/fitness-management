@@ -53,8 +53,8 @@
 <div class="container">
    <div class="row" id="row">
 			<div class="p-4" id="box">
-				<h1 class="mb-4">회원가입 완료</h1>
-				<p style="text-align:center">회원가입이 완료되었습니다.</p>
+				<h1 class="mb-4">프로그램 신청 완료</h1>
+				<p style="text-align:center">프로그램 신청이 완료되었습니다.</p>
 			</div>
    </div>
 </div>
