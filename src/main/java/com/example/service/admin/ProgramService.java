@@ -74,6 +74,13 @@ public class ProgramService {
 	public List<ProgramCategory> getProgramCategory() {
 		return programMapper.getProgramCategory();
 	}
+
+	// 프로그램 분류 수정
+	public void updateCategory(int no, String name) {
+		ProgramCategory category =programMapper.getCategoryByNo(no);
+		category.setName(name);
+		programMapper.updateCategory(category);
+	}
 	
 	// 프로그램 등록
 	public void insertProgram(ProgramForm form) {

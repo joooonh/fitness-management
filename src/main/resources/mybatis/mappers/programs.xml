@@ -264,5 +264,25 @@
 		from
 			fitness_program_category
 	</select> 
-
+	
+	<!-- 카테고리번호에 해당하는 카테고리 정보 -->
+	<select id="getCategoryByNo" parameterType="int" resultType="ProgramCategory">
+		select
+			fitness_program_category_no		as no,
+			fitness_program_category_name	as name
+		from
+			fitness_program_category
+		where
+			fitness_program_category_no	= #{value}
+	</select>
+	
+	<!-- 카테고리 정보 수정 -->
+	<update id="updateCategory" parameterType="ProgramCategory">
+		update
+			fitness_program_category
+		set
+			fitness_program_category_name = #{name}
+		where
+			fitness_program_category_no	= #{no}
+	</update>
 </mapper>
