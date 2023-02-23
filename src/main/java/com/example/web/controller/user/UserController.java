@@ -24,9 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.exception.InconsistentPasswordException;
 import com.example.security.AuthenticatedUser;
 import com.example.security.vo.LoginUser;
-import com.example.service.admin.ClubService;
 import com.example.service.user.UserService;
-import com.example.vo.Club;
 import com.example.vo.MembershipHistory;
 import com.example.vo.User;
 import com.example.web.request.UserModifyForm;
@@ -40,19 +38,6 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
-	@Autowired
-	private ClubService clubService;
-	
-	// 프로그램 신청
-	@GetMapping("/classReg")
-	public String registerClass(Model model) {
-		
-		// 매장정보
-		Club club = clubService.getClub();
-		model.addAttribute("club", club);
-		
-		return "user/class-register";
-	}
 	
 	// 내 정보 조회/수정 폼 요청
 	@GetMapping("/info")
@@ -125,16 +110,13 @@ public class UserController {
 	// 회원 탈퇴 페이지 요청
 	@GetMapping("/delete")
 	public String getdeleteForm() {
-		
 		return "user/info-delete";
 	}
 	
 	// 회원 탈퇴 요청
 	@PostMapping("/delete")
 	public String deleteUser(@AuthenticatedUser LoginUser loginUser, String password) {
-		
 		userService.deleteUser(loginUser.getId(), password);
-		
 		return "redirect:deleted";
 	}
 	

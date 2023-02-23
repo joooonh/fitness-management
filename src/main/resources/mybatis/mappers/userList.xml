@@ -2,27 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.example.mapper.UserListMapper">
 
-	<!-- 전체 프로그램 조회 -->
-	<select id="getAllPrograms" resultType="FitnessProgram">
-		select
-			program_no				as no,
-			program_name			as name,
-			program_start_date		as startDate,
-			program_end_date		as endDate,
-			program_start_hour		as startHour,
-			program_end_hour		as endHour,
-			program_quota			as quota,
-			program_request_count	as requestCount,
-			program_price			as price,
-			program_status			as status,
-			program_created_date	as createdDate,
-			program_updated_date	as updatedDate,
-			employee_id				as employeeId,
-			fitness_program_category_no	as programCtegoryNo
-		from
-			fitness_programs
-	</select>
-	
 	<!-- 검색조건에 해당하는 회원목록 전체 행 개수 조회 -->
 	<select id="getUserListTotalRows" parameterType="map" resultType="int">
 	select
@@ -59,7 +38,7 @@
 		<result column="birth" property="birth"/>
 		<result column="tel" property="tel"/>
 		
-		<collection property="programs" ofType="FitnessProgram">
+		<collection property="programs" ofType="Program">
     		<id column="progNo" property="no"/>
     		<result column="progName" property="name"/>
   		</collection>
