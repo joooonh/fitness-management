@@ -18,6 +18,7 @@
 			<a href="/emp/admin/program/list" class="nav-link text-white">프로그램 조회</a>
 			<sec:authorize access="hasRole('ROLE_ADMIN')">
 			<a href="/emp/admin/program/insert" class="nav-link text-white">프로그램 등록</a>
+			<a href="/emp/admin/program/category" class="nav-link text-white">카테고리</a>
 			</sec:authorize>
 		</ul>
 	</li>
