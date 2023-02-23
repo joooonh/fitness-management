@@ -30,6 +30,10 @@ public interface ProgramMapper {
 	List<User> getUsersByProgramNo(int programNo);
 	// 프로그램 카테고리 목록
 	List<ProgramCategory> getProgramCategory();
+	// 카테고리 번호에 해당하는 카테고리 정보
+	ProgramCategory getCategoryByNo(int no);
+	// 프로그램 카테고리 수정
+	void updateCategory(ProgramCategory category);
 	// 프로그램 등록
 	void insertProgram(Program program);
 	// 프로그램 진행 요일 등록
@@ -42,5 +46,4 @@ public interface ProgramMapper {
 	void deleteProgram(int programNo);
 	// 프로그램 진행 요일 삭제
 	void deleteProgramDays(int programNo);
-	
 }
