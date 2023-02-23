@@ -62,29 +62,6 @@
 										</td>
 									</tr>
 									<tr>
-										<th class="table-secondary">비밀번호</th>
-										<td>
-											<form:password path="password" class="form-control form-control-sm" />
-											<form:errors path="password" cssClass="text-danger" />
-											<span id="passwordCheck" class="text-danger"></span>
-										</td>
-									</tr>
-									<tr>
-										<th class="table-secondary">비밀번호 확인</th>
-										<td>
-											<form:password path="passwordConfirm" class="form-control form-control-sm" />
-											<form:errors path="passwordConfirm" cssClass="text-danger" />
-											<span id="passwordConfirmCheck" class="text-danger"></span>
-										</td>
-									</tr>
-									<tr>
-										<th class="table-secondary">이메일</th>
-										<td>
-											<form:input path="email" class="form-control" />
-											<form:errors path="email" cssClass="text-danger" />
-										</td>
-									</tr>
-									<tr>
 										<th class="table-secondary">연락처</th>
 										<td>
 											<form:input path="tel" class="form-control" />
