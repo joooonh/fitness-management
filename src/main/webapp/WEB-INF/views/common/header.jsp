@@ -12,7 +12,7 @@
 					<div class="row ">
 						<div class="col-md-2 mt-2">
 							<a href="/" class="navbar-brand" >
-								<img src="/resources/images/logo.svg" alt="Logo" width="40" height="27" class="d-inline-block align-text-top me-2 img-logo">중앙피트니스
+								<img src="/resources/images/logo.svg" alt="Logo" width="40" height="27" class="d-inline-block align-text-top me-2 img-logo"><strong>중앙피트니스</strong>
 							</a>
 						</div>
 						<div class="col-md-10">

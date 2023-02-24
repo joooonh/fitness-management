@@ -44,14 +44,13 @@
 			fitness_programs
 		where
 			(program_start_date between #{startDate} and #{endDate}
-			or program_end_date between #{endDate} and #{endDate})
+			or program_end_date between #{startDate} and #{endDate})
 	</select>
 	
 	<!-- 프로그램 요일 조회 -->
-	<select id="getAllProgramDays" parameterType="int" resultType="ProgramDay">
+	<select id="getAllProgramDays" parameterType="int" resultType="string">
 		select
-		    program_no          as programNo,
-		    program_open_day    as day
+		    program_open_day
 		from
 		    fitness_program_days
 		where

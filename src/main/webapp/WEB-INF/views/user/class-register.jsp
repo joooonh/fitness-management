@@ -66,7 +66,7 @@
 					</div>
 					<div class="col-5">
 						<select name="programNo" class="form-select d-inline">
-							<option value="0" disabled="disabled">프로그램명 선택</option>
+							<option value="">프로그램명 선택</option>
 							<c:forEach var="program" items="${programList }">
 								<option value="${program.no }" ${param.programNo eq program.no ? 'selected' : '' }>${program.name }</option>
 							</c:forEach>
@@ -90,9 +90,20 @@
 					</div>
 				</div>
 				<div class="row mb-4">
-					<h4><strong>회원권 신청 (선택)</strong></h4>
+					<h4><strong>회원권 신청 (선택사항)</strong></h4>
 				</div>
 				<div class="row mb-3">
+					<div class="col-2">
+						<label class="form-label"><strong>신청여부</strong>
+					</div>
+					<div class="col-10">
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="checkbox" id="memRegister" checked>
+							<label class="form-check-label">신청</label>
+						</div>										
+					</div>
+				</div>
+				<div class="row mb-3 member-box">
 					<div class="col-2">
 						<label class="form-label"><strong>시작날짜</strong>
 					</div>
@@ -104,7 +115,7 @@
 					</div>
 					<div class="col-4">
 						<select name="memPeriod" class="form-select d-inline" >
-							<option value="0">회원권 기간 선택</option>
+							<option value="">회원권 기간 선택</option>
 							<option value="1">1개월</option>
 							<option value="3">3개월</option>
 							<option value="6">6개월</option>
@@ -112,7 +123,7 @@
 						</select>
 					</div>
 				</div>
-				<div class="row mb-5">
+				<div class="row mb-5 member-box">
 					<div class="col-2">
 						<label class="form-label"><strong>종료날짜</strong>
 					</div>
@@ -123,7 +134,7 @@
 						<label class="form-label"><strong>가격</strong>
 					</div>
 					<div class="col-4">
-						<input type="text" name="memPrice" class="form-control" value="가격" readonly="readonly">
+						<input type="text" name="memPrice" class="form-control" value="" readonly="readonly">
 					</div>
 				</div>
 				<div class="row mb-3">
@@ -140,22 +151,20 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script type="text/javascript">
 $(function(){
-
+	
  	// 달력 API 
 	let calendarEl = document.getElementById("calendar");
 	// FullCalendar의 Calender객체를 생성한다.
 	let calendar = new FullCalendar.Calendar(calendarEl, {
 		headerToolbar:{
-			start: ' ',
+			start: '',
 			center: 'title'
 		},
 		locale: 'ko',						// 달력의 월, 요일정보가 한글로 표시되도록 한다.
 		initialView: 'dayGridMonth',		// 달력의 초기화면을 월별로 일정이 표시되게 한다.
-		// events 프로퍼티에는 달력이 변경될 때마다 실행되는 함수를 등록한다.
-		// info는 화면에 표시되는 달력의 시작일, 종료일을 제공한다.
 		// 일정정보를 조회하고, successCallback(이벤트배열)함수의 매개변수로 일정정보를 제공하고 실행하면 화면에 반영된다.
-		events: function(info, successCallback, failureCallback) {
-			refreshEvents(info, successCallback);
+		events: function(info, successCallback, failureCallback) {	// events 프로퍼티에는 달력이 변경될 때마다 실행되는 함수를 등록한다.
+			refreshEvents(info, successCallback);					// info는 화면에 표시되는 달력의 시작일, 종료일을 제공한다.
 		}
 	});
 	// Calendar를 렌더링한다.
@@ -183,10 +192,40 @@ $(function(){
 		})
 	} 
 	
+	// 프로그램 선택 유효성 체크 
+	$("#form-classReg").submit(function(){
+		const progNo = $(":input[name=programNo]").val();
+		const memStartDate = $(":input[name=memStartDate]").val();
+		const memPeriod = $(":input[name=memPeriod]").val();
+		
+		if(progNo === ""){
+			alert("프로그램을 선택하세요.");
+			return false;
+		}
+		if($("#memRegister").prop("checked")){
+			if(memStartDate === ""){
+				alert("회원권 시작날짜를 선택하세요.");
+				return false;
+			}
+			if(memPeriod === ""){
+				alert("회원권 기간을 선택하세요.");
+				return false;
+			}
+		}
+	})
+	
+	// 회원권 신청여부를 선택할 때만 서버로 전송
+	$("#memRegister").change(function() {
+		if ($(this).prop("checked")) {
+			$(".member-box :input").prop("disabled", false);
+		} else {
+			$(".member-box :input").prop("disabled", true);
+		}
+	});
 	
 	// 선택한 프로그램에 해당하는 시간, 가격 표시 ajax
 	$(":input[name=programNo]").change(function(){
-		let programNo = $(this).val();
+		const programNo = $(this).val();
 		$.getJSON("/user/classInfo", {no:programNo}, function(program){
 			$("#class-time").val(program.startHour);
 			$("#class-price").val(program.price);
@@ -196,33 +235,33 @@ $(function(){
 	// 회원권 기간 설정에 따른 회원권 종료 날짜, 가격 표시 ajax 
     $(":input[name=memPeriod]").on('change', function(){
     	// 종료날짜 계산
-	    let startDate= $("input[name=memStartDate]").val();
-	    let period = $(":input[name=memPeriod]").val();
+	    const startDate= $("input[name=memStartDate]").val();
+	    const period = $(":input[name=memPeriod]").val();
 	    
-	    let endDate = moment(startDate).add(period, 'months').format("YYYY-MM-DD");
+	    const endDate = moment(startDate).add(period, 'months').format("YYYY-MM-DD");
 	    $("input[name=memEndDate]").val(endDate);
 	    
 	    // 가격 표시
-	    let totalPrice = period*150000;
+	    const totalPrice = period*150000;
 	    $("input[name=memPrice]").val(totalPrice);
 	    
     })
 	
 	// 카카오 지도 API 
-	var latitude = $("input[name=latitude]").val();
-	var longitude = $("input[name=longitude]").val();
-	var container = document.getElementById('map'); // 지도를 담을 영역의 DOM 레퍼런스
+	const latitude = $("input[name=latitude]").val();
+	const longitude = $("input[name=longitude]").val();
+	const container = document.getElementById('map'); // 지도를 담을 영역의 DOM 레퍼런스
 	
-	var options = { // 지도를 생성할 때 필요한 기본 옵션
+	const options = { // 지도를 생성할 때 필요한 기본 옵션
 		center: new kakao.maps.LatLng(latitude, longitude), // 지도의 중심좌표
 		level: 3 // 지도의 레벨(확대, 축소 정도)
 	};
 	// 지도 생성 및 객체 리턴
-	var map = new kakao.maps.Map(container, options); 
+	const map = new kakao.maps.Map(container, options); 
 	// 마커가 표시될 위치
-	var markerPosition  = new kakao.maps.LatLng(latitude, longitude); 
+	const markerPosition  = new kakao.maps.LatLng(latitude, longitude); 
 	// 마커를 생성
-	var marker = new kakao.maps.Marker({
+	const marker = new kakao.maps.Marker({
 	    position: markerPosition
 	});
 	// 마커가 지도 위에 표시되도록 설정

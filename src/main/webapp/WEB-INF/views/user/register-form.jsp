@@ -29,7 +29,7 @@
 <c:set var="menu" value="register" />
 <%@ include file="../common/header.jsp" %>
 <div class="container">
-   <div class="row mt-4">
+   <div class="row">
 		<div class="col-12">
 			<form:form modelAttribute="userRegisterForm" id="form-register" class="border bg-light mt-5 p-3" method="post" action="/user/register" enctype="multipart/form-data">
 				<div class="row mb-3" style="margin:auto;text-align:center;">
