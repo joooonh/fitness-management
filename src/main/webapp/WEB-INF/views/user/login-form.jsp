@@ -11,7 +11,7 @@
 	body {
         height: 100vh;
         width: 100vw;
-        background-image: url('/resources/images/home.jpg');
+        background-image: url('/resources/images/home2.jpg');
         background-repeat : no-repeat;
         background-size : cover;
         background-opacity: 0.5;
@@ -34,7 +34,6 @@
 	#login-head {
 		text-align: center;
 		font-size: xx-large;
-		font-weight: bold;
 	}
 	
 	#row{
@@ -45,8 +44,8 @@
 		padding-left: 200px;
 		padding-right: 200px;
 		margin-top: 200px;
-		opacity: 0.93;
-		border-radius: 40px 40px 40px 40px;
+		opacity: 0.9;
+		border-radius: 40px;
 	}
 </style>
 </head>
@@ -55,7 +54,7 @@
 <%@ include file="../common/header.jsp" %>
 <div class="container">
    <div class="row" id="row">
-   		<div class="col-12" id="col">
+   		<div class="col-12">
    			<form class="form" id="form-login" method="post" action="/login">
    			<!-- csrf 토큰값을 히든필드로 추가한다. -->
 			<sec:csrfInput />
@@ -64,7 +63,7 @@
    				<div class="row mb-3">
    					<div  id="login-head">
    						<img src="/resources/images/logo.svg" alt="Logo" width="40" height="27" class="text-black me-3">
-   						중앙피트니스
+   						<strong>중앙피트니스</strong>
    					</div>
    				</div>
    				<c:if test="${param.error eq 'fail' }">

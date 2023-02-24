@@ -22,7 +22,6 @@ import com.example.service.admin.ClubService;
 import com.example.service.user.ClassRegisterService;
 import com.example.vo.Club;
 import com.example.vo.Program;
-import com.example.vo.ProgramDay;
 
 @Controller
 @RequestMapping("/user")
