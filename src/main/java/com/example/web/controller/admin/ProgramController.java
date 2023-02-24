@@ -138,11 +138,28 @@ public class ProgramController {
 		return "admin/program/category";
 	}
 	
-	// 프로그램 분류 수정
+	// 프로그램 카테고리 수정
 	@GetMapping("/modify-category")
 	public String modifyCategory(@RequestParam(name = "no") int no, 
 			@RequestParam(name = "name") String name) {
 		programService.updateCategory(no, name);
+		
+		return "redirect:category";
+	}
+	
+	// 프로그램 카테고리 삭제
+	@GetMapping("/delete-category")
+	public String deleteCategory(@RequestParam(name = "no") int no, 
+			@RequestParam(name = "name") String name) {
+		programService.deleteCategory(no, name);
+		
+		return "redirect:category";
+	}
+	
+	// 프로그램 카테고리 등록
+	@GetMapping("/insert-category")
+	public String insertCategory(@RequestParam(name = "name") String name) {
+		programService.insertCategory(name);
 		
 		return "redirect:category";
 	}

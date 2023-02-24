@@ -285,4 +285,20 @@
 		where
 			fitness_program_category_no	= #{no}
 	</update>
+	
+	<!-- 카테고리 삭제 -->
+	<delete id="deleteCategory" parameterType="ProgramCategory">
+		delete from
+			fitness_program_category
+		where
+			fitness_program_category_no	= #{no}
+	</delete>
+	
+	<!-- 카테고리 등록 -->
+	<insert id="insertCategory" parameterType="string">
+		insert into fitness_program_category
+			(fitness_program_category_no, fitness_program_category_name)
+		values
+			(fitness_program_category_seq.nextval, #{value})
+	</insert>
 </mapper>
