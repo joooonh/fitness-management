@@ -84,11 +84,22 @@
 			`;
 			$("tbody").append(addTr);
 		});
-		
+		// 수정버튼 클릭시 이벤트
 		$(".modify-category").click(function() {
 			let no = $(this).closest("tr").find("input[name=no]").val();
 			let name = $(this).closest("tr").find("input[name=name]").val();
 			location.href = "modify-category?no="+no+"&name="+name;
+		});
+		// 삭제버튼 클릭시 이벤트
+		$(".delete-category").click(function() {
+			let no = $(this).closest("tr").find("input[name=no]").val();
+			let name = $(this).closest("tr").find("input[name=name]").val();
+			location.href = "delete-category?no="+no+"&name="+name;
+		});
+		// 등록버튼 클릭시 이벤트
+		$("table tbody").on('click', '.insert-category', function() {
+			let name = $(this).closest("tr").find("input[name=name]").val();
+			location.href = "insert-category?&name="+name;
 		});
 	})
 </script>

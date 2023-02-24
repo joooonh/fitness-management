@@ -1,5 +1,6 @@
 package com.example.service.admin;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +45,32 @@ public class ProgramService {
 		param.put("sort", sort);
 		param.put("keyword", keyword);
 		
-		List<Program> programs = programMapper.getAllPrograms(param);
+		List<ProgramDto> programs = programMapper.getAllPrograms(param);
+		
+		for (ProgramDto programDto : programs) {
+			Program program = programMapper.getProgramByProgramNo(programDto.getNo());
+			// 프로그램 정원과 신청인원이 같으면 마감처리한다.
+			if (program.getQuota() == program.getRequestCount()) {
+				program.setStatus("마감");
+				programMapper.updateProgram(program);
+			}
+			// 프로그램 시작일과 종료일, 오늘날짜를 비교한다.
+			Date today = new Date();
+			Date startDate = program.getStartDate();
+			Date endDate = program.getEndDate();
+			boolean startCompare = today.after(startDate);
+			boolean endCompare = today.after(endDate);
+			// 프로그램 시작일이 오늘날짜가 지나면 진행중으로 바뀐다.
+			if (startCompare) {
+				program.setStatus("진행중");
+				programMapper.updateProgram(program);
+			}
+			// 프로그램 종료일이 지나면 마감처리한다.
+			if (endCompare) {
+				program.setStatus("마감");
+				programMapper.updateProgram(program);
+			}
+		}
 		
 		// controller에 전달해줄 Map<String, Object> 객체 생성
 		Map<String, Object> result = new HashMap<>();
@@ -75,11 +101,21 @@ public class ProgramService {
 		return programMapper.getProgramCategory();
 	}
 
-	// 프로그램 분류 수정
+	// 프로그램 카테고리 수정
 	public void updateCategory(int no, String name) {
 		ProgramCategory category =programMapper.getCategoryByNo(no);
 		category.setName(name);
 		programMapper.updateCategory(category);
+	}
+	
+	// 프로그램 카테고리 삭제
+	public void deleteCategory(int no, String name) {
+		ProgramCategory category =programMapper.getCategoryByNo(no);
+		programMapper.deleteCategory(category);
+	}
+	// 프로그램 카테고리 등록
+	public void insertCategory(String name) {
+		programMapper.insertCategory(name);
 	}
 	
 	// 프로그램 등록
