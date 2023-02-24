@@ -12,10 +12,14 @@
 	body {
         height: 100vh;
         width: 90vw;
-        background-image: url('/resources/images/home.jpg');
+        background-image: url('/resources/images/home2.jpg');
         background-repeat : no-repeat;
         background-size : cover;
         background-opacity: 0.5;
+	}
+	.box {
+		margin-top: 250px;
+		margin-left: 110px;
 	}
 </style>
 </head>
@@ -30,7 +34,14 @@
 		</div>
 		<div class="col-md-10 ps-4 pt-5">
 			<!-- Content 영역 -->
-			
+			<div class="row box">
+				<div class="row mb-5">
+					<h3 class="text-white">언제 어디서나 운동을 일상처럼</h3>
+				</div>
+				<div class="row mb-5">
+					<h1 class="text-white"><strong>Everywhere JA Fitness</strong></h1>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

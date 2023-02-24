@@ -8,11 +8,10 @@
 <link rel="stylesheet" href="/resources/css/common.css">
 <title>애플리케이션</title>
 <style type="text/css">
-
 	body {
         height: 100vh;
         width: 100vw;
-        background-image: url('/resources/images/home.jpg');
+        background-image: url('/resources/images/home2.jpg');
         background-repeat : no-repeat;
         background-size : cover;
         background-opacity: 0.5;
@@ -35,7 +34,6 @@
 	#login-head {
 		text-align: center;
 		font-size: xx-large;
-		font-weight: bold;
 	}
 	.container{
 		margin: 0 auto;
@@ -49,8 +47,8 @@
 		padding-left: 200px;
 		padding-right: 200px;
 		margin-top: 200px;
-		opacity: 0.93;
-		border-radius: 40px 40px 40px 40px;
+		opacity: 0.9;
+		border-radius: 40px;
 	}
 </style>
 </head>
@@ -67,7 +65,7 @@
    				<div class="row mb-3">
    					<div  id="login-head">
    						<img src="/resources/images/logo.svg" alt="Logo" width="40" height="27" class="text-black me-3">
-   						중앙피트니스 관리자
+   						<strong>중앙피트니스 관리자</strong>
    					</div>
    				</div>
    				<c:if test="${param.error eq 'fail' }">

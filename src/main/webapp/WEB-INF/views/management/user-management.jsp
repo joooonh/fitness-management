@@ -14,13 +14,13 @@
 		align-content: center;
 		list-style: none;
 		float: left;
-		padding: 10px 10px 10px 10px;
+		padding: 10px;
 		cursor: pointer;
 		text-align: center;
 		width: 10%;
 		background-color: #eee;
 		font-weight: bold;
-		border-radius: 20px 20px 20px 20px;
+		border-radius: 20px;
 	}
 	.active{
 		background-color: black;
@@ -37,7 +37,7 @@
 			<!-- 사이드 바 영역  -->
 			<%@ include file="../common/sidebar.jsp" %>
 		</div>
-		<div class="col-md-10 ps-4 pt-5">
+		<div class="col-md-10 ps-2 pt-5">
 			<!-- Content 영역 -->
 			<div class="row ms-3">
 				<div class="row pt-2 mb-3">
@@ -72,8 +72,9 @@
 								<button type="button" class="btn btn-xs btn-success">sms 전송</button>
 							</div>
 							<div class="col text-end mt-3">
-								<a href="" class="text-decoration-none text-dark">회원번호순</a>
-								<a href="" class="text-decoration-none text-dark">이름순</a>
+								<a href="userList?sort=no" class="text-decoration-none text-dark" data-sort="no">회원번호순 </a>
+								<a href="userList?sort=date" class="text-decoration-none text-dark" data-sort="date">최근등록순 </a>
+								<a href="userList?sort=name" class="text-decoration-none text-dark" data-sort="name">이름순</a>
 							</div>
 						</div>
 						<table class="table table-sm table-hover border" id="table-member-list">
@@ -151,7 +152,7 @@
 					</form>
 				</div>
 				<!--------------------------- (우) 회원 정보 ------------------------------>
-				<div class="col-7">
+				<div class="col">
 					<div class="row">
 						<div class="col-3 pt-4" style="text-align:center" >
 							<div >
@@ -432,12 +433,25 @@ $(function(){
 		$("#tab-table-list .table-sm").eq(index).show();
 	})
 	
+	// 정렬방식을 클릭했을 때 실행되는 이벤트 핸들러 함수다.
+	function changeSort(event, sort) {
+		event.preventDefault();
+		var sortField = document.querySelector("[name=sort]");	// <input type="hidden" name="sort" /> input 엘리먼트를 조회한다.
+		sortField.value = sort;									// 위에서 조회한 input 엘리먼트의 값을 변경한다. sort 값이 변경된다.
+		
+		submitForm();	// 정렬방식을 변경했기 때문에 페이지번호는 1이 되어야 한다.
+	}
+	
 	// 페이지 클릭 이벤트
 	$(".pagination a").click(function(event) {
+		submitForm();
+	})
+	
+	function submitForm(){
 		let pageNo = $(this).attr("data-page-no");
 		$("input[name=page]").val(pageNo);
 		$("search-form").trigger("submit");
-	})
+	}
 	
 	// 전체 체크박스 클릭
 	$("#checkbox-all").change(function(){
