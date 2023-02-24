@@ -4,40 +4,38 @@ import java.util.Date;
 
 import org.apache.ibatis.type.Alias;
 
-import com.example.vo.Program;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 /*
  * 달력에 표시할 정보를 제공하는 객체 
  */
 @Alias("ScheduleCheckDto")
 public class ScheduleCheckDto {
 
-	@JsonIgnore
-	private Program program;
-	
+	private String id;
+	private Date start;
+	private Date end;
+	private String title;
 	public String getId() {
-		return String.valueOf(program.getNo());
+		return id;
 	}
 	public void setId(String id) {
-		
+		this.id = id;
 	}
 	public Date getStart() {
-		return program.getStartDate();
+		return start;
 	}
 	public void setStart(Date start) {
-		program.setStartDate(start);
+		this.start = start;
 	}
 	public Date getEnd() {
-		return program.getEndDate();
+		return end;
 	}
 	public void setEnd(Date end) {
-		program.setEndDate(end);
+		this.end = end;
 	}
 	public String getTitle() {
-		return program.getName();
+		return title;
 	}
 	public void setTitle(String title) {
-		program.setName(title);
+		this.title = title;
 	}
 }
