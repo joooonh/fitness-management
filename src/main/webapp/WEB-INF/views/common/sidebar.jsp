@@ -81,6 +81,7 @@ $(function(){
 	}, function(){
 		$(this).removeClass("current");
 		$(this).children("ul").hide(500);
-	})
+	});
+	
 })
 </script>

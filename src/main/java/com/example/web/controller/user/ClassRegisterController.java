@@ -35,7 +35,6 @@ public class ClassRegisterController {
 	// 프로그램 신청 페이지
 	@GetMapping("/classReg")
 	public String classRegisterForm(Model model) {
-		
 		// 매장정보 조회
 		Club club = clubService.getClub();
 		// 프로그램 조회
@@ -47,14 +46,11 @@ public class ClassRegisterController {
 		return "user/class-register";
 	}
 	
-	// 달력에 모든일정 표시 ajax
+	// 달력에 모든일정 표시 ajax 응답
 	@GetMapping("/events")
 	@ResponseBody
-	public List<ScheduleCheckDto> getEvents(
-			@RequestParam("startDate") String startDate,
-			@RequestParam("endDate") String endDate){
-		
-		return classRegisterService.getAllSchedules(startDate, endDate);
+	public List<ScheduleCheckDto> getEvents(){
+		return classRegisterService.getAllSchedules();
 	}
 	
 	// 프로그램 시작시간, 가격 ajax로 응답보내기
