@@ -62,7 +62,7 @@
 				</div>
 				<div class="row mb-3">
 					<div class="col-2">
-						<label class="form-label"><strong>프로그램</strong>
+						<label class="form-label"><strong>프로그램</strong></label>
 					</div>
 					<div class="col-5">
 						<select name="programNo" class="form-select d-inline">
@@ -75,7 +75,7 @@
 				</div>
 				<div class="row mb-3">
 					<div class="col-2">
-						<label class="form-label"><strong>시간</strong>
+						<label class="form-label"><strong>시간</strong></label>
 					</div>
 					<div class="col-5">
 						<input type="text" class="form-control" id="class-time" value="시간" disabled="disabled">
@@ -83,7 +83,7 @@
 				</div>
 				<div class="row mb-5">
 					<div class="col-2">
-						<label class="form-label"><strong>가격</strong>
+						<label class="form-label"><strong>가격</strong></label>
 					</div>
 					<div class="col-5">
 						<input type="text" class="form-control" id="class-price" value="가격" disabled="disabled">
@@ -149,6 +149,7 @@
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=87a85d046c0b17485040c5ec4b0afaca"></script>
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js'></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
 <script type="text/javascript">
 $(function(){
 	
@@ -162,47 +163,46 @@ $(function(){
 		events: function(info, successCallback, failureCallback) {	// events 프로퍼티에는 달력이 변경될 때마다 실행되는 함수를 등록한다.
 			refreshEvents(info, successCallback);					// info는 화면에 표시되는 달력의 시작일, 종료일을 제공한다.
 		}
-		/* eventContent: function(info){
-			return coloring(info);
-		}  */
 	});
 	// Calendar를 렌더링한다.
-	calendar.render(); 
-	
+	calendar.render();
+
+	// 랜덤 색상 생성 함수
+	function generateColor() {
+		const hexArray = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'A', 'B', 'C', 'D', 'E', 'F'];
+		let code = "";
+		for (let i = 0; i < 6; i++) {
+			code += hexArray[Math.floor(Math.random() * 16)];
+		}
+		return '#' + code;
+	}
+
 	// 반복되는 수업들을 db에서 가져오기
-	function refreshEvents(info, successCallback) {
-		$.ajax({
-			type: "get",
-			url: "/user/events",
-			dataType: "json",
-		})
-		.done(function(events) {
-			successCallback(events);	// list<ScheduleCheckDto>
-		})
-	} 
-	
-	// 이벤트별로 색상 지정하기
-	function coloring(info){
-		let programNo = info.event.id;
-	    let color = '';
-	    if(programNo === '1') {
-	        color = 'red';
-	    } else if(programNo === '4') {
-	        color = 'green';
-	    } else if(programNo === '6') {
-	        color = 'blue';
-	    } else if(programNo === '10') {
-	        color = 'gray';
-	    } else if(programNo === '12') {
-	        color = 'black';
-	    } else if(programNo === '13') {
-	        color = 'yellow';
-	    }
-	    return {
-	        html: info.event.title,
-	        textColor: color
-	    };
-	} 
+	/* 비동기 함수 호출 시 $.ajax().then().. 같이 Promise 방식으로도 많이 사용하지만, 지금은 async/await 방식으로 많이 쓰입니다.
+	 .then()이나 .done(), catch()를 사용 안하고 바로 결과 값을 변수에 넣는 방식, 오류 처리는 자바와 동일하게 try, catch
+	*/
+	async function refreshEvents(info, successCallback) {
+		try {
+			const events = await $.get("/user/events");
+			// TODO: _.chain, _.orderBy 등은 array 관련 개꿀 라이브러리인 lodash, 나중에 꼭 찾아보고 많이 사용하세요.
+			const data =
+				_.chain(events)
+				 .orderBy(["id"], ["asc"])
+				 .groupBy("id")
+				 .map((groupById) => {
+					const color = generateColor();
+					groupById.forEach((data) => data.borderColor = color);
+					return groupById;
+				 })
+				 .value()
+				 .reduce((o1, o2) => o1.concat(o2), []);
+			successCallback(data);	// list<ScheduleCheckDto>
+		} catch(e) {
+			// Ajax 요청 실패 시 처리 로직
+			log.error(e);
+			successCallback([]);
+		}
+	}
 	
 	// 프로그램 선택 유효성 체크 
 	$("#form-classReg").submit(function(){
