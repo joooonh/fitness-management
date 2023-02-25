@@ -49,7 +49,8 @@
 				<!--------------------------- (좌) 회원 목록 ------------------------------>
 				<div class="col-5">
 					<form id="search-form" class="">
-						<input type="hidden" name="page" />
+						<input type="hidden" name="page" value="${not empty param.page ? param.page : 1 }"/>
+						<input type="hidden" name="sort" value="${not empty param.sort ? param.sort : 'no' }" />
 						<div class="row mb-3">
 							<div class="col">
 								<select name="programNo" class="form-select d-inline">
@@ -71,10 +72,10 @@
 								<button type="submit" class="btn btn-xs btn-secondary" id="btn-delete-user"><i class="bi bi-trash"></i> 회원삭제</button>
 								<button type="button" class="btn btn-xs btn-success">sms 전송</button>
 							</div>
-							<div class="col text-end mt-3">
-								<a href="userList?sort=no" class="text-decoration-none text-dark" data-sort="no">회원번호순 </a>
-								<a href="userList?sort=date" class="text-decoration-none text-dark" data-sort="date">최근등록순 </a>
-								<a href="userList?sort=name" class="text-decoration-none text-dark" data-sort="name">이름순</a>
+							<div class="col text-end mt-3" id="sort-div">
+								<span class="badge ${empty param.sort or param.sort eq 'no' ? 'bg-primary' : 'bg-secondary' }" data-sort-method="no" style="cursor: pointer;">회원번호순 </span>
+								<span class="badge ${param.sort eq 'date' ? 'bg-primary' : 'bg-secondary' }" data-sort-method="date" style="cursor: pointer;">최근등록순 </span>
+								<span class="badge ${param.sort eq 'name' ? 'bg-primary' : 'bg-secondary' }" data-sort-method="name" style="cursor: pointer;">이름순</span>
 							</div>
 						</div>
 						<table class="table table-sm table-hover border" id="table-member-list">
@@ -324,10 +325,46 @@
 <script type="text/javascript">
 $(function(){
 	
+	// 정렬방식을 클릭했을 때 실행되는 이벤트 핸들러 함수
+	$("#sort-div span").click(function(event){
+		//event.preventDefault();
+		const sortMethod = $(this).attr("data-sort-method");
+		$("input[name=sort]").val(sortMethod);
+		$("#search-form").trigger("submit");
+	})
+	
+	// 페이지 클릭 이벤트
+	$(".pagination a").on('click', 'a', function(event) {
+		event.preventDefault();
+		const pageNo = $(this).attr("data-page-no");
+		submitForm(pageNo);
+	})
+	
+	// 폼 제출
+	function submitForm(pageNo){
+		$("input[name=page]").val(pageNo);
+		$("#search-form").trigger("submit");
+	}
+	
+	// 회원 삭제 
+	$("#btn-delete-user").click(function(){
+		let checkedLength = $("input[name=userId]:checked").length;
+		let deleteUsers = [];
+		
+		if(checkedLength == 0){
+			alert("삭제할 회원을 선택하세요.");
+			return false;
+		}
+		$("input[name=userId]:checked").each(function(){
+			deleteUsers.push($(this).val());
+		});
+		location.href = "deleteUser?userId=" + deleteUsers;
+	})
+	
 	// 회원 상세정보 - ajax
 	$("#table-member-list").on('click', 'a', function(event){
 		event.preventDefault();
-		let userId = $(this).attr("data-user-id");
+		const userId = $(this).attr("data-user-id");
 		
 		$.ajax({
 			type: "GET",
@@ -336,10 +373,10 @@ $(function(){
 			dataType: "json",
 			success: function(map){
 				
-				let user = map.user;
-				let membershipList = map.membershipList;
-				let classList = map.classRegList;
-				let consultingList = map.consultingList;
+				const user = map.user;
+				const membershipList = map.membershipList;
+				const classList = map.classRegList;
+				const consultingList = map.consultingList;
 				
 				// 회원 상세정보 조회 
 				$("#profile-img").attr("src", "/resources/images/profile/" + user.photo);
@@ -425,7 +462,7 @@ $(function(){
 	
 	// 탭 클릭시 테이블 표시
 	$(".tab-list li").click(function(){
-		let index = $(this).index();
+		const index = $(this).index();
 		
 		$(".tab-list li").removeClass("active");
 		$(".tab-list li").eq(index).addClass("active");
@@ -433,48 +470,6 @@ $(function(){
 		$("#tab-table-list .table-sm").eq(index).show();
 	})
 	
-	// 정렬방식을 클릭했을 때 실행되는 이벤트 핸들러 함수다.
-	function changeSort(event, sort) {
-		event.preventDefault();
-		var sortField = document.querySelector("[name=sort]");	// <input type="hidden" name="sort" /> input 엘리먼트를 조회한다.
-		sortField.value = sort;									// 위에서 조회한 input 엘리먼트의 값을 변경한다. sort 값이 변경된다.
-		
-		submitForm();	// 정렬방식을 변경했기 때문에 페이지번호는 1이 되어야 한다.
-	}
-	
-	// 페이지 클릭 이벤트
-	$(".pagination a").click(function(event) {
-		submitForm();
-	})
-	
-	function submitForm(){
-		let pageNo = $(this).attr("data-page-no");
-		$("input[name=page]").val(pageNo);
-		$("search-form").trigger("submit");
-	}
-	
-	// 전체 체크박스 클릭
-	$("#checkbox-all").change(function(){
-		let checkboxAllChecked = $(this).prop("checked");
-		$(":checkbox[name=userNo]").prop("checked", checkboxAllChecked);
-	})
-	
-	// 회원 삭제 
-	$("#btn-delete-user").click(function(){
-		
-		let checkedLength = $("input[name=userId]:checked").length;
-		let deleteUsers = [];
-		
-		if(checkedLength == 0){
-			alert("삭제할 회원을 선택하세요.");
-			return false;
-		}
-		$("input[name=userId]:checked").each(function(){
-			deleteUsers.push($(this).val());
-		});
-		location.href = "deleteUser?userId=" + deleteUsers;
-	})
-		
 })
 </script>
 </body>

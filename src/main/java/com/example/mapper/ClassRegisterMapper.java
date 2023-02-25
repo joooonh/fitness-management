@@ -12,8 +12,6 @@ public interface ClassRegisterMapper {
 
 	// 전체 프로그램 조회
 	List<Program> getAllPrograms();
-	// 프로그램 일정 조회
-	List<Program> getProgramSchedules(Map<String, Object> param);
 	// 프로그램별 요일 조회
 	List<String> getAllProgramDays(int progNo);
 	// 프로그램 신청(추가)

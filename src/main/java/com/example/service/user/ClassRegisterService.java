@@ -75,24 +75,25 @@ public class ClassRegisterService {
 		if(memStartDate != null && memEndDate != null && memPeriod != null && memPrice != null) {
 			classRegisterMapper.insertMembership(map);
 		}
-		
 	}
 	
 	// 달력에 표시될 프로그램 일정 조회
-	public List<ScheduleCheckDto> getAllSchedules(String startDateStr, String endDateStr){
+	public List<ScheduleCheckDto> getAllSchedules(){
 		// 달력에 표시될 내용(시간,이름)으로 구성된 객체를 담을 리스트
 		List<ScheduleCheckDto> schedules = new ArrayList<>();
-		// 지정된 기간에 해당하는 전체 프로그램 (달력 시작날짜, 끝날짜를 map에 담아서 그 기간에 해당하는 전체 프로그램 조회)
-		Map<String, Object> param = new HashMap<String, Object>();
-		param.put("startDate", startDateStr);
-		param.put("endDate", endDateStr);
-		List<Program> programs = classRegisterMapper.getProgramSchedules(param);
+		// 모든 프로그램 조회
+		List<Program> programs = classRegisterMapper.getAllPrograms();
 		
 		for(Program program : programs) {
 			// 각 프로그램별 요일 리스트 조회
 			List<String> dayNames = classRegisterMapper.getAllProgramDays(program.getNo());
+			// 프로그램의 시작날짜, 종료날짜를 문자열로 바꿔서 전달하기 
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			String progstartDate = sdf.format(program.getStartDate());
+			String progEndDate = sdf.format(program.getEndDate());
+			
 			// getEvents 메소드 실행해서 시작날짜, 종료날짜, 프로그램, 요일을 이용해 schedulecheckdto 리스트 생성
-			List<ScheduleCheckDto> scheduleEvents = getEvents(startDateStr, endDateStr, program, dayNames);
+			List<ScheduleCheckDto> scheduleEvents = getEvents(progstartDate, progEndDate, program, dayNames);
 			// 모든 수업에 대해 리스트를 담아서 전체 리스트 반환
 			schedules.addAll(scheduleEvents);
 		}
@@ -101,8 +102,9 @@ public class ClassRegisterService {
 	// 지정된 기간, 요일에 해당하는 schedulecheckdto 리스트를 반환하는 메소드  
 	public List<ScheduleCheckDto> getEvents(String startDateStr, String endDateStr, Program program, List<String> dayNames){
 		// 문자열로 받은 startDate, endDate를 LocalDate 객체로 변환(날짜 정보를 쉽게 다루는 클래스) - 날짜 + 시간 정보 
-		LocalDateTime startDate = LocalDateTime.parse(startDateStr + " " + program.getStartHour(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:m"));
-		LocalDateTime endDate = LocalDateTime.parse(endDateStr + " " + program.getStartHour(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:m")).plusDays(1);	// 1을 더해야 마지막 날짜까지 포함
+		// startDsateStr : 2023-02-01 00:00:00
+		LocalDateTime startDate = LocalDateTime.parse(startDateStr + " " + program.getStartHour() + ":00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+		LocalDateTime endDate = LocalDateTime.parse(endDateStr + " " + program.getStartHour() + ":00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")).plusDays(1);	// 1을 더해야 마지막 날짜까지 포함
 		// 반환할 schedulecheckdto 리스트 만들기 
 		List<ScheduleCheckDto> scheduleEvents = new ArrayList<>();
 		// 시작일부터 종료일 전까지 반복 
@@ -129,8 +131,8 @@ public class ClassRegisterService {
 	}
 	// LocalDateTime 객체를 Date 객체로 변환
 	private Date toDate(LocalDateTime startDate) {
-		String text = startDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:m");
+		String text = startDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		try {
 			return format.parse(text);
 		} catch (ParseException e) {
