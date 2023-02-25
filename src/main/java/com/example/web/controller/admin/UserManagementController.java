@@ -31,9 +31,10 @@ public class UserManagementController {
 	public String getUserList(Model model,
 			@RequestParam(name = "page", required = false, defaultValue = "1") int page,
 			@RequestParam(name = "programNo", required = false, defaultValue = "0") int programNo,
-			@RequestParam(name = "keyword", required = false, defaultValue = "") String keyword) {
+			@RequestParam(name = "keyword", required = false, defaultValue = "") String keyword,
+			@RequestParam(name = "sort", required = false, defaultValue = "no") String sort) {
 		
-		Map<String, Object> map = userManagementService.getUserList(page, programNo, keyword);
+		Map<String, Object> map = userManagementService.getUserList(page, programNo, keyword, sort);
 		// 전체 프로그램 목록 (검색용)
 		model.addAttribute("programList", map.get("programList"));
 		// 회원목록 
@@ -42,6 +43,8 @@ public class UserManagementController {
 		model.addAttribute("totalRows", map.get("totalRows"));
 		// 페이징처리
 		model.addAttribute("pagination", map.get("pagination"));
+		// 검색조건 유지
+		model.addAttribute("page", map.get("page"));
 		
 		return "management/user-management";
 	}

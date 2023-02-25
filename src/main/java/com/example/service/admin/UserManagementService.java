@@ -29,7 +29,7 @@ public class UserManagementService {
 	ClassRegisterMapper classRegisterMapper;
 	
 	// 회원 목록 조회 (전체 회원, 검색어에 해당하는 회원)
-	public Map<String, Object> getUserList(int page, int programNo, String keyword){
+	public Map<String, Object> getUserList(int page, int programNo, String keyword, String sort){
 		
 		// 전체 프로그램 목록(검색용)
 		List<Program> programList = classRegisterMapper.getAllPrograms();
@@ -47,6 +47,7 @@ public class UserManagementService {
 		int totalRows = userListMapper.getUserListTotalRows(param);
 		// 페이징 객체 생성 후 param에 begin, end 값 담기
 		Pagination pagination = new Pagination(page, totalRows);
+		param.put("sort", sort);
 		param.put("begin", pagination.getBegin());
 		param.put("end", pagination.getEnd());
 		
