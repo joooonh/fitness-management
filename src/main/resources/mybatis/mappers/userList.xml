@@ -49,7 +49,12 @@
 			*
 		from (
 				select
-					row_number() over (order by U.user_no asc) row_numbers,
+					<choose>
+						<when test="sort == 'no'">row_number() over (order by U.user_no asc) row_numbers,</when>
+						<when test="sort == 'date'">row_number() over (order by U.user_created_date desc) row_numbers,</when>
+						<when test="sort == 'name'">row_number() over (order by U.user_name asc) row_numbers,</when>
+						<otherwise>row_number() over (order by U.user_no asc) row_numbers,</otherwise>
+					</choose>
 					U.user_id			as id,
 				    U.user_no           as no,
 				    U.user_name         as name,
@@ -75,8 +80,6 @@
 		    			or U.user_tel like '%' || #{keyword} || '%'
 		    			or P.program_name like '%' || #{keyword} || '%')
 		    		</if>
-		    	 order by
-					no asc
 			)
 		where
 		    row_numbers between #{begin} and #{end}

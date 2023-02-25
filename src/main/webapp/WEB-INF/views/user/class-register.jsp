@@ -6,10 +6,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
+<!-- <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css'> -->
 <link rel="stylesheet" href="/resources/css/common.css">
 <title>애플리케이션</title>
 <style type="text/css">
-	
 </style>
 </head>
 <body class="pt-5">
@@ -18,7 +18,7 @@
 <div class="container mt-5">
 	<div class="row mb-3" id="row">
 		<!-- 매장 정보 (좌) -->
-		<div class="col-5 border p-4 bg-light">
+		<div class="col-4 border p-4 bg-light">
 			<input type="hidden" id="latitude" name="latitude" value="${club.latitude }" />
 			<input type="hidden" name="longitude" value="${club.longitude }" />
 			<div class="row mb-5">
@@ -50,7 +50,7 @@
 			</div>
 		</div>
 		<!-- 프로그램 신청 (우) -->
-		<div class="col-7">
+		<div class="col">
 			<form class="form border bg-light p-4" id="form-classReg" method="post" action="/user/classReg">
 				<div class="row mb-3">
 					<h4><strong>프로그램 신청</strong></h4>
@@ -156,40 +156,52 @@ $(function(){
 	let calendarEl = document.getElementById("calendar");
 	// FullCalendar의 Calender객체를 생성한다.
 	let calendar = new FullCalendar.Calendar(calendarEl, {
-		headerToolbar:{
-			start: '',
-			center: 'title'
-		},
-		locale: 'ko',						// 달력의 월, 요일정보가 한글로 표시되도록 한다.
-		initialView: 'dayGridMonth',		// 달력의 초기화면을 월별로 일정이 표시되게 한다.
+		locale: 'ko',
+		initialView: 'dayGridMonth',	
 		// 일정정보를 조회하고, successCallback(이벤트배열)함수의 매개변수로 일정정보를 제공하고 실행하면 화면에 반영된다.
 		events: function(info, successCallback, failureCallback) {	// events 프로퍼티에는 달력이 변경될 때마다 실행되는 함수를 등록한다.
 			refreshEvents(info, successCallback);					// info는 화면에 표시되는 달력의 시작일, 종료일을 제공한다.
 		}
+		/* eventContent: function(info){
+			return coloring(info);
+		}  */
 	});
 	// Calendar를 렌더링한다.
 	calendar.render(); 
 	
-	// 지정된 기간 내에 반복되는 수업들을 db에서 가져오기
+	// 반복되는 수업들을 db에서 가져오기
 	function refreshEvents(info, successCallback) {
-		
-		let startDate = moment(info.start).format("YYYY-MM-DD");
-		let endDate = moment(info.end).format("YYYY-MM-DD");
-	
-		let param = {
-			startDate: startDate,
-			endDate: endDate
-		};
-		
 		$.ajax({
 			type: "get",
 			url: "/user/events",
-			data: param,
 			dataType: "json",
 		})
 		.done(function(events) {
-			successCallback(events);
+			successCallback(events);	// list<ScheduleCheckDto>
 		})
+	} 
+	
+	// 이벤트별로 색상 지정하기
+	function coloring(info){
+		let programNo = info.event.id;
+	    let color = '';
+	    if(programNo === '1') {
+	        color = 'red';
+	    } else if(programNo === '4') {
+	        color = 'green';
+	    } else if(programNo === '6') {
+	        color = 'blue';
+	    } else if(programNo === '10') {
+	        color = 'gray';
+	    } else if(programNo === '12') {
+	        color = 'black';
+	    } else if(programNo === '13') {
+	        color = 'yellow';
+	    }
+	    return {
+	        html: info.event.title,
+	        textColor: color
+	    };
 	} 
 	
 	// 프로그램 선택 유효성 체크 
