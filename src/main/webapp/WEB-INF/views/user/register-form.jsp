@@ -6,24 +6,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <link rel="stylesheet" href="/resources/css/common.css">
+<link rel="stylesheet" href="/resources/css/userInfo.css">
 <title>회원가입</title>
-<style type="text/css">
-	#form-register {
-		width: 60%;
-		margin: 0 auto;
-	}
-	#btn-upload {
-		position: relative;
-		background-color: transparent;
-		border: none;
-		top: 30px;
-		left: -40px;
-	}
-	#camera-img {
-		width: 40px;
-		heith: 40px;
-	}
-</style>
 </head>
 <body class="pt-5">
 <c:set var="menu" value="register" />

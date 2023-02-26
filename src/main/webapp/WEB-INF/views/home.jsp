@@ -8,38 +8,9 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
 <link rel="stylesheet" href="/resources/css/common.css">
+<link rel="stylesheet" href="/resources/css/background.css">
+<link rel="stylesheet" href="/resources/css/home.css">
 <title>애플리케이션</title>
-<style type="text/css">
-	body {
-        height: 100vh;
-        width: 100vw;
-        background-image: url('/resources/images/home2.jpg');
-        background-repeat : no-repeat;
-        background-size : cover;
-        background-opacity: 0.5;
-	}
-	body::before {
-		position: absolute;
-		content: "";
-		top:0px;
-		left:0px;
-		width: 100%;
-		height: 100%;
-		background-color: rgba(0,0,0,0.2);
-	}
-	#box-register {
-		width: 500px;
-		padding: 40px 0;
-		opacity: 0.9;
-		border-radius: 40px;
-		text-align: center;
-	}
-	.box {
-		margin-top: 250px;
-		margin-left: 110px;
-	}
-	
-</style>
 </head>
 <body class="pt-5">
 <%@ include file="common/header.jsp" %>
@@ -63,10 +34,5 @@
 </div>
 <script	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-<script type="text/javascript">
-$(function(){
-	
-})
-</script>
 </body>
 </html>

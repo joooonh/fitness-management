@@ -1,0 +1,15 @@
+@charset "UTF-8";
+
+#table-membership{
+	margin-top: 30px;
+}
+.box{
+	margin-top: 100px;
+	border-radius: 20px;
+	background-color: black;
+	box-shadow: 10px;
+	font-size: large;
+	text-align: center;
+	color: white;
+	padding: 20px;
+}

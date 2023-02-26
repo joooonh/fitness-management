@@ -1,0 +1,20 @@
+@charset "UTF-8";
+
+#box h1 {
+	margin: 0 auto;
+	text-align: center;
+	font-size: xx-large;
+	font-weight: bold;
+}
+
+#row{
+	background-color: #eee;
+	width: 800px;
+	margin: 0 auto;
+	padding: 90px 0;
+	padding-left: 100px;
+	padding-right: 100px;
+	margin-top: 230px;
+	opacity: 0.93;
+	border-radius: 40px;
+}

@@ -1,0 +1,21 @@
+@charset "UTF-8";
+
+#form-modify {
+	width: 50vw;
+	margin-top: 60px;
+}
+#form-register {
+	width: 60%;
+	margin: 0 auto;
+}
+#btn-upload {
+	position: relative;
+	background-color: transparent;
+	border: none;
+	top: 30px;
+	left: -40px;
+}
+#camera-img {
+	width: 40px;
+	height: 40px;
+}

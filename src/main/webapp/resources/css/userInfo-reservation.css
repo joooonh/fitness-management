@@ -1,0 +1,24 @@
+@charset "UTF-8";
+
+.table{
+	margin-top: 50px;
+}
+.tab-button{
+	margin-top: 100px;
+	margin-bottom: 30px;
+	align-content: center;
+	list-style: none;
+	float: left;
+	padding: 20px 20px 20px 20px;
+	cursor: pointer;
+	text-align: center;
+	width: 50%;
+	background-color: #eee;
+	font-weight: bold;
+	font-size: large;
+	border-radius: 20px 20px 20px 20px;
+}
+.active{
+	background-color: black;
+	color: white;
+}

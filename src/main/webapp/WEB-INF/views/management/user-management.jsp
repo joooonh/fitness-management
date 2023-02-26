@@ -7,26 +7,8 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
 <link rel="stylesheet" href="/resources/css/common.css">
+<link rel="stylesheet" href="/resources/css/user-management.css">
 <title>애플리케이션</title>
-<style type="text/css">
-	.tab-button{
-		margin-bottom: 10px;
-		align-content: center;
-		list-style: none;
-		float: left;
-		padding: 10px;
-		cursor: pointer;
-		text-align: center;
-		width: 10%;
-		background-color: #eee;
-		font-weight: bold;
-		border-radius: 20px;
-	}
-	.active{
-		background-color: black;
-		color: white;
-	}
-</style>
 </head>
 <body>
 <!-- 헤더 navbar 영역 -->
@@ -64,18 +46,18 @@
 								<input type="search" class="form-control" name="keyword" placeholder="검색어를 입력하세요." value="${param.keyword }">
 							</div>
 							<div class="col">
-								<button type="submit" class="btn btn-xs btn-dark">검색</button>
+								<button type="button" class="btn btn-xs btn-dark" id="btn-search">검색</button>
 							</div>
 						</div>
 						<div class="row mb-3">
 							<div class="col">
-								<button type="submit" class="btn btn-xs btn-secondary" id="btn-delete-user"><i class="bi bi-trash"></i> 회원삭제</button>
+								<button type="button" class="btn btn-xs btn-dark" id="btn-delete-user"><i class="bi bi-trash"></i> 회원삭제</button>
 								<button type="button" class="btn btn-xs btn-success">sms 전송</button>
 							</div>
 							<div class="col text-end mt-3" id="sort-div">
-								<span class="badge ${empty param.sort or param.sort eq 'no' ? 'bg-primary' : 'bg-secondary' }" data-sort-method="no" style="cursor: pointer;">회원번호순 </span>
-								<span class="badge ${param.sort eq 'date' ? 'bg-primary' : 'bg-secondary' }" data-sort-method="date" style="cursor: pointer;">최근등록순 </span>
-								<span class="badge ${param.sort eq 'name' ? 'bg-primary' : 'bg-secondary' }" data-sort-method="name" style="cursor: pointer;">이름순</span>
+								<span class="badge ${empty param.sort or param.sort eq 'no' ? 'bg-warning' : 'bg-secondary' }" data-sort-method="no" style="cursor: pointer;">회원번호순 </span>
+								<span class="badge ${param.sort eq 'date' ? 'bg-warning' : 'bg-secondary' }" data-sort-method="date" style="cursor: pointer;">최근등록순 </span>
+								<span class="badge ${param.sort eq 'name' ? 'bg-warning' : 'bg-secondary' }" data-sort-method="name" style="cursor: pointer;">이름순</span>
 							</div>
 						</div>
 						<table class="table table-sm table-hover border" id="table-member-list">
@@ -326,18 +308,30 @@
 $(function(){
 	
 	// 정렬방식을 클릭했을 때 실행되는 이벤트 핸들러 함수
-	$("#sort-div span").click(function(event){
-		//event.preventDefault();
+	$("#sort-div").on('click', 'span', function(event){
+		event.preventDefault();
 		const sortMethod = $(this).attr("data-sort-method");
 		$("input[name=sort]").val(sortMethod);
-		$("#search-form").trigger("submit");
+		submitForm(1);
 	})
 	
 	// 페이지 클릭 이벤트
-	$(".pagination a").on('click', 'a', function(event) {
+	$(".pagination").on('click', 'a', function(event) {
 		event.preventDefault();
 		const pageNo = $(this).attr("data-page-no");
 		submitForm(pageNo);
+	})
+	
+	// 검색 클릭 이벤트
+	$("#btn-search").on('click', function(){
+		submitForm(1);
+	})
+	
+	// 검색 엔터키 이벤트
+	$("input[name=keyword]").on('keydown', function(key){
+		if(key.keyCode == '13'){	
+			submitForm(1);	
+		}
 	})
 	
 	// 폼 제출
@@ -356,9 +350,18 @@ $(function(){
 			return false;
 		}
 		$("input[name=userId]:checked").each(function(){
-			deleteUsers.push($(this).val());
+			let value = $(this).val();
+			if($(this).val() != ""){
+				deleteUsers.push($(this).val());
+			}
 		});
 		location.href = "deleteUser?userId=" + deleteUsers;
+	})
+	
+	// 전체 체크박스 클릭
+	$("#checkbox-all").change(function(){
+		const checkboxAllChecked = $(this).prop("checked");
+		$(":checkbox[name=userId]").prop("checked", checkboxAllChecked);
 	})
 	
 	// 회원 상세정보 - ajax
@@ -469,6 +472,7 @@ $(function(){
 		$("#tab-table-list .table-sm").hide();
 		$("#tab-table-list .table-sm").eq(index).show();
 	})
+	
 	
 })
 </script>
