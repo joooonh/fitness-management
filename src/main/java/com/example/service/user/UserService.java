@@ -11,24 +11,34 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import com.example.dto.ProgramDetailDto;
 import com.example.dto.ClassRegHistoryDto;
 import com.example.dto.ConsultingHistoryDto;
 
 
+import com.example.dto.UserListAttDto;
 import com.example.exception.AlreadyRegisteredEmailException;
 import com.example.exception.AlreadyRegisteredUserIdException;
 import com.example.exception.ApplicationException;
 import com.example.exception.InconsistentPasswordException;
+import com.example.mapper.ProgramMapper;
+import com.example.mapper.UserListMapper;
 import com.example.mapper.UserMapper;
 import com.example.mapper.UserMypageMapper;
 import com.example.mapper.UserRoleMapper;
 
 import com.example.vo.MembershipHistory;
 import com.example.vo.ProgramDay;
+import com.example.utils.Pagination;
+import com.example.vo.FitnessProgram;
 
-
+import com.example.vo.FitnessProgramCategory;
 import com.example.vo.User;
+import com.example.vo.UserAttendance;
+import com.example.vo.UserClassAttendance;
 import com.example.vo.UserRole;
+import com.example.web.request.UserAttRegisterForm;
+import com.example.web.request.UserClassAttRegisterForm;
 import com.example.web.request.UserModifyForm;
 import com.example.web.request.UserRegisterForm;
 
@@ -36,18 +46,18 @@ import com.example.web.request.UserRegisterForm;
 @Transactional
 public class UserService {
 	
-
 	@Autowired
 	PasswordEncoder passwordEncoder;
-
 	@Autowired
 	UserMapper userMapper;
 	@Autowired
-	private UserRoleMapper userRoleMapper;
-
+	UserRoleMapper userRoleMapper;
 	@Autowired
 	UserMypageMapper userMypageMapper;
-	
+	@Autowired
+	UserListMapper userListMapper;
+	@Autowired
+	ProgramMapper programMapper;
 	
 	// 회원가입
 	public void registerUser(UserRegisterForm userRegisterForm) {
@@ -73,7 +83,6 @@ public class UserService {
 		userRoleMapper.insertUserRole(userRole);
 	}
 
-	
 	// 내 정보 조회
 	public User getUserinfo(String userId) {
 		User user = userMapper.getUserById(userId);
@@ -148,7 +157,83 @@ public class UserService {
 		
 		user.setDeleted("Y");
 		userMapper.updateUser(user);
-		
 	}
 
+	
+	
+	//출석리스트 조회
+	public Map<String,Object> getUserList(int page,String opt,String keyword, String programInfo) {
+		Map<String,Object> param = new HashMap<String,Object>();
+		if (!opt.isBlank() && !keyword.isBlank() && !programInfo.isBlank()) {
+			param.put("opt", opt);
+			param.put("keyword", keyword);
+			param.put("programInfo", programInfo);
+		}
+
+		int totalRows = userMapper.getTotalRows(param);
+		Pagination pagination = new Pagination(page,totalRows);
+		
+		param.put("begin", pagination.getBegin());
+		param.put("end", pagination.getEnd());
+		
+		List<UserListAttDto> users = userMapper.getUserList(param);
+		
+		Map<String,Object> result = new HashMap<>();
+		result.put("userAtts", users );
+		result.put("pagination", pagination);
+		
+		return result;
+	}
+	
+	// 프로그램 프로그램명 조회
+	public List<FitnessProgramCategory> getPrograms() {
+		return userMapper.getPrograms();
+	}
+	
+	// 프로그램출석 모달창 - 프로그램 요일 조회
+	public ProgramDetailDto getProgramDay(String programNo) {
+		FitnessProgram fitpro = userMapper.getProgramByNo(programNo);
+		
+		ProgramDetailDto programDto = new ProgramDetailDto();
+		BeanUtils.copyProperties(fitpro, programDto);
+		
+		return programDto;
+	}
+
+	//회원출석등록
+	public void insertUserAtt(UserAttRegisterForm form) {
+		
+		UserAttendance userAtt = new UserAttendance();
+		BeanUtils.copyProperties(form, userAtt );
+		userMapper.insertUserAtt(userAtt);
+	}
+	
+	//프로그램출석등록
+	public void insertUserClassAtt(UserClassAttRegisterForm form) {
+		
+		UserClassAttendance classAtt = new UserClassAttendance();
+		BeanUtils.copyProperties(form, classAtt);
+		userMapper.insertUserClassAtt(classAtt);
+	}
+	
+	//출석리스트 조회
+	public Map<String,Object> getUserList(int page) {
+		int totalRows = userMapper.getTotalRows();
+		Pagination pagination = new Pagination(page,totalRows);
+		
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("begin", pagination.getBegin());
+		param.put("end", pagination.getEnd());
+		
+		List<UserListAttDto> users = userMapper.getUserList(param);
+		
+		Map<String,Object> result = new HashMap<>();
+		result.put("userAtts", users );
+		result.put("pagination", pagination);
+		
+		
+		return result;
+	}
+	
+	
 }

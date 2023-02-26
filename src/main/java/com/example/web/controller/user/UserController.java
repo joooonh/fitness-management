@@ -110,16 +110,13 @@ public class UserController {
 	// 회원 탈퇴 페이지 요청
 	@GetMapping("/delete")
 	public String getdeleteForm() {
-		
 		return "user/info-delete";
 	}
 	
 	// 회원 탈퇴 요청
 	@PostMapping("/delete")
 	public String deleteUser(@AuthenticatedUser LoginUser loginUser, String password) {
-		
 		userService.deleteUser(loginUser.getId(), password);
-		
 		return "redirect:deleted";
 	}
 	

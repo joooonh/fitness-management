@@ -24,7 +24,8 @@
 			<!--------------------------------- Content 영역 ------------------------------------------->
 			<div class="row">
 				<div class="col-12">
-					<h1>직원 목록</h1>
+					<span><h5 class="" ><i class="bi bi-person-video ms-2 me-3"></i>직원목록</h5></span>
+					<hr width="103%" color="gray">
 				</div>
 			</div>
 			
@@ -96,17 +97,17 @@
 					</table>
 				</div>				
 			</div>
-			
 			<c:if test="${not empty employees }">
-				<div class="row">
-					<div class="col-12">
-						<div class="text-end">
-							<a href="/" id="btn-delete-program" class="btn btn-secondary">삭제</a>
-							<a href="/" id="btn-modify-move" class="btn btn-primary">수정</a>
+				<sec:authorize access="hasRole('ROLE_ADMIN')">
+					<div class="row">
+						<div class="col-12">
+							<div class="text-end">
+								<a href="/" id="btn-delete-program" class="btn btn-secondary">삭제</a>
+								<a href="/" id="btn-modify-move" class="btn btn-primary">수정</a>
+							</div>
 						</div>
 					</div>
-				</div>
-				
+				</sec:authorize>
 				<div class="row">
 					<div class="col-12">
 						<nav aria-label="Page navigation example">

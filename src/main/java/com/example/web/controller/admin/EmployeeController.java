@@ -1,7 +1,6 @@
 package com.example.web.controller.admin;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Map;
@@ -33,7 +32,7 @@ import com.example.web.request.EmployeeModifyForm;
 import com.example.web.request.EmployeeRegisterForm;
 
 @Controller
-@RequestMapping("/admin/employee")
+@RequestMapping("/emp/admin/employee")
 @SessionAttributes({"form"})
 public class EmployeeController {
 	
@@ -143,6 +142,6 @@ public class EmployeeController {
 	@GetMapping("/delete")
 	public String delete(@RequestParam(name = "empId") String empId) {
 		employeeService.deleteEmployee(empId);
-		return null;
+		return "redirect:list";
 	}
 }

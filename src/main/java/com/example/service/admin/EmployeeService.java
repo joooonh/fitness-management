@@ -11,7 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.dto.EmployeeDetail;
+import com.example.exception.AlreadyRegisteredEmailException;
+import com.example.exception.AlreadyRegisteredUserIdException;
 import com.example.exception.ApplicationException;
+import com.example.exception.InconsistentPasswordException;
 import com.example.mapper.EmployeeMapper;
 import com.example.mapper.EmployeeRoleMapper;
 import com.example.utils.Pagination;
@@ -112,13 +115,16 @@ public class EmployeeService {
 		Employee existEmp = employeeMapper.getEmployeeById(employeeRegisterForm.getId());
 		// 아이디로 조회한 직원 정보가 있으면 예외를 던진다.
 		if (existEmp != null) {
-			throw new ApplicationException("이미 존재하는 아이디 입니다.");
+			throw new AlreadyRegisteredUserIdException("이미 존재하는 아이디 입니다.");
 		}
 		// 입력받은 이메일로 직원 정보를 조회
 		existEmp = employeeMapper.getEmployeeByEmail(employeeRegisterForm.getEmail());
 		// 이메일로 조회한 직원 정보가 있으면 예외를 던진다.
 		if (existEmp != null) {
-			throw new ApplicationException("이미 존재하는 이메일 입니다.");
+			throw new AlreadyRegisteredEmailException("이미 존재하는 이메일 입니다.");
+		}
+		if (!employeeRegisterForm.getPassword().equals(employeeRegisterForm.getPasswordConfirm())) {
+			throw new InconsistentPasswordException("비밀번호가 일치하지 않습니다.");
 		}
 		
 		Employee employee = new Employee();
@@ -136,7 +142,8 @@ public class EmployeeService {
 	public void deleteEmployee(String empId) {
 		String[] employeeIdList = empId.split(",");
 		for(String employeeId : employeeIdList) {
-			employeeMapper.deleteEmployee(employeeId);
+			employeeRoleMapper.deleteEmployeeRoleById(employeeId);
+			employeeMapper.deleteEmployeeByEmpId(employeeId);
 		}
 	}
 }

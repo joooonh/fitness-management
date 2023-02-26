@@ -24,7 +24,8 @@
 			<!--------------------------------- Content 영역 ------------------------------------------->
 			<div class="row">
 				<div class="col-12">
-					<h1>직원 정보 수정</h1>
+					<span><h5 class="" ><i class="bi bi-person-video ms-2 me-3"></i>직원 정보 수정</h5></span>
+					<hr width="103%" color="gray">
 				</div>
 			</div>
 			
@@ -58,29 +59,6 @@
 										<td>
 											<form:input path="name" class="form-control" />
 											<form:errors path="name" cssClass="text-danger" />
-										</td>
-									</tr>
-									<tr>
-										<th class="table-secondary">비밀번호</th>
-										<td>
-											<form:password path="password" class="form-control form-control-sm" />
-											<form:errors path="password" cssClass="text-danger" />
-											<span id="passwordCheck" class="text-danger"></span>
-										</td>
-									</tr>
-									<tr>
-										<th class="table-secondary">비밀번호 확인</th>
-										<td>
-											<form:password path="passwordConfirm" class="form-control form-control-sm" />
-											<form:errors path="passwordConfirm" cssClass="text-danger" />
-											<span id="passwordConfirmCheck" class="text-danger"></span>
-										</td>
-									</tr>
-									<tr>
-										<th class="table-secondary">이메일</th>
-										<td>
-											<form:input path="email" class="form-control" />
-											<form:errors path="email" cssClass="text-danger" />
 										</td>
 									</tr>
 									<tr>
