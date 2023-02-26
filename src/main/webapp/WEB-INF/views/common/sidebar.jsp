@@ -40,7 +40,7 @@
 			  <a href="/emp/userCalendar" class="nav-link text-white">출석달력</a>
 			<p class="text-white pt-4">강사출석관리</p>
 			  <hr width="70%" color="white">
-			  <a href="employeeList" class="nav-link text-white">출석리스트</a>
+			  <a href="/emp/empAttList" class="nav-link text-white">출석리스트</a>
 			  <a href="employeeCalendar" class="nav-link text-white">출석달력</a>
 		</ul>
 	</li>
