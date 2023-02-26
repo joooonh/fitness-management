@@ -1,0 +1,28 @@
+@charset "UTF-8";
+
+#side-menu{
+	margin-top: 100px;
+	list-style: none;
+	background-color: #eee;
+	text-align: center;
+	width: 250px;
+	height: 710px;
+	padding: 30px;
+	border-radius: 40px;
+}
+#side-menu a{
+	font-size: large;
+	font-weight: bold;
+	text-decoration: none;
+	display: block;
+	color: black;
+	line-height: 400%;
+	border-radius: 40px;
+}
+#side-menu a:hover{
+	background-color: black;
+	color: white;
+}
+#current-page{
+	background-color: black;
+}

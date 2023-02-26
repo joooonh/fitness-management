@@ -15,8 +15,10 @@
 <div class="container">
    <div class="row" id="row">
 		<div class="p-4" id="box">
-			<h1 class="mb-4">회원탈퇴 완료</h1>
-			<p style="text-align:center">회원탈퇴가 완료되었습니다.</p>
+			<div class="alert alert-danger text-center">
+				<h1 class="mb-4">로그인 실패</h1>
+				<p style="text-align:center">비밀번호가 일치하지 않습니다.</p>
+			</div>
 		</div>
    </div>
 </div>

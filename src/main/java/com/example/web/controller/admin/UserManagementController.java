@@ -72,8 +72,10 @@ public class UserManagementController {
 	
 	// 회원 삭제
 	@GetMapping("/deleteUser")
-	public String deleteUser(@RequestParam("userId") String userId) {
-		userManagementService.deleteUser(userId);
+	public String deleteUser(@RequestParam("userId") List<String> userIds) {
+		for(String userId : userIds) {
+			userManagementService.deleteUser(userId);
+		}
 		return "redirect:userList";
 	}
 }

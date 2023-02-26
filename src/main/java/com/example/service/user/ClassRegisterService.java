@@ -83,7 +83,6 @@ public class ClassRegisterService {
 		List<ScheduleCheckDto> schedules = new ArrayList<>();
 		// 모든 프로그램 조회
 		List<Program> programs = classRegisterMapper.getAllPrograms();
-		
 		for(Program program : programs) {
 			// 각 프로그램별 요일 리스트 조회
 			List<String> dayNames = classRegisterMapper.getAllProgramDays(program.getNo());
@@ -103,8 +102,9 @@ public class ClassRegisterService {
 	public List<ScheduleCheckDto> getEvents(String startDateStr, String endDateStr, Program program, List<String> dayNames){
 		// 문자열로 받은 startDate, endDate를 LocalDate 객체로 변환(날짜 정보를 쉽게 다루는 클래스) - 날짜 + 시간 정보 
 		// startDsateStr : 2023-02-01 00:00:00
+		// endDate에 1을 더해야 마지막 날짜까지 포함
 		LocalDateTime startDate = LocalDateTime.parse(startDateStr + " " + program.getStartHour() + ":00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-		LocalDateTime endDate = LocalDateTime.parse(endDateStr + " " + program.getStartHour() + ":00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")).plusDays(1);	// 1을 더해야 마지막 날짜까지 포함
+		LocalDateTime endDate = LocalDateTime.parse(endDateStr + " " + program.getStartHour() + ":00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")).plusDays(1);	
 		// 반환할 schedulecheckdto 리스트 만들기 
 		List<ScheduleCheckDto> scheduleEvents = new ArrayList<>();
 		// 시작일부터 종료일 전까지 반복 
@@ -115,7 +115,6 @@ public class ClassRegisterService {
 			// 해당 요일이 해당 프로그램의 요일 리스트에 포함되면 Schedule 객체 생성 -> 리스트에 추가
 			if(dayNames.contains(dayname)) {
 				ScheduleCheckDto schedule = new ScheduleCheckDto();
-				
 				// schedule 객체의 식별자, 시작일, 종료일, 제목 설정
 				schedule.setId(String.valueOf(program.getNo()));
 				schedule.setStart(toDate(startDate));
