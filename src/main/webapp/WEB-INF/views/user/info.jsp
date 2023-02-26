@@ -6,51 +6,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <link rel="stylesheet" href="/resources/css/common.css">
+<link rel="stylesheet" href="/resources/css/userInfo-sideMenu.css">
+<link rel="stylesheet" href="/resources/css/userInfo.css">
 <title>애플리케이션</title>
-<style type="text/css">
-	#form-modify {
-		width: 50vw;
-		margin-top: 60px;
-	}
-	#btn-upload {
-		position: relative;
-		background-color: transparent;
-		border: none;
-		top: 30px;
-		left: -40px;
-	}
-	#camera-img {
-		width: 40px;
-		heith: 40px;
-	}
-	#side-menu{
-		margin-top: 100px;
-		list-style: none;
-		background-color: #eee;
-		text-align: center;
-		width: 250px;
-		height: 710px;
-		padding: 30px;
-		border-radius: 40px 40px 40px 40px;
-	}
-	#side-menu a{
-		font-size: large;
-		font-weight: bold;
-		text-decoration: none;
-		display: block;
-		color: black;
-		line-height: 400%;
-		border-radius: 40px 40px 40px 40px;
-	}
-	#side-menu a:hover{
-		background-color: black;
-		color: white;
-	}
-	#current-page{
-		background-color: black;
-	}
-	
-</style>
 </head>
 <body class="pt-5">
 <c:set var="menu" value="info" />

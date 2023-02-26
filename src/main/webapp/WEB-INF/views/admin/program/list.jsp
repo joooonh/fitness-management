@@ -6,8 +6,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
-<link rel="stylesheet" href="../../../resources/css/common.css">
-<link rel="stylesheet" href="../../../resources/css/content.css">
+<link rel="stylesheet" href="/resources/css/common.css">
+<link rel="stylesheet" href="/resources/css/content.css">
 <title>중앙피트니스</title>
 </head>
 <body>
@@ -24,7 +24,8 @@
 			<!--------------------------------- Content 영역 ------------------------------------------->
 			<div class="row">
 				<div class="col-12">
-					<h1>프로그램 조회</h1>
+					<span><h5 class="" ><i class="bi bi-pc-display-horizontal ms-2 me-3"></i>프로그램 조회</h5></span>
+					<hr width="103%" color="gray">
 				</div>
 			</div>
 			
@@ -94,7 +95,7 @@
 											<td>${program.categoryName }</td>
 											<td>${program.employeeName }</td>
 											<td><fmt:formatDate value="${program.startDate }" pattern="yyyy-MM-dd"/> </td>
-											<td><fmt:formatDate value="${program.endDate }" pattern="yyyy-MM-dd"/> </td>
+											<td class="endDate"><fmt:formatDate value="${program.endDate }" pattern="yyyy-MM-dd"/> </td>
 											<td>${program.requestCount }</td>
 											<td>${program.status }</td>
 										</tr>
@@ -107,15 +108,16 @@
 			</div>
 			
 			<c:if test="${not empty programs }">
-				<div class="row">
-					<div class="col-12">
-						<div class="text-end">
-							<a href="/" id="btn-delete-program" class="btn btn-secondary">삭제</a>
-							<a href="/" id="btn-modify-move" class="btn btn-primary">수정</a>
+				<sec:authorize access="hasRole('ROLE_ADMIN')">
+					<div class="row">
+						<div class="col-12">
+							<div class="text-end">
+								<a href="/" id="btn-delete-program" class="btn btn-secondary">삭제</a>
+								<a href="/" id="btn-modify-move" class="btn btn-primary">수정</a>
+							</div>
 						</div>
 					</div>
-				</div>
-				
+				</sec:authorize>
 				<div class="row">
 					<div class="col-12">
 						<nav aria-label="Page navigation example">
@@ -215,7 +217,7 @@ $(function() {
 		// 클릭한 프로그램의 프로그램번호를 가져온다.
 		let no = $(this).closest("tr").children(".programNo").text();
 		
-		$.getJSON("/admin/program/detail.json", {programNo: no}, function(programInfo) {
+		$.getJSON("detail.json", {programNo: no}, function(programInfo) {
 			// 프로그램 상세정보
 			let detail = programInfo.programDetail;
 			

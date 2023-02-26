@@ -18,7 +18,7 @@ public interface ProgramMapper {
 	// 프로그램 번호로 해당 프로그램 정보 조회
 	Program getProgramByProgramNo(int programNo);
 	// 모든 프로그램 목록
-	List<Program> getAllPrograms(Map<String, Object> param);
+	List<ProgramDto> getAllPrograms(Map<String, Object> param);
 	int getTotalRows(Map<String, Object> rows);
 	// 프로그램 상세정보
 	ProgramDto getProgramDetail(int programNo); 
@@ -30,6 +30,14 @@ public interface ProgramMapper {
 	List<User> getUsersByProgramNo(int programNo);
 	// 프로그램 카테고리 목록
 	List<ProgramCategory> getProgramCategory();
+	// 카테고리 번호에 해당하는 카테고리 정보
+	ProgramCategory getCategoryByNo(int no);
+	// 프로그램 카테고리 수정
+	void updateCategory(ProgramCategory category);
+	// 프로그램 카테고리 삭제
+	void deleteCategory(ProgramCategory category);
+	// 프로그램 카테고리 등록
+	void insertCategory(String name);
 	// 프로그램 등록
 	void insertProgram(Program program);
 	// 프로그램 진행 요일 등록
@@ -42,5 +50,4 @@ public interface ProgramMapper {
 	void deleteProgram(int programNo);
 	// 프로그램 진행 요일 삭제
 	void deleteProgramDays(int programNo);
-	
 }

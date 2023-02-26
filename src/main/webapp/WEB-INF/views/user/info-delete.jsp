@@ -6,44 +6,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <link rel="stylesheet" href="/resources/css/common.css">
+<link rel="stylesheet" href="/resources/css/userInfo-sideMenu.css">
+<link rel="stylesheet" href="/resources/css/userInfo-delete.css">
 <title>애플리케이션</title>
-<style type="text/css">
-	#side-menu{
-		margin-top: 100px;
-		list-style: none;
-		background-color: #eee;
-		text-align: center;
-		width: 250px;
-		height: 710px;
-		padding: 30px;
-		border-radius: 40px 40px 40px 40px;
-	}
-	#side-menu a{
-		font-size: large;
-		font-weight: bold;
-		text-decoration: none;
-		display: block;
-		color: black;
-		line-height: 400%;
-		border-radius: 40px 40px 40px 40px;
-	}
-	#side-menu a:hover{
-		background-color: black;
-		color: white;
-	}
-	#current-page{
-		background-color: black;
-	}
-	#form-delete{
-		margin-top: 100px;
-		padding: 50px;
-	}
-	h5{
-		font-weight: bold;
-		margin-bottom: 50px;
-	}
-	
-</style>
 </head>
 <body class="pt-5">
 <c:set var="menu" value="info" />
@@ -62,14 +27,14 @@
 		<div class="col-9" id="col2">
 			<div class="row mb-3">
 				<div class="col">
-					<form class="form border" id="form-delete" method="post" action="delete">
+					<form class="form border" id="form-delete" method="post" action="/delete">
 						<h5>비밀번호를 입력하세요.</h5>
 						<div class="row mb-3">
 							<div class="col-3">
 								<label class="form-label">비밀번호</label>
 							</div>
 							<div class="col-9 mb-5">
-								<input class="form-control" type="password" name="password">
+								<input type="password" class="form-control" name="password">
 							</div>
 						</div>
 						<div class="text-end">
@@ -85,9 +50,13 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script type="text/javascript">
 $(function(){
-	
-
-	
+	$("#form-delete").submit(function(){
+		const password = $(":input[name=password]").val();
+		if(password === ""){
+			alert("비밀번호를 입력하세요.");
+			return false;
+		}
+	})
 })
 </script>
 </body>

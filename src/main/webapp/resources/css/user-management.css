@@ -1,0 +1,19 @@
+@charset "UTF-8";
+
+.tab-button{
+	margin-bottom: 10px;
+	align-content: center;
+	list-style: none;
+	float: left;
+	padding: 10px;
+	cursor: pointer;
+	text-align: center;
+	width: 10%;
+	background-color: #eee;
+	font-weight: bold;
+	border-radius: 20px;
+}
+.active{
+	background-color: black;
+	color: white;
+}
