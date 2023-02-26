@@ -6,11 +6,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
-<!-- <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css'> -->
 <link rel="stylesheet" href="/resources/css/common.css">
+<link rel="stylesheet" href="/resources/css/class-register.css">
 <title>애플리케이션</title>
-<style type="text/css">
-</style>
 </head>
 <body class="pt-5">
 <c:set var="menu" value="info" />
@@ -62,7 +60,7 @@
 				</div>
 				<div class="row mb-3">
 					<div class="col-2">
-						<label class="form-label"><strong>프로그램</strong>
+						<label class="form-label"><strong>프로그램</strong></label>
 					</div>
 					<div class="col-5">
 						<select name="programNo" class="form-select d-inline">
@@ -75,7 +73,7 @@
 				</div>
 				<div class="row mb-3">
 					<div class="col-2">
-						<label class="form-label"><strong>시간</strong>
+						<label class="form-label"><strong>시간</strong></label>
 					</div>
 					<div class="col-5">
 						<input type="text" class="form-control" id="class-time" value="시간" disabled="disabled">
@@ -83,7 +81,7 @@
 				</div>
 				<div class="row mb-5">
 					<div class="col-2">
-						<label class="form-label"><strong>가격</strong>
+						<label class="form-label"><strong>가격</strong></label>
 					</div>
 					<div class="col-5">
 						<input type="text" class="form-control" id="class-price" value="가격" disabled="disabled">
@@ -149,6 +147,7 @@
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=87a85d046c0b17485040c5ec4b0afaca"></script>
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js'></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
 <script type="text/javascript">
 $(function(){
 	
@@ -158,51 +157,53 @@ $(function(){
 	let calendar = new FullCalendar.Calendar(calendarEl, {
 		locale: 'ko',
 		initialView: 'dayGridMonth',	
+		themeSystem: 'bootstrap5',
 		// 일정정보를 조회하고, successCallback(이벤트배열)함수의 매개변수로 일정정보를 제공하고 실행하면 화면에 반영된다.
 		events: function(info, successCallback, failureCallback) {	// events 프로퍼티에는 달력이 변경될 때마다 실행되는 함수를 등록한다.
 			refreshEvents(info, successCallback);					// info는 화면에 표시되는 달력의 시작일, 종료일을 제공한다.
 		}
-		/* eventContent: function(info){
-			return coloring(info);
-		}  */
 	});
 	// Calendar를 렌더링한다.
-	calendar.render(); 
-	
+	calendar.render();
+
+	// 16진수(hex) 색상 코드를 랜덤하게 생성하는 함수
+	function generateColor() {
+		// hexArray 배열에 16진수 코드 저장
+		const hexArray = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'A', 'B', 'C', 'D', 'E', 'F'];
+		let code = "";
+		for (let i = 0; i < 6; i++) {
+			// 랜덤한 인덱스를 구하고 해당 인덱스에 해당하는 코드를 code 문자열에 추가, 이 과정을 6번 반복
+			code += hexArray[Math.floor(Math.random() * 16)];
+		}
+		// 16진수 색상 코드 생성
+		return '#' + code;
+	}
+
 	// 반복되는 수업들을 db에서 가져오기
-	function refreshEvents(info, successCallback) {
-		$.ajax({
-			type: "get",
-			url: "/user/events",
-			dataType: "json",
-		})
-		.done(function(events) {
-			successCallback(events);	// list<ScheduleCheckDto>
-		})
-	} 
-	
-	// 이벤트별로 색상 지정하기
-	function coloring(info){
-		let programNo = info.event.id;
-	    let color = '';
-	    if(programNo === '1') {
-	        color = 'red';
-	    } else if(programNo === '4') {
-	        color = 'green';
-	    } else if(programNo === '6') {
-	        color = 'blue';
-	    } else if(programNo === '10') {
-	        color = 'gray';
-	    } else if(programNo === '12') {
-	        color = 'black';
-	    } else if(programNo === '13') {
-	        color = 'yellow';
-	    }
-	    return {
-	        html: info.event.title,
-	        textColor: color
-	    };
-	} 
+	// 지금 많이 쓰이는 async/await 비동기 호출 방식 (.then(), .done(), catch()를 사용하지 않고 결과값을 바로 변수에 넣는 방식)
+	async function refreshEvents(info, successCallback) {
+		try {
+			// 비동기 방식으로 응답받은 결과값을 events 변수에 저장
+			const events = await $.get("/user/events");
+			// lodash 라이브러리
+			const data =
+				_.chain(events)											// 메소드 체이닝
+				 .orderBy(["id"], ["asc"])								// 응답객체의 id 속성 기준으로 정렬
+				 .groupBy("id")											// id 속성 기준으로 그룹화
+				 .map((groupById) => {									// 그룹화된 배열 내 각각의 요소에 대해 함수를 적용하고, 반복하는 메소드
+					const color = generateColor();						// 랜덤 색상 생성 메소드 결과를 color변수에 저장
+					groupById.forEach((data) => data.color = color);	// 그룹화된 데이터를 돌면서 각 데이터의 color를 color로 설정
+					return groupById;									// 색상이 지정된 응답객체를 반환 
+				 })
+				 .value()												// 메소드 체인 종료, 최종결과값 반환
+				 .reduce((o1, o2) => o1.concat(o2), []);				// 중첩된 배열을 평평하게 반환
+			successCallback(data);	// list<ScheduleCheckDto>
+		} catch(e) {
+			// Ajax 요청 실패 시 처리 로직
+			log.error(e);
+			successCallback([]);
+		}
+	}
 	
 	// 프로그램 선택 유효성 체크 
 	$("#form-classReg").submit(function(){
@@ -256,24 +257,23 @@ $(function(){
 	    // 가격 표시
 	    const totalPrice = period*150000;
 	    $("input[name=memPrice]").val(totalPrice);
-	    
     })
 	
 	// 카카오 지도 API 
-	const latitude = $("input[name=latitude]").val();
-	const longitude = $("input[name=longitude]").val();
-	const container = document.getElementById('map'); // 지도를 담을 영역의 DOM 레퍼런스
+	var latitude = $("input[name=latitude]").val();
+	var longitude = $("input[name=longitude]").val();
+	var container = document.getElementById('map'); // 지도를 담을 영역의 DOM 레퍼런스
 	
-	const options = { // 지도를 생성할 때 필요한 기본 옵션
+	var options = { // 지도를 생성할 때 필요한 기본 옵션
 		center: new kakao.maps.LatLng(latitude, longitude), // 지도의 중심좌표
 		level: 3 // 지도의 레벨(확대, 축소 정도)
 	};
 	// 지도 생성 및 객체 리턴
-	const map = new kakao.maps.Map(container, options); 
+	var map = new kakao.maps.Map(container, options); 
 	// 마커가 표시될 위치
-	const markerPosition  = new kakao.maps.LatLng(latitude, longitude); 
+	var markerPosition  = new kakao.maps.LatLng(latitude, longitude); 
 	// 마커를 생성
-	const marker = new kakao.maps.Marker({
+	var marker = new kakao.maps.Marker({
 	    position: markerPosition
 	});
 	// 마커가 지도 위에 표시되도록 설정

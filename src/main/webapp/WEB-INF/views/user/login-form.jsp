@@ -6,48 +6,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <link rel="stylesheet" href="/resources/css/common.css">
+<link rel="stylesheet" href="/resources/css/background.css">
+<link rel="stylesheet" href="/resources/css/login-form.css">
 <title>애플리케이션</title>
-<style type="text/css">
-	body {
-        height: 100vh;
-        width: 100vw;
-        background-image: url('/resources/images/home2.jpg');
-        background-repeat : no-repeat;
-        background-size : cover;
-        background-opacity: 0.5;
-	}
-      
-	body::before {
-		position: absolute;
-		content: "";
-		top:0px;
-		left:0px;
-		width: 100%;
-		height: 100%;
-		background-color: rgba(0,0,0,0.2);
-	}
-	
-	#form-login {
-		margin: 0 auto;
-	}
-	
-	#login-head {
-		text-align: center;
-		font-size: xx-large;
-	}
-	
-	#row{
-		background-color: #eee;
-		width: 800px;
-		margin: 0 auto;
-		padding: 100px 0;
-		padding-left: 200px;
-		padding-right: 200px;
-		margin-top: 200px;
-		opacity: 0.9;
-		border-radius: 40px;
-	}
-</style>
 </head>
 <body class="pt-5">
 <c:set var="menu" value="login" />

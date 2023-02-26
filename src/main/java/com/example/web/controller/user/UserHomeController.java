@@ -83,7 +83,6 @@ public class UserHomeController {
 	// 회원가입 성공 화면 요청
 	@GetMapping("/registered")
 	public String success() {
-		
 		return "user/register-success";
 	}
 	

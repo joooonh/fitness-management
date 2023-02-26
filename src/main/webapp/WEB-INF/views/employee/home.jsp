@@ -7,21 +7,8 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
 <link rel="stylesheet" href="/resources/css/common.css">
+<link rel="stylesheet" href="/resources/css/emp-home.css">
 <title>중앙피트니스</title>
-<style type="text/css">
-	body {
-        height: 100vh;
-        width: 90vw;
-        background-image: url('/resources/images/home2.jpg');
-        background-repeat : no-repeat;
-        background-size : cover;
-        background-opacity: 0.5;
-	}
-	.box {
-		margin-top: 250px;
-		margin-left: 110px;
-	}
-</style>
 </head>
 <body>
 <!-- 헤더 navbar 영역 -->

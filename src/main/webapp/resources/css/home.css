@@ -1,0 +1,14 @@
+@charset "UTF-8";
+
+#box-register {
+	width: 500px;
+	padding: 40px 0;
+	opacity: 0.9;
+	border-radius: 40px;
+	text-align: center;
+}
+.box {
+	margin-top: 250px;
+	margin-left: 110px;
+}
+
