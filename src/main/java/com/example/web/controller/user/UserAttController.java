@@ -1,6 +1,7 @@
 package com.example.web.controller.user;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,36 +11,82 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.example.dto.ProgramDetailDto;
 import com.example.service.admin.UserAttService;
 import com.example.vo.FitnessProgramCategory;
 import com.example.web.request.UserAttRegisterForm;
 import com.example.web.request.UserClassAttRegisterForm;
 
 @Controller
+@RequestMapping("/emp")
 public class UserAttController {
 
 	@Autowired
 	private UserAttService userAttService;
 	
 	
+	// 프로그램 조회
 	@ModelAttribute("FitnessProgramCategories")
 	public List<FitnessProgramCategory> FitnessProgramCategories(Model model) {
 		
 		return userAttService.getPrograms();
 	}
 	
+	// 프로그램 요일 조회
+	@GetMapping("/ProgramDays")
+	@ResponseBody
+	public List<String> programDays(@RequestParam("programNo") int programNo) {					
+		return userAttService.getProgramDays(programNo);
+	}
+	
 
-	@GetMapping("/emp/userAttList")
+	@GetMapping("/userAttList")
 	public String userAttList(@RequestParam(name = "page" , required = false , defaultValue ="1") int page, 
-			@RequestParam(name = "opt", required = false, defaultValue = "") String opt, 
-			@RequestParam(name = "keyword", required = false, defaultValue = "") String keyword,
-			@RequestParam(name = "programInfo" , required = false, defaultValue = "")String programInfo, Model model) {
-
+							  @RequestParam(name = "opt", required = false, defaultValue = "") String opt, 
+							  @RequestParam(name = "keyword", required = false, defaultValue = "") String keyword,
+							  @RequestParam(name = "programInfo" , required = false, defaultValue = "")String programInfo,
+							  @RequestParam(name = "onlyMembership" , required = false, defaultValue = "")String onlyMembership, 
+							  @RequestParam(name = "attDate" , required = false, defaultValue = "")String attDate,
+							  @RequestParam(name = "classDate", required = false, defaultValue = "")String classDate, Model model) {
 		
-		Map<String,Object> result = userAttService.getUserList(page, opt ,keyword, programInfo);
+		Map<String,Object> param = new HashMap<String,Object>();
+		
+		param.put("page", page);
+		
+		if (!programInfo.isBlank()) {
+			param.put("programInfo", programInfo);
+			if (!keyword.isBlank()) {
+				param.put("keyword", keyword);			
+			}
+		}
+		if (!opt.isBlank() && !keyword.isBlank()) {
+			param.put("opt", opt);
+			param.put("keyword", keyword);			
+		}
+		if(!onlyMembership.isBlank()) {
+			param.put("onlyMembership", onlyMembership);
+			if(!keyword.isBlank()) {
+				param.put("keyword", keyword);
+			}
+			// 의미가 없는거 같음
+			if (!programInfo.isBlank()) {
+				param.put("programInfo", programInfo);
+				if (!keyword.isBlank()) {
+					param.put("keyword", keyword);			
+				}
+			}
+		}
+		if(!attDate.isBlank()) {
+			param.put("attDate", attDate);
+		}
+		if(!classDate.isBlank()) {
+			param.put("classDate", classDate);
+		}
+		
+		Map<String,Object> result = userAttService.getUserList(param);
 		model.addAttribute("userAtts", result.get("userAtts"));
 		model.addAttribute("pagination", result.get("pagination"));
 		
@@ -47,7 +94,7 @@ public class UserAttController {
 	}
 	
 	// 회원출석등록
-	@PostMapping("/emp/userRegisterAtt")
+	@PostMapping("/userRegisterAtt")
 	public String insertUserAtt(UserAttRegisterForm form) throws IOException {
 		userAttService.insertUserAtt(form);
 		
@@ -60,34 +107,30 @@ public class UserAttController {
 	
 		userAttService.insertUserClassAtt(form);
 		
-		return "redirect:userList";
+		return "redirect:/emp/userAttList";
 	}
 	
-	// 프로그램 요일 조회
-	public ProgramDetailDto programDays(@RequestParam("programNo") String programNo) {
-		ProgramDetailDto dto = userAttService.getProgramDay(programNo);
-		
-		return dto;
-	}
 	
 	// 회원출석 삭제
+	// ?value=100-P&value=101-M
 	@GetMapping("/delete-userAtt")
-	public String modifyForm(@RequestParam("userNo") int userNo) {
+	public String modifyForm( @RequestParam(name="value" , required = false,  defaultValue = "") List<String> values) {
+	
+		userAttService.deleteAtt(values);
 		
-		userAttService.deleteAtt(userNo);
 		
-		return "redirect:/emp/userAttList?userNo=" + userNo;
+		return "redirect:/emp/userAttList";
 	}
 	
-	@GetMapping("/emp/userDay")
+	
+	@GetMapping("/userDay")
 	public String userDay() {
 		return "attendance/user-day";
 	}
 	
-	@GetMapping("/emp/userCalendar")
-	public String userCalendar() {
-		return "attendance/user-calendar";
-	}
+	
+	
+	
 	
 	
 }

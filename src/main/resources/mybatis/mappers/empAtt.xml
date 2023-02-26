@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.EmployeeAttMapper">
+	
+	<select id="getEmAtts" parameterType="map" resultType="EmployeeAttDto">
+		select
+		    employee_id                 as id,
+		    employee_name               as name,
+		    employee_password           as password,
+		    employee_email              as email,
+		    employee_tel                as tel,
+		    employee_photo              as photo,
+		    employee_zipcode            as zipcode,
+		    employee_basic_address      as basicAddress,
+		    employee_detail_address     as detailAddress,
+		    employee_employment_status  as empStatus,
+		    program_name                as programName,
+		    program_start_date          as startDate,
+		    program_end_date            as endDate,
+		    program_start_hour          as startHour,
+		    program_end_hour            as endHour,
+		    program_status              as programStatus,
+		    program_attendance_date     as progAttDate,    
+		    program_no                  as progNo,
+		    work_year                   as workYear,
+		    work_date                   as workDate,
+		    work_start_time             as workStartTime,
+		    work_end_time               as workEndTime,
+		    employee_attendances        as empAtt,
+		    program_open_day            as openDay
+	from (
+	
+			        select
+			            row_number() over(order by A.employee_name desc)row_numbers,
+			            A.employee_id,
+			            A.employee_name,
+			            A.employee_password,
+			            A.employee_email,
+			            A.employee_tel,
+			            A.employee_photo,
+			            A.employee_zipcode,
+			            A.employee_basic_address,
+			            A.employee_detail_address,
+			            A.employee_employment_status,
+			            D.program_name,
+			            D.program_start_date,
+			            D.program_end_date,
+			            D.program_start_hour,
+			            D.program_end_hour,
+			            D.program_status,
+			            C.program_attendance_date,
+			            C.program_no,
+			            B.work_year,
+			            B.work_date,
+			            B.work_start_time,
+			            B.work_end_time,
+			            B.employee_attendances,
+			            E.program_open_day
+			           
+			            from
+			                employees A , employee_attendances B, employee_program_attendances C, fitness_programs D , fitness_program_days E
+			            where
+			                A.employee_id = D.employee_id
+			                and A.employee_id = B.employee_id
+			                and A.employee_id = C.employee_id
+			                and D.program_no = C.program_no
+			                and D.program_no = E.program_no
+			                and A.employee_employment_status = '재직'
+			                and B.employee_attendances = '등록'
+			                and C.program_attendance_date is not null
+			                and D.program_status = '신청중'
+	            )
+	    where row_numbers between #{begin} and #{end}  
+	</select>
+
+</mapper>
