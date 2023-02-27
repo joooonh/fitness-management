@@ -17,8 +17,10 @@ public interface ProgramMapper {
 	
 	// 프로그램 번호로 해당 프로그램 정보 조회
 	Program getProgramByProgramNo(int programNo);
-	// 모든 프로그램 목록
+	// 모든 프로그램 목록(페이징처리)
 	List<ProgramDto> getAllPrograms(Map<String, Object> param);
+	// 모든 프로그램 목록 조회
+	List<ProgramDto> getAllProgramList();
 	int getTotalRows(Map<String, Object> rows);
 	// 프로그램 상세정보
 	ProgramDto getProgramDetail(int programNo); 

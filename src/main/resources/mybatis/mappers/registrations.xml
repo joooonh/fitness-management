@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.mapper.RegistrationMapper">
+
+	<!-- 프로그램을 신청한 신청자 조회 -->
+	<select id="getCclassRegistrationUserListByNo" parameterType="int" resultType="ClassRegistrationDto">
+		select
+			R.program_no				as programNo,
+			R.class_registration_no		as classNo,
+			R.user_no					as userNo,
+			R.class_payment_status		as paymentStatus,
+			R.payment_completed_date	as completedDate,
+			U.user_name					as userName,
+			U.user_tel					as userTel
+		from
+			fitness_programs P, class_registration_histories R, users U
+		where
+			P.program_no = R.program_no
+			and R.user_no = U.user_no
+			and U.user_deleted = 'N'
+			and R.program_no = #{value}
+	</select>
+	
+	<!-- 회원권 조회 -->
+	<select id="getAllMembership" resultType="MembershipDto">
+		select
+			H.membership_no				as membershipNo,
+			H.membership_start_date		as startDate,
+			H.membership_end_date		as endDate,
+			H.membership_period			as period,
+			H.payment_completed_date	as completedDate,
+			U.user_no					as userNo,
+			U.user_name					as name,
+			U.user_tel					as tel
+		from
+			membership_histories H, users U
+		where
+			H.user_no = U.user_no
+		order by
+			H.membership_no desc
+	</select>
+</mapper>
