@@ -28,6 +28,7 @@ public class ProgramService {
 	@Autowired
 	ProgramMapper programMapper;
 	
+	// 프로그램 목록 조회(페이징)
 	public Map<String, Object> getAllgrograms(int page, String sort, String keyword) {
 		// 검색조건에 해당하는 프로그램 목록 갯수
 		Map<String, Object> rows = new HashMap<>();
@@ -79,6 +80,37 @@ public class ProgramService {
 		result.put("pagination", pagination);
 		
 		return result;
+	}
+	
+	// 모든 프로그램 목록 조회
+	public List<ProgramDto> getAllProgramList() {
+		List<ProgramDto> programs = programMapper.getAllProgramList();
+		
+		for (ProgramDto programDto : programs) {
+			Program program = programMapper.getProgramByProgramNo(programDto.getNo());
+			// 프로그램 정원과 신청인원이 같으면 마감처리한다.
+			if (program.getQuota() == program.getRequestCount()) {
+				program.setStatus("마감");
+				programMapper.updateProgram(program);
+			}
+			// 프로그램 시작일과 종료일, 오늘날짜를 비교한다.
+			Date today = new Date();
+			Date startDate = program.getStartDate();
+			Date endDate = program.getEndDate();
+			boolean startCompare = today.after(startDate);
+			boolean endCompare = today.after(endDate);
+			// 프로그램 시작일이 오늘날짜가 지나면 진행중으로 바뀐다.
+			if (startCompare) {
+				program.setStatus("진행중");
+				programMapper.updateProgram(program);
+			}
+			// 프로그램 종료일이 지나면 마감처리한다.
+			if (endCompare) {
+				program.setStatus("마감");
+				programMapper.updateProgram(program);
+			}
+		}
+		return programs;
 	}
 	
 	// 프로그램 상세 정보

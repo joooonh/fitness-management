@@ -91,7 +91,7 @@
 			program_no = #{value}
 	</select>
 
-	<!-- 모든 프로그램 목록 조회 -->
+	<!-- 모든 프로그램 목록 조회(페이징처리) -->
 	<select id="getAllPrograms" parameterType="map" resultType="ProgramDto">
 		select 
 			*
@@ -142,6 +142,34 @@
 		    	)
 		where
 		    row_numbers between #{begin} and #{end}
+	</select>
+	
+	<!-- 모든 프로그램 목록 조회 -->
+	<select id="getAllProgramList" resultType="ProgramDto">
+		select
+            P.program_no					as no,
+            P.program_name					as name,
+            P.program_start_date			as startDate,
+            P.program_end_date				as endDate,
+            P.program_start_hour			as startHour,
+            P.program_end_hour				as endHour,
+            P.program_quota					as quota,
+            P.program_request_count			as requestCount,
+            P.program_price					as price,
+            P.program_status				as status,
+            P.program_created_date			as createdDate,
+            P.program_updated_date			as updatedDate,
+            P.employee_id					as employeeId,
+            P.fitness_program_category_no	as categoryNo,
+            E.employee_name					as employeeName,
+            C.fitness_program_category_name	as categoryName
+		from
+		    fitness_programs P, employees E, fitness_program_category C
+		where
+		    P.employee_id = E.employee_id
+		    and P.fitness_program_category_no = C.fitness_program_category_no
+		order by 
+			program_no desc
 	</select>
 	
 	<!-- 검색조건에 해당하는 행의 갯수 조회 -->
