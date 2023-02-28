@@ -27,11 +27,19 @@
 		<div class="col-9" id="col2">
 			<div class="row mb-3">
 				<div class="col">
-					<form class="form border" id="form-delete" method="post" action="/delete">
+					<form class="form border" id="form-delete" method="post" action="/user/delete">
 						<h5>비밀번호를 입력하세요.</h5>
 						<div class="row mb-3">
+							<div class="col-3"></div>
+							<div class="col-9">
+								<c:if test="${param.error eq 'fail' }">
+									<div class="alert alert-danger" role="alert">
+										비밀번호가 일치하지 않습니다.
+									</div>
+								</c:if>
+							</div>
 							<div class="col-3">
-								<label class="form-label">비밀번호</label>
+								<label class="form-label"><strong>비밀번호</strong></label>
 							</div>
 							<div class="col-9 mb-5">
 								<input type="password" class="form-control" name="password">

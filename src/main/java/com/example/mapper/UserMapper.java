@@ -6,12 +6,10 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.example.dto.ProgramDetailDto;
-import com.example.dto.ScheduleCheckDto;
 import com.example.dto.UserListAttDto;
 import com.example.vo.FitnessProgram;
 
 import com.example.vo.FitnessProgramCategory;
-import com.example.vo.ProgramDay;
 import com.example.vo.User;
 import com.example.vo.UserAttendance;
 import com.example.vo.UserClassAttendance;

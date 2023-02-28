@@ -1,5 +1,25 @@
 @charset "UTF-8";
 
-.fc-event{
+.fc .fc-toolbar.fc-header-toolbar {
+    margin-bottom: 1.5em;
+    margin-left: 150px;
+}
+.fc .fc-toolbar-title {
+    font-weight: bolder;
+}
+.fc-col-header-cell-cushion{
 	text-decoration: none;
+	color: black;
+}
+.fc .fc-daygrid-day-number{
+	text-decoration: none !important;
+	color: black;
+}
+.fc-direction-ltr .fc-daygrid-event .fc-event-time{
+	color: black;
+	font-size: smaller;
+}
+.fc-daygrid-dot-event .fc-event-title{
+	color: black;
+	font-size: smaller;
 }

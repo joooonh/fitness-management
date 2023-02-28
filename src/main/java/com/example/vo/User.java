@@ -14,6 +14,15 @@ import lombok.Setter;
 @Setter
 public class User {
 
+	public User(String name, String email, String photo) {
+		super();
+		this.name = name;
+		this.email = email;
+		this.photo = photo;
+	}
+
+	public User() {}
+
 	private int no;
 	private String id; 
 	private String encryptPassword;
