@@ -22,21 +22,86 @@
 	</select>
 	
 	<!-- 회원권 조회 -->
-	<select id="getAllMembership" resultType="MembershipDto">
+	<select id="getAllMembership" parameterType="map" resultType="MembershipDto">
 		select
-			H.membership_no				as membershipNo,
-			H.membership_start_date		as startDate,
-			H.membership_end_date		as endDate,
-			H.membership_period			as period,
-			H.payment_completed_date	as completedDate,
-			U.user_no					as userNo,
-			U.user_name					as name,
-			U.user_tel					as tel
+			*
+		from (
+				select
+					row_number() over (order by H.membership_no desc)	as row_numbers,
+					H.membership_no								as membershipNo,
+					H.membership_start_date						as startDate,
+					H.membership_end_date						as endDate,
+					H.membership_period							as period,
+					H.payment_completed_date					as completedDate,
+					U.user_no									as userNo,
+					U.user_name									as name,
+					U.user_tel									as tel
+				from
+					membership_histories H, users U
+				where
+					H.user_no = U.user_no
+					<if test="startDate != null">
+						and membership_start_date &gt;= #{startDate}
+					</if>
+					<if test="endDate != null">
+						and membership_end_date &lt;= #{endDate}
+					</if>
+					<if test="keyword != null">
+						and(U.user_no like '%' || #{keyword} || '%'
+						or U.user_name like '%' || #{keyword} || '%'
+						or U.user_tel like '%' || #{keyword} || '%')
+					</if>
+					<choose>
+						<when test="period == 1">
+							and membership_period = 1
+						</when>
+						<when test="period == 3">
+							and membership_period = 3
+						</when>
+						<when test="period == 6">
+							and membership_period = 6
+						</when>
+						<when test="period == 12">
+							and membership_period = 12
+						</when>
+					</choose>
+			)
+		where
+			row_numbers between #{begin} and #{end}
+	</select>
+	
+	<!-- 검색조건에 해당하는 행의 갯수 조회 -->
+	<select id="getTotalRows" parameterType="map" resultType="int">
+		select
+			count(*)
 		from
 			membership_histories H, users U
 		where
 			H.user_no = U.user_no
-		order by
-			H.membership_no desc
+			<if test="startDate != null">
+				and membership_start_date &gt;= #{startDate}
+			</if>
+			<if test="endDate != null">
+				and membership_end_date &lt;= #{endDate}
+			</if>
+			<if test="keyword != null">
+				and(U.user_no like '%' || #{keyword} || '%'
+				or U.user_name like '%' || #{keyword} || '%'
+				or U.user_tel like '%' || #{keyword} || '%')
+			</if>
+			<choose>
+				<when test="period == 1">
+					and membership_period = 1
+				</when>
+				<when test="period == 3">
+					and membership_period = 3
+				</when>
+				<when test="period == 6">
+					and membership_period = 6
+				</when>
+				<when test="period == 12">
+					and membership_period = 12
+				</when>
+			</choose>
 	</select>
 </mapper>
