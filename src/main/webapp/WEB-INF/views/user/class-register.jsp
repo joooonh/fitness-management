@@ -155,9 +155,12 @@ $(function(){
 	let calendarEl = document.getElementById("calendar");
 	// FullCalendar의 Calender객체를 생성한다.
 	let calendar = new FullCalendar.Calendar(calendarEl, {
+		headerToolbar: {
+			start: '',
+			center: 'title'
+		},
 		locale: 'ko',
 		initialView: 'dayGridMonth',	
-		themeSystem: 'bootstrap5',
 		// 일정정보를 조회하고, successCallback(이벤트배열)함수의 매개변수로 일정정보를 제공하고 실행하면 화면에 반영된다.
 		events: function(info, successCallback, failureCallback) {	// events 프로퍼티에는 달력이 변경될 때마다 실행되는 함수를 등록한다.
 			refreshEvents(info, successCallback);					// info는 화면에 표시되는 달력의 시작일, 종료일을 제공한다.
