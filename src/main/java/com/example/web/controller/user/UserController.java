@@ -115,8 +115,16 @@ public class UserController {
 	
 	// 회원 탈퇴 요청
 	@PostMapping("/delete")
-	public String deleteUser(@AuthenticatedUser LoginUser loginUser, String password) {
-		userService.deleteUser(loginUser.getId(), password);
+	public String deleteUser(@AuthenticatedUser LoginUser loginUser, String password) throws IOException {
+		
+		try {
+			userService.deleteUser(loginUser.getId(), password);
+			// 탈퇴시 로그아웃 처리
+			//SecurityContextHolder.clearContext();
+		} catch(InconsistentPasswordException ex) {
+			return "redirect:delete?error=fail";
+		}
+		
 		return "redirect:deleted";
 	}
 	

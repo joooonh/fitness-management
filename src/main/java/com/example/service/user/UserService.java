@@ -152,14 +152,13 @@ public class UserService {
 		
 		// 암호화된 비밀번호를 비교할 때는 Password의 matches(rawPassword, encryptPassword); (전용메소드)
 		if(!passwordEncoder.matches(password, user.getEncryptPassword())) {
-			throw new ApplicationException("비밀번호가 일치하지 않습니다.");
+			throw new InconsistentPasswordException("비밀번호가 일치하지 않습니다.");
 		}
 		
 		user.setDeleted("Y");
 		userMapper.updateUser(user);
 	}
 
-	
 	
 	//출석리스트 조회
 	public Map<String,Object> getUserList(int page,String opt,String keyword, String programInfo) {

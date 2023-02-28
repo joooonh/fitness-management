@@ -115,21 +115,23 @@
 						</div>
 						<div class="row">
 							<div class="col-12">
-								<nav aria-label="Page navigation example">
-									<ul class="pagination justify-content-center">
-										<li class="page-item ${pagination.first ? 'disabled' : '' }">
-											<a href="userList?page=${pagination.prevPage }" data-page-no="${pagination.prevPage }" class="page-link">이전</a>
-								    	</li>
-								    	<c:forEach var="number" begin="${pagination.beginPage }" end="${pagination.endPage }">
-										    <li class="page-item ${pagination.page eq number ? 'active' : '' }">
-										    	<a href="userList?page=${number }" data-page-no="${number }" class="page-link">${number }</a>
+								<c:if test="${totalRows > 0 }">
+									<nav aria-label="Page navigation example">
+										<ul class="pagination justify-content-center">
+											<li class="page-item ${pagination.first ? 'disabled' : '' }">
+												<a href="userList?page=${pagination.prevPage }" data-page-no="${pagination.prevPage }" class="page-link">이전</a>
+									    	</li>
+									    	<c:forEach var="number" begin="${pagination.beginPage }" end="${pagination.endPage }">
+											    <li class="page-item ${pagination.page eq number ? 'active' : '' }">
+											    	<a href="userList?page=${number }" data-page-no="${number }" class="page-link">${number }</a>
+											    </li>
+									    	</c:forEach>
+										    <li class="page-item ${pagination.last ? 'disabled' : '' }">
+										    	<a href="userList?page=${pagination.nextPage }" data-page-no="${pagination.nextPage }" class="page-link">다음</a>
 										    </li>
-								    	</c:forEach>
-									    <li class="page-item ${pagination.last ? 'disabled' : '' }">
-									    	<a href="userList?page=${pagination.nextPage }" data-page-no="${pagination.nextPage }" class="page-link">다음</a>
-									    </li>
-									</ul>
-								</nav>
+										</ul>
+									</nav>
+								</c:if>
 							</div>
 						</div>
 					</form>
