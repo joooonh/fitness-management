@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -29,6 +30,7 @@ import com.example.security.service.CustomEmployeeDetailsService;
 import com.example.security.service.CustomOAuth2UserService;
 import com.example.security.service.CustomUserDetailsService;
 
+@Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
