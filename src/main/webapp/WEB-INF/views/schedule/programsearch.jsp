@@ -12,34 +12,37 @@
 	#title {
 	border-bottom: solid 3px grey;
 	}
+	#title a {
+  	text-decoration: none; /* 링크의 밑줄 제거 */
+  	color: inherit; /* 링크의 색상 제거 */
+	}
 	input {
 	background-color: #dc143c;
 	color: white;
 	border: 0;
 	}
-	#title a {
-  	text-decoration: none; /* 링크의 밑줄 제거 */
-  	color: inherit; /* 링크의 색상 제거 */
+	.table {
+	text-align: center;
 	}
 </style>
 <title>중앙피트니스</title>
 </head>
 <body>
-<c:set var="menu" value="programschedule"/>
+<c:set var="menu" value="programsearch" />
 <!------------------------------------ 헤더 navbar 영역 ---------------------------------------->
 <%@ include file="../common/header.jsp" %>
 <div class="container-fluid mt-4">
 	<div class="row">
 		<div class="col-md-2 sidebar">
 			<!---------------------------------- 사이드 바 영역  ----------------------------------------->
-			<%@ include file="../common/sidebar.jsp" %>
-		</div> 
+			<%@ include file="../common/sidebar.jsp" %>>
+		</div>
 		<div class="col-md-10 ps-4 pt-5">
 			<!--------------------------------- Content 영역 ------------------------------------------->
-	   	   	<div id="title">
-					<p class="fs-2"><i class="bi bi-calendar3"></i><a href="program"> 프로그램일정관리</a></p>
-			</div>
-				<p>
+   	   	<div id="title">
+				<p class="fs-2"><i class="bi bi-calendar3"></i> <a href="program"> 프로그램일정관리</a></p>
+		</div>
+			<p>
 			<div>
 		        <form method="get" action="programsearch">
 			        <select name="programName">
@@ -52,9 +55,29 @@
 		    	</form>
 			</div>
 			</p>
+			<p>
+ 		<div class="table" class="col-6">
+			<table class="table table-bordered">
+				<colgroup>
+					<col width="5%">
+					<col width="15%">
+					<col width="5%">
+					<col width="15%">
+				</colgroup>
+				<tbody>
+					<tr>
+						<th>강사명</th>
+						<td>${program.employeeName }</td>
+						<th>프로그램명</th>
+						<td>${program.programName }</td>
+					</tr>
+				</tbody>
+			</table>
+	</div>
+		</p>
 			<!-- calendar API 추가 -->
 			 <div class="calendar">
-				 <%@ include file="calendar.jsp" %> 
+				 <%@ include file="programschedule.jsp" %> 
 			 </div>
 	 
 		</div>
