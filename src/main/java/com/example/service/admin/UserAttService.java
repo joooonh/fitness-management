@@ -41,7 +41,7 @@ public class UserAttService {
 		Map<String,Object> result = new HashMap<>();
 		result.put("userAtts", users );
 		result.put("pagination", pagination);
-		
+		result.put("totalRows", totalRows);
 		return result;
 	}
 	

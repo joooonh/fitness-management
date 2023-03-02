@@ -43,32 +43,27 @@
 						<button type="button" id="select-all" class="btn btn-secondary btn-sm">전체선택</button>
 						<button type="button" id="deselect" class="btn btn-secondary btn-sm">선택해제</button>
 		
-						<input class="form-control form-control-sm d-inline-block border-secondary"	type="date" name ="attDate"  id="currentDate"  ${param.attDate eq 'attDate' ? 'selected' : '' } style="width: 120px;">
 								
 					</div>
 					<div class="col-6">
-						<form id="form-search" method="get" action="/emp/userAttList">
-							<select class="form-select form-select-sm d-inline-block border-secondary"	name="onlyMembership" style="width: 130px;">
-									<option value="" selected >= 선택 =</option>
-									<option value="Y" ${param.onlyMembership == 'Y' ? 'selected' : '' }>회원권</option>
-							</select> 
+						<form id="form-search" method="get" action="/emp/empAttList">
 
+							<input class="form-control form-control-sm d-inline-block border-secondary"	type="date" name ="empDate"  ${param.progAttDate eq 'empDate' ? 'selected' : '' } style="width: 120px;">
 							<select class="form-select form-select-sm d-inline-block border-secondary" name="programInfo" style="width: 130px;">
-										
 									<option value="" selected >= 프로그램 =</option>
-									<c:forEach var="category" items="${FitnessProgramCategories }">
-										<option value="${category.categoryNo}" ${param.programInfo eq '${category.categoryNo}' ? 'selected': '' }>${category.categoryName }</option>
+									<c:forEach var="program" items="${programs }">
+										<option value="${program.no}" ${param.programInfo eq '${program.no}' ? 'selected': '' }>${program.name }</option>
 									</c:forEach>
 							</select>
 									
 							<select class="form-select form-select-sm d-inline-block border-secondary"	name="opt" style="width: 130px;">
-									<option value="" selected 선택하세요>선택하세요</option>
-									<option value="userName" ${param.opt eq 'userName' ? 'selected' : '' }>회원이름</option>
-									<option value="userNo" ${param.opt  == 'userNo' ? 'selected' : ''} >회원번호</option>
-									<option value="userTel" ${param.opt  == 'userTel' ? 'selected' : ''}>휴대폰</option>
+									<option value="" selected 선택하세요>= 선택하세요 =</option>
+									<option value="empName" ${param.opt eq 'empName' ? 'selected' : '' }>이름</option>
+									<option value="id" ${param.opt  == 'id' ? 'selected' : ''} >아이디</option>
+									<option value="tel" ${param.opt  == 'tel' ? 'selected' : ''}>휴대폰</option>
 							</select> 
 									<input class="form-control form-control-sm d-inline-block border-secondary"	name="keyword" value="${param.keyword }" style="width: 150px;">
-									<button type="submit" id="btn-search" class="btn btn-sm" style="background-color:#E0E0E0;"><i class="bi bi-search"></i></button>
+									<button type="submit" id="btn-emp-search" class="btn btn-sm" style="background-color:#E0E0E0;"><i class="bi bi-search"></i></button>
 						</form>
 					</div>
 					
@@ -84,67 +79,47 @@
 				<div class="row mb-3">
 					<div class="col-12">
 						<form id="form-att" method="get" action="/emp/empAttList">
-								<table>
+								<table class="table table-hover">
 									<colgroup>
 										<col width="5%">
-										<col width="8%">
-										<col width="10%">
-										<col width="6%">
-										<col width="12%">
-										<col width="18%">
+										<col width="15%">
+										<col width="15%">
+										<col width="15%">
+										<col width="15%">
 										<col width="15%">
 										<col width="15%">
 									</colgroup>
-									<thead>
+									<thead class="table-light">
 										<tr>
 											<th class="text-start"><input class="form-check-input ms-2 me-3" type="checkbox"  id="checkbox-all"></th>
-											<th>회원번호</th>
-											<th>회원이름</th>
-											<th>성별</th>
-											<th class="text-center">회원권</th>
-											<th>프로그램명</th>
-											<th>휴대폰</th>
+											<th>강사이름</th>
+											<th>아이디</th>
+											<th class="text-start">프로그램</th>
+											<th class="text-start">휴대폰</th>
 											<th>이메일</th>
 											<th>출석일자</th>
 										</tr>
 									</thead>
 									<tbody>
 										<c:choose>
-											<c:when test="${empty userAtts }">
+											<c:when test="${empty empAtts }">
 												<tr>	
 													<td colspan="11" class="text-center">출석이력이 없습니다.</td>
 												</tr>
 											</c:when>
 											<c:otherwise>
-												<c:forEach var="user" items="${userAtts }">
+												<c:forEach var="emp" items="${empAtts }">
 													<tr>
 														<td class="text-start">
-															<c:choose>
-																<c:when test="${user.userSeq ne 0 }">
-																	<input class="form-check-input ms-2 me-3"  type="checkbox"  name="value" value="${user.userSeq }-M" data-user-delete id="flexCheckDefault">
-																</c:when>
-																<c:when test="${user.classSeq ne 0 }">
-																	<input class="form-check-input ms-2 me-3"  type="checkbox"  name="value" value="${user.classSeq }-P" data-user-delete id="flexCheckDefault">
-																</c:when>
-															</c:choose>
+															<input class="form-check-input ms-2 me-3"  type="checkbox"  name="value" value="" data-user-delete id="flexCheckDefault">
 														</td>
-														
-														<td name="userNo" value="${user.userNo }">${user.userNo}</td>
-														<td>${user.userName }</td>
-														<td>${user.userGender }</td>
-														<td class="text-center">${user.membership }</td>
-														<td>${user.programName }</td>
-														<td>${user.userTel }</td>
-														<td>${user.userEmail }</td>
-														<td name="attNo" >
-															<c:choose>
-																<c:when test="${user.userAttDate ne null }">
-																		<fmt:formatDate pattern="yyyy-MM-dd" value="${user.userAttDate }"/>
-																</c:when>
-																<c:when test="${user.classAttDate ne null }">
-																		<fmt:formatDate pattern="yyyy-MM-dd" value="${user.classAttDate }"/>
-																</c:when>
-															</c:choose>
+														<td name="name" value="${emp.name }">${emp.name}</td>
+														<td name="id" value="${emp.id }">${emp.id}</td>
+														<td class="text-start">${emp.progName }</td>
+														<td class="text-start">${emp.tel }</td>
+														<td>${emp.email }</td>
+														<td>
+															<fmt:formatDate pattern="yyyy-MM-dd" value="${emp.progAttDate }"/>
 														</td>
 													</tr>
 												</c:forEach>
@@ -153,23 +128,23 @@
 									</tbody>
 								</table>
 								
-								<c:if test="${not empty userAtts }">
+								<c:if test="${not empty empAtts }">
 									<nav class="pt-3">
 										<ul class="pagination pagination-sm justify-content-center">
 											<li class="page-item">
 												<a class="page-link ${pagination.first ? 'disabled' : '' }"
-													href="list?page=${pagination.prevPage }">이전</a>
+													href="empAttList?page=${pagination.prevPage }">이전</a>
 											</li>
-											<c:forEach var="num" begin="${pagination.beginPage }" end="${pagintion.endPage }">									
+											<c:forEach var="num" begin="${pagination.beginPage }" end="${pagination.endPage }">									
 												<li class="page-item">
 													<a class="page-link ${pagination.page eq num ? 'active' : '' }"
-														href="list?page=${num }">${num }</a>
+														href="empAttList?page=${num }">${num }</a>
 												</li>
 											</c:forEach>
 											
 											<li class="page-item">
 												<a class="page-link ${pagination.last ? 'disabled' : '' }"
-													href="list?page=${pagination.nextPage }">다음</a>
+													href="empAttList?page=${pagination.nextPage }">다음</a>
 											</li>
 										</ul>
 									</nav>
@@ -191,7 +166,7 @@
  <!-------출석등록 모달창 ----------------------------------------------------------------------------------------- -->
   <div class="modal" tabindex="-1" id="modal-form-att">
   	<div class="modal-dialog">
-  		<form id="att-check" class="border p-3 bg-light" method="post" action="/emp/userRegisterAtt">
+  		<form id="att-check" class="border p-3 bg-light" method="post" action="/emp/empAttRegister">
   			<div class="modal-content">
   				<div class="modal-header">
   					<h5 class="modal-title">출석등록</h5>
@@ -202,7 +177,7 @@
 						<div class="row">
 							<div class="mb-3">
 								<label class="form-label" value="">아이디</label>
-								<input type="text"  name="userTel" value="${userTel}" style="width: 150px;">
+								<input type="text"  name="empId" value="${empId}" style="width: 150px;">
 								<button type="submit" class="">조회</button>
 							</div>
 						</div>
@@ -210,24 +185,24 @@
 						<div class="row">
 							<div class="mb-3">
 								<label class="form-label ">이름</label>
-								<input type="text"  name="userNo" value="${userNo }" style="width: 150px;">
+								<input type="text"  name="empName" value="${empName }" style="width: 150px;">
 							</div>
 						</div>
 						
 						<div class="row">
 							<div class="mb-3">
 								<label class="form-label " >휴대폰</label>
-								<input type="text"  name="userName" value="${userName }" style="width: 150px;">
+								<input type="text"  name="empTel" value="${empTel }" style="width: 150px;">
 							</div>
 						</div>
 					
 						<div class="row">
 							<div class=" mb-3">
 								<label class="form-label" >프로그램명</label>
-								<select class="form-select"  name="programNo" value="${userClassAttRegiModyfy.programName }">
+								<select class="form-select"  name="progName" >
 									<option value="" selected >= 프로그램 =</option>
-									<c:forEach var="category" items="${FitnessProgramCategories }">
-											<option value="${category.categoryNo}">${category.categoryName }</option>
+									<c:forEach var="program" items="${programs }">
+											<option value="${program.no}">${program.name }</option>
 									</c:forEach>
 								</select>
 							</div>
@@ -248,7 +223,7 @@
 						<div class="row">
 							<div class="mb-3">
 								<label class="form-label ">출석날짜</label>
-								<input class="form-control " type="date" name="userAttDate" >
+								<input class="form-control " type="date" name="progAttDate" >
 							</div>
 						</div>
 					</div>
@@ -270,39 +245,25 @@
 	moment.locale('ko');
 $(function(){
 	
-	// 현재날짜 표시
-    document.getElementById('currentDate').value = new Date().toISOString().substring(0, 10);;
 	
 	// 날짜 표현
-	let day = moment().format("YYYY-MM-D");
+	let day = moment().format("YYYY-MM-DD");
 	
-	$("#form-search :input[name=attDate]").val(day);
+	$("#form-search :input[name=empDate]").val(day);
 	
 	// 회원출석 모달창
 	let attendanceFormModal = new bootstrap.Modal("#modal-form-att");
 	
 	$('#btn-check-attendance').click(function(event) {
-		let day = moment().format("YYYY-MM-D");
-		let hour = moment().format("HH:mm"); 
-		
-		$("#modal-form-att :input[name=startTime]").val(hour);
-		$("#modal-form-att :input[name=userAttDate]").val(day);
-		
-		attendanceFormModal.show();
-	});
-	
-	// 프로그램출석 모달창
-	let classAttendanceFormModal = new bootstrap.Modal("#modal-form-class-att");
-	
-	$('#btn-check-class-attendance').click(function(event) {
 		// moment.js라이브러리
 		let day = moment().format("YYYY-MM-DD");
+		let hour = moment().format("HH:mm"); 
 		
 		// 출석날짜 화면에 출력
-		$("#modal-form-class-att :input[name=classAttDate]").val(day);
+		$("#modal-form-att :input[name=startTime]").val(hour);
+		$("#modal-form-att :input[name=progAttDate]").val(day);
 		
-		classAttendanceFormModal.show();
-		
+		attendanceFormModal.show();
 	});
 	
 	

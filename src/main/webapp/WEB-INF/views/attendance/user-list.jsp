@@ -49,15 +49,16 @@
 					<div class="col-7">
 						<form id="form-search" method="get" action="/emp/userAttList">
 							<input class="form-control form-control-sm d-inline-block border-secondary"	type="date" name ="attDate"  id="currentDate"  ${param.attDate eq 'attDate' ? 'selected' : '' } style="width: 120px;">
-							<input class="form-control form-control-sm d-inline-block border-secondary"	type="date" name ="classDate"  id="currentDate"  ${param.attDate eq 'attDate' ? 'selected' : '' } style="width: 120px;">
+							<%-- <input class="form-control form-control-sm d-inline-block border-secondary"	type="date" name ="classDate"  id="currentDate"  ${param.attDate eq 'attDate' ? 'selected' : '' } style="width: 120px;"> --%>
+							
 							<select class="form-select form-select-sm d-inline-block border-secondary"	name="onlyMembership" style="width: 130px;">
 									<option value="" selected >= 선택 =</option>
 									<option value="Y" ${param.onlyMembership == 'Y' ? 'selected' : '' }>회원권</option>
 							</select> 
-							<%-- <div class="form-check form-check-inline ms-2">
-								<input class="form-check-input  border-dark" type="checkbox" name="onlyMembership" value=""${param.onlyMembership eq 'Y' ? 'selected' : '' } id="flexCheckDefault"> 
-								<label class="form-check-label">회원권</label>
-							</div> --%>
+								<%-- <div class="form-check form-check-inline ms-2">
+									<input class="form-check-input  border-dark" type="checkbox" name="onlyMembership" value=""${param.onlyMembership eq 'Y' ? 'checked' : '' } id="flexCheckDefault"> 
+									<label class="form-check-label">회원권</label>
+								</div>  --%>
 							<select class="form-select form-select-sm d-inline-block border-secondary" name="programInfo" style="width: 130px;">
 										
 									<option value="" selected >= 프로그램 =</option>
@@ -90,18 +91,20 @@
 				<div class="row mb-3">
 					<div class="col-12">
 						<form id="form-att" method="get" action="/emp/delete-userAtt">
-								<table>
+								<table class="table table-hover">
 									<colgroup>
-										<col width="5%">
+										<col width="3%">
 										<col width="8%">
-										<col width="10%">
+										<col width="8%">
 										<col width="6%">
 										<col width="12%">
-										<col width="18%">
 										<col width="15%">
 										<col width="15%">
+										<col width="10%">
+										<col width="10%">
+										<col width="10%">
 									</colgroup>
-									<thead>
+									<thead class="table-light">
 										<tr>
 											<th class="text-start"><input class="form-check-input ms-2 me-3" type="checkbox"  id="checkbox-all"></th>
 											<th>회원번호</th>
@@ -112,8 +115,9 @@
 											<th>휴대폰</th>
 											<th>이메일</th>
 											<th>출석일자</th>
+											<th>출입시간</th>
 										</tr>
-									</thead>
+									</thead class="table-light">
 									<tbody>
 										<c:choose>
 											<c:when test="${empty userAtts }">
@@ -152,30 +156,43 @@
 																</c:when>
 															</c:choose>
 														</td>
+														<td>
+															<c:choose>
+																<c:when test="${user.startTime != null }">
+																	${user.startTime }
+																</c:when>
+																<c:when test="${user.progStartTime != null }">
+																	${user.progStartTime }
+																</c:when>
+															</c:choose>
+														</td>
 													</tr>
 												</c:forEach>
 											</c:otherwise>
 										</c:choose>
+										
+										
+										
 									</tbody>
 								</table>
 								
-								<c:if test="${not empty userAtts }">
+								<c:if test="${not empty	userAtts }">
 									<nav class="pt-3">
 										<ul class="pagination pagination-sm justify-content-center">
 											<li class="page-item">
 												<a class="page-link ${pagination.first ? 'disabled' : '' }"
-													href="list?page=${pagination.prevPage }">이전</a>
+													href="userAttList?page=${pagination.prevPage }">이전</a>
 											</li>
-											<c:forEach var="num" begin="${pagination.beginPage }" end="${pagintion.endPage }">									
+											<c:forEach var="num" begin="${pagination.beginPage }" end="${pagination.endPage }">									
 												<li class="page-item">
 													<a class="page-link ${pagination.page eq num ? 'active' : '' }"
-														href="list?page=${num }">${num }</a>
+														href="userAttList?page=${num }">${num }</a>
 												</li>
 											</c:forEach>
 											
 											<li class="page-item">
 												<a class="page-link ${pagination.last ? 'disabled' : '' }"
-													href="list?page=${pagination.nextPage }">다음</a>
+													href="userAttList?page=${pagination.nextPage }">다음</a>
 											</li>
 										</ul>
 									</nav>
@@ -185,7 +202,7 @@
 						
 						<div class="row" id="personnel">
 							<div class="col-12 " id="personnel" ">
-								<p class="perssonnel-number pt-3">인원 00명</p>
+								<p class="perssonnel-number pt-3">인원 ${totalRows }명</p>
 							</div>
 						</div>
 				
@@ -208,7 +225,7 @@
 						<div class="row">
 							<div class="mb-3">
 								<label class="form-label" value="">휴대폰</label>
-								<input type="text"  name="userTel" value="${userTel}" style="width: 150px;">
+								<input type="text"  name="userTel" value="${userTel}" style="width: 150px;" >
 								<button type="submit" class="" id="btn-check">조회</button>
 							</div>
 						</div>
@@ -216,14 +233,14 @@
 						<div class="row">
 							<div class="mb-3">
 								<label class="form-label ">회원번호</label>
-								<input type="text"  name="userNo" value="${userNo }" style="width: 150px;">
+								<input type="text"  name="userNo" value="${userNo }" style="width: 150px;" >
 							</div>
 						</div>
 						
 						<div class="row">
 							<div class="mb-3">
 								<label class="form-label " >회원이름</label>
-								<input type="text"  name="userName" value="${userName }" style="width: 150px;">
+								<input type="text"  name="userName" value="${userName }" style="width: 150px;" >
 							</div>
 						</div>
 					
@@ -231,14 +248,14 @@
 						<div class="row">
 							<div class=" mb-3">
 								<label class="form-label" >입실시간</label>
-								<input type="time"  name="startTime">
+								<input type="time"  name="startTime" >
 							</div>
 						</div>
 						
 						<div class="row">
 							<div class="mb-3">
 								<label class="form-label ">출석날짜</label>
-								<input class="form-control " type="date" name="userAttDate" >
+								<input class="form-control " type="date" name="userAttDate" value="${userAttDate }">
 							</div>
 						</div>
 					</div>
@@ -328,18 +345,18 @@
 $(function(){
 	
 	// 현재날짜 표시
-    document.getElementById('currentDate').value = new Date().toISOString().substring(0, 10);;
+	/*     document.getElementById('currentDate').value = new Date().toISOString().substring(0, 10);; */
 	
 	// 날짜 표현
-	let day = moment().format("YYYY-MM-D");
+ 	let day = moment().format("YYYY-MM-DD");
 	
 	$("#form-search :input[name=attDate]").val(day);
-	
+
 	// 회원출석 모달창
 	let attendanceFormModal = new bootstrap.Modal("#modal-form-att");
 	
 	$('#btn-check-attendance').click(function(event) {
-		let day = moment().format("YYYY-MM-D");
+		let day = moment().format("YYYY-MM-DD");
 		let hour = moment().format("HH:mm"); 
 		
 		$("#modal-form-att :input[name=startTime]").val(hour);
