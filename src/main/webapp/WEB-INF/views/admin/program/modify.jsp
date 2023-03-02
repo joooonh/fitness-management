@@ -109,7 +109,7 @@
 							</tr>
 						</table>
 						<div class="float-end">
-							<a href="list" class="btn btn-secondary me-3">취소</a>
+							<a href="/emp/program/list" class="btn btn-secondary me-3">취소</a>
 							<button type="button" id="btn-insert-program" class="btn btn-primary float-end">저장</button>
 						</div>
 					</form>
