@@ -9,27 +9,30 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
 <link rel="stylesheet" href="/resources/css/common.css">
 <link rel="stylesheet" href="/resources/css/background.css">
+<link rel="stylesheet" href="/resources/css/chat.css">
 <title>애플리케이션</title>
 </head>
 <body class="pt-5">
 <%@ include file="../common/header.jsp" %>
 <div class="container">
-	<div class="row">
-		<div class="col-12">
-			<h1>고객 응대 페이지</h1>
+	<div class="row" id="box-chat">
+		<div class="row">
+			<div class="col-12 text-center">
+				<h1><strong>고객 응대 페이지</strong></h1>
+			</div>
 		</div>
-	</div>
-	<div class="row">
-		<div class="col-12">
-			<div class="card" id="card-chat">
-				<div class="card-header">상담내용</div>
-				<div class="card-body" style="height: 500px; overflow-y:scroll;"></div>
-				<div class='card-footer'>
-					<div class="row">
-						<div class="col-10">
-							<input type="text" class="form-control" name="message"/>
+		<div class="row">
+			<div class="col-12">
+				<div class="card" id="card-chat">
+					<div class="card-header">상담내용</div>
+					<div class="card-body" style="height: 500px; overflow-y:scroll;"></div>
+					<div class='card-footer'>
+						<div class="row">
+							<div class="col-10">
+								<input type="text" class="form-control" name="message"/>
+							</div>
+							<div class="col-2"><button class="btn btn-secondary">전송</button></div>
 						</div>
-						<div class="col-2"><button class="btn btn-secondary">전송</button></div>
 					</div>
 				</div>
 			</div>
@@ -58,16 +61,12 @@ $(function() {
 		ws.onmessage = function(message) {
 			// 웹소켓으로 받은 데이터를 JSON 형식으로 파싱 (JSON 문자열을 자바스크립트 객체로 변환)
 			const data = JSON.parse(message.data);
-			
-			console.log(employeeId);
-			console.log(message);
-			
 			if (data.cmd == "chat-open-success") {
 				roomId = data.roomId;
-				employeeId = data.employeeId;
+				customerId = data.customerId;
 				appendChatMessage(data.text, 'float-start', 'alert-danger', 'text-start');
 			} else if (data.cmd == 'chat-message') {
-				appendChatMessage(data.text, 'float-start', 'alert-warning', 'text-start');
+				appendChatMessage(data.text, 'float-start', 'alert-success', 'text-start');
 			} else if (data.cmd == 'chat-error'){
 				appendChatMessage(data.text, 'float-start', 'alert-danger', 'text-start');
 			}
@@ -93,11 +92,11 @@ $(function() {
 					roomId: roomId,
 					customerId: customerId,
 					employeeId: employeeId,
-					senderType: "사용자",
+					senderType: "관리자",
 					text: inputMessage
 			}
 			send(message);
-			appendChatMessage(inputMessage, 'float-end', 'alert-info', 'text-end');
+			appendChatMessage(inputMessage, 'float-end', 'alert-warning', 'text-end');
 			$(":input[name='message']").val("");
 		}
 	}

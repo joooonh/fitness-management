@@ -7,14 +7,15 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import com.example.security.CustomAuthenticationToken;
+import com.example.security.vo.CustomUserDetails;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
@@ -35,24 +36,24 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		
-		// 현재 스레드의 보안 컨텍스트를 가져와 인증객체 Authentication 반환 
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); 
-		System.out.println("authentication : " + authentication);
-		 
-		 /*
-		 if(authentication instanceof CustomAuthenticationToken) {
-			 CustomAuthenticationToken customAuthenticationToken = (CustomAuthenticationToken) authentication;
-			// 로그인 시 입력한 아이디 반환
-			 String loginId = customAuthenticationToken.getName();
-			 String loginType = customAuthenticationToken.getUserType();
-			 
-			 if ("사용자".equals(loginType)) {
-				 customerSessions.put(loginId, session);
-			 } else if ("관리자".equals(loginType)) {
-				 waitingEmployeeSessions.put(loginId, session);
-			 }
-		 }
+		/*
+		 * 로그인한 사용자 정보 -> CustomAuthenticationToken 객체에 들어있음
+		 * WebSocketSession에서 세션 정보를 가져와 spring security의 SecurityContext 객체를 꺼내고, 그 안에 있는 CustomAuthenticationToken 객체 가져오기
+		 * session.getAttributes() : WebSocketSession에서 세션 정보 가져옴 (map 형태의 세션 정보 반환)
+		 * get("SPRING_SECURITY_CONTEXT") : "SPRING_SECURITY_CONTEXT" 속성명으로 들어있는 spring security의 SecurityContext를 가져옴
+		 * securityContext.getAuthentication() : 인증정보 (Authentication) 객체를 가져옴 -> CustomAuthenticationToken으로 타입 변환
 		 */
+		SecurityContextImpl securityContext = (SecurityContextImpl) session.getAttributes().get("SPRING_SECURITY_CONTEXT");
+		CustomAuthenticationToken authenticationToken = (CustomAuthenticationToken) securityContext.getAuthentication();
+		CustomUserDetails userDetails = (CustomUserDetails) authenticationToken.getPrincipal();
+		String loginId = userDetails.getUsername();
+		String loginType = authenticationToken.getUserType();
+		
+		if ("사용자".equals(loginType)) {
+			customerSessions.put(loginId, session);
+		} else if ("관리자".equals(loginType)) {
+			waitingEmployeeSessions.put(loginId, session);
+		}
 	}
 
 	// 클라이언트로부터 웹소켓으로 메시지를 수신하면 실행되는 메소드
