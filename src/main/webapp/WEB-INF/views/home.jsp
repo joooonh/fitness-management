@@ -29,7 +29,7 @@
 					<a class="btn btn-lg btn-outline-light" href="/user/classReg" style="width:200px; margin:0 auto;">프로그램 신청</a>
 				</div>
 				<div id="box-chat">
-					<a href="/user/chat"><img src="/resources/images/chat-dots-fill.svg" alt="chat" width="100" height="100" id="img-chat"></a>
+					<a href="/user/chat"><img src="/resources/images/chat.png" alt="chat" width="130" height="130" id="img-chat"></a>
 				</div>
 			</sec:authorize>
 		</div>
