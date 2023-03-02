@@ -73,7 +73,7 @@
 					</div>
 
 					<div class="row mb-2">
-						<div id='calendar' class="col-12" style="width:50%; height:50%;"></div>
+						<div id='calendar' class="col-12" style="width:100%; height:50%;"></div>
 					</div>
 
 					<div class="row" id="personnel">

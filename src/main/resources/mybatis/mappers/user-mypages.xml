@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.example.mapper.UserMypageMapper">
 
+	<!-- 회원별 회원권 정보 조회 -->
 	<select id="getAllMembershipsByUserNo" parameterType="int" resultType="MembershipHistory">
 		select
 			membership_no				as no,
@@ -23,6 +24,7 @@
 			user_no = #{value}
 	</select>
 	
+	<!-- 회원별 수업신청 내역 조회 -->
 	<select id="getAllClassRegHistoriesDtoByUserNo" parameterType="int" resultType="ClassRegHistoryDto">
 		select
 		    A.class_registration_no         as classRegNo,
@@ -44,6 +46,7 @@
 		    and B.employee_id = E.employee_id
 	</select>
 	
+	<!-- 회원별 상담신청 내역 조회 -->
 	<select id="getAllConsultingHistoryDtosByUserNo" parameterType="int" resultType="ConsultingHistoryDto">
 		select
 		    V.consulting_no             	as no,
@@ -60,6 +63,7 @@
 		    and V.program_no = P.program_no
 	</select>
 	
+	<!-- 프로그램번호로 프로그램요일 조회 -->
 	<select id="getProgramDayByProgramNo" parameterType="int" resultType="ProgramDay">
 		select
 			program_no			as programNo,

@@ -91,7 +91,7 @@
 			program_no = #{value}
 	</select>
 
-	<!-- 모든 프로그램 목록 조회 -->
+	<!-- 모든 프로그램 목록 조회(페이징처리) -->
 	<select id="getAllPrograms" parameterType="map" resultType="ProgramDto">
 		select 
 			*
@@ -142,6 +142,34 @@
 		    	)
 		where
 		    row_numbers between #{begin} and #{end}
+	</select>
+	
+	<!-- 모든 프로그램 목록 조회 -->
+	<select id="getAllProgramList" resultType="ProgramDto">
+		select
+            P.program_no					as no,
+            P.program_name					as name,
+            P.program_start_date			as startDate,
+            P.program_end_date				as endDate,
+            P.program_start_hour			as startHour,
+            P.program_end_hour				as endHour,
+            P.program_quota					as quota,
+            P.program_request_count			as requestCount,
+            P.program_price					as price,
+            P.program_status				as status,
+            P.program_created_date			as createdDate,
+            P.program_updated_date			as updatedDate,
+            P.employee_id					as employeeId,
+            P.fitness_program_category_no	as categoryNo,
+            E.employee_name					as employeeName,
+            C.fitness_program_category_name	as categoryName
+		from
+		    fitness_programs P, employees E, fitness_program_category C
+		where
+		    P.employee_id = E.employee_id
+		    and P.fitness_program_category_no = C.fitness_program_category_no
+		order by 
+			program_no desc
 	</select>
 	
 	<!-- 검색조건에 해당하는 행의 갯수 조회 -->
@@ -264,5 +292,41 @@
 		from
 			fitness_program_category
 	</select> 
-
+	
+	<!-- 카테고리번호에 해당하는 카테고리 정보 -->
+	<select id="getCategoryByNo" parameterType="int" resultType="ProgramCategory">
+		select
+			fitness_program_category_no		as no,
+			fitness_program_category_name	as name
+		from
+			fitness_program_category
+		where
+			fitness_program_category_no	= #{value}
+	</select>
+	
+	<!-- 카테고리 정보 수정 -->
+	<update id="updateCategory" parameterType="ProgramCategory">
+		update
+			fitness_program_category
+		set
+			fitness_program_category_name = #{name}
+		where
+			fitness_program_category_no	= #{no}
+	</update>
+	
+	<!-- 카테고리 삭제 -->
+	<delete id="deleteCategory" parameterType="ProgramCategory">
+		delete from
+			fitness_program_category
+		where
+			fitness_program_category_no	= #{no}
+	</delete>
+	
+	<!-- 카테고리 등록 -->
+	<insert id="insertCategory" parameterType="string">
+		insert into fitness_program_category
+			(fitness_program_category_no, fitness_program_category_name)
+		values
+			(fitness_program_category_seq.nextval, #{value})
+	</insert>
 </mapper>

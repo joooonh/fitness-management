@@ -9,11 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.dto.ProgramDetailDto;
 import com.example.dto.UserListAttDto;
 import com.example.mapper.UserAttMapper;
 import com.example.utils.Pagination;
-import com.example.vo.FitnessProgram;
 import com.example.vo.FitnessProgramCategory;
 import com.example.vo.UserAttendance;
 import com.example.vo.UserClassAttendance;
@@ -28,14 +26,10 @@ public class UserAttService {
 	UserAttMapper userAttMapper;
 	
 	//출석리스트 조회
-	public Map<String,Object> getUserList(int page,String opt,String keyword, String programInfo) {
-		Map<String,Object> param = new HashMap<String,Object>();
-		if (!opt.isBlank() && !keyword.isBlank() && !programInfo.isBlank()) {
-			param.put("opt", opt);
-			param.put("keyword", keyword);
-			param.put("programInfo", programInfo);
-		}
-
+	public Map<String,Object> getUserList(Map<String, Object> param) {
+		
+		int page = (Integer) param.get("page");
+		
 		int totalRows = userAttMapper.getTotalRows(param);
 		Pagination pagination = new Pagination(page,totalRows);
 		
@@ -47,26 +41,22 @@ public class UserAttService {
 		Map<String,Object> result = new HashMap<>();
 		result.put("userAtts", users );
 		result.put("pagination", pagination);
-		
+		result.put("totalRows", totalRows);
 		return result;
 	}
 	
 
 		
-	// 프로그램 프로그램명 조회
+	// 프로그램 조회
 	public List<FitnessProgramCategory> getPrograms() {
 			
 		return userAttMapper.getPrograms();
 	}
 	
 	// 프로그램출석 모달창 - 프로그램 요일 조회
-	public ProgramDetailDto getProgramDay(String programNo) {
-		FitnessProgram fitpro = userAttMapper.getProgramByNo(programNo);
+	public List<String> getProgramDays(int programNo) {
 		
-		ProgramDetailDto programDto = new ProgramDetailDto();
-		BeanUtils.copyProperties(fitpro, programDto);
-		
-		return programDto;
+		return userAttMapper.getProgramDays(programNo);
 	}
 
 
@@ -83,6 +73,25 @@ public class UserAttService {
 		UserClassAttendance classAtt = new UserClassAttendance();
 		BeanUtils.copyProperties(form, classAtt);
 		userAttMapper.insertUserClassAtt(classAtt);
+	}
+	
+	// 회원출석글 삭제
+	public void deleteAtt(List<String> values) {
+	
+		// values -> ["100-P", "102-P", "301-M",  "300-M"]
+		
+		for (String text : values) {
+			String[] items = text.split("-");
+			int no = Integer.parseInt(items[0]);
+			String gubun = items[1];
+			
+			if ("M".equals(gubun)) {
+				userAttMapper.deleteUserAtt(no);	
+			} else if ("P".equals(gubun)) {
+				userAttMapper.deleteClassAtt(no);
+			}
+		}
+		
 	}
 	
 	

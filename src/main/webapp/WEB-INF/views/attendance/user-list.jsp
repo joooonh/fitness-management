@@ -40,131 +40,173 @@
 					</div>
 				
 				<div class="row mb-2">
-					<div class="col">
+					<%--<div class="col">
 						<button type="button" id="select-all" class="btn btn-secondary btn-sm">전체선택</button>
 						<button type="button" id="deselect" class="btn btn-secondary btn-sm">선택해제</button>
 		
-						<input class="form-control form-control-sm d-inline-block border-secondary"	type="date" name ="attDate" value="" style="width: 120px;">
-								
-						<div class="form-check form-check-inline ms-2">
-							<input class="form-check-input  border-dark" type="checkbox" name="membership" value="행체크" id="flexCheckDefault"> 
-							<label class="form-check-label">회원권</label>
-						</div>
 					</div>
-					<div class="col-5">
-						<form action="/emp/userAttList" method="get">
+					 --%>
+					<div class="col-7">
+						<form id="form-search" method="get" action="/emp/userAttList">
+							<input class="form-control form-control-sm d-inline-block border-secondary"	type="date" name ="attDate"  id="currentDate"  ${param.attDate eq 'attDate' ? 'selected' : '' } style="width: 120px;">
+							<%-- <input class="form-control form-control-sm d-inline-block border-secondary"	type="date" name ="classDate"  id="currentDate"  ${param.attDate eq 'attDate' ? 'selected' : '' } style="width: 120px;"> --%>
+							
+							<select class="form-select form-select-sm d-inline-block border-secondary"	name="onlyMembership" style="width: 130px;">
+									<option value="" selected >= 선택 =</option>
+									<option value="Y" ${param.onlyMembership == 'Y' ? 'selected' : '' }>회원권</option>
+							</select> 
+								<%-- <div class="form-check form-check-inline ms-2">
+									<input class="form-check-input  border-dark" type="checkbox" name="onlyMembership" value=""${param.onlyMembership eq 'Y' ? 'checked' : '' } id="flexCheckDefault"> 
+									<label class="form-check-label">회원권</label>
+								</div>  --%>
 							<select class="form-select form-select-sm d-inline-block border-secondary" name="programInfo" style="width: 130px;">
 										
-								<option value="none" selected disabled>= 프로그램 =</option>
+									<option value="" selected >= 프로그램 =</option>
 									<c:forEach var="category" items="${FitnessProgramCategories }">
 										<option value="${category.categoryNo}" ${param.programInfo eq '${category.categoryNo}' ? 'selected': '' }>${category.categoryName }</option>
 									</c:forEach>
 							</select>
 									
 							<select class="form-select form-select-sm d-inline-block border-secondary"	name="opt" style="width: 130px;">
-									<option value="none" selected disabled>선택하세요</option>
+									<option value="" selected 선택하세요>선택하세요</option>
 									<option value="userName" ${param.opt eq 'userName' ? 'selected' : '' }>회원이름</option>
 									<option value="userNo" ${param.opt  == 'userNo' ? 'selected' : ''} >회원번호</option>
 									<option value="userTel" ${param.opt  == 'userTel' ? 'selected' : ''}>휴대폰</option>
 							</select> 
 									<input class="form-control form-control-sm d-inline-block border-secondary"	name="keyword" value="${param.keyword }" style="width: 150px;">
-									<button type="submit" class="btn btn-sm" style="background-color:#E0E0E0;"><i class="bi bi-search"></i></button>
+									<button type="submit" id="btn-search" class="btn btn-sm" style="background-color:#E0E0E0;"><i class="bi bi-search"></i></button>
 						</form>
 					</div>
 					
 
 					<div class="col text-end">
-								<button type="button" id="btn-check-attendance"  class="btn btn-outline-secondary"">회원출석<i class="bi bi-check2"></i></button>
-								<button type="button" id="btn-check-class-attendance"  class="btn btn-outline-secondary">프로그램출석<i class="bi bi-check2"></i></button>
+								<button type="button" id="btn-check-attendance"  class="btn btn-sm btn-outline-secondary"">회원출석<i class="bi bi-check2"></i></button>
+								<button type="button" id="btn-check-class-attendance"  class="btn btn-sm btn-outline-secondary">프로그램출석<i class="bi bi-check2"></i></button>
 								<button type="button" class="btn  btn-sm"  style="background-color:#E0E0E0;">수정</button>
-								<button type="button" class="btn  btn-sm" style="background-color:#E0E0E0;">삭제</button>
+								<button type="submit" id="btn-delete" class="btn btn-sm" style="background-color:#E0E0E0;">삭제</button>
 					</div>
 				</div>
 				
 				
 				<div class="row mb-3">
 					<div class="col-12">
-						<table>
-							<colgroup>
-								<col width="15%">
-								<col width="8%">
-								<col width="8%">
-								<col width="8%">
-								<col width="15%">
-								<col width="13%">
-								<col width="13%">
-								<col width="10%">
-							</colgroup>
-							<thead>
-								<tr>
-									<th class="text-start"><input class="form-check-input ms-2 me-3" type="checkbox" value="행체크" id="checkbox-all"><span>회원번호</span></th>
-									<th>회원이름</th>
-									<th>성별</th>
-									<th>회원권(헬스)</th>
-									<th>프로그램명</th>
-									<th>휴대폰</th>
-									<th>이메일</th>
-									<th>회원출석일자</th>
-									<th>수업출석일자</th>
-								</tr>
-							</thead>
-							<tbody>
-								<c:choose>
-									<c:when test="${empty userAtts }">
-										<tr>	
-											<td colspan="12" class="text-center">출석이력이 없습니다.</td>
+						<form id="form-att" method="get" action="/emp/delete-userAtt">
+								<table class="table table-hover">
+									<colgroup>
+										<col width="3%">
+										<col width="8%">
+										<col width="8%">
+										<col width="6%">
+										<col width="12%">
+										<col width="15%">
+										<col width="15%">
+										<col width="10%">
+										<col width="10%">
+										<col width="10%">
+									</colgroup>
+									<thead class="table-light">
+										<tr>
+											<th class="text-start"><input class="form-check-input ms-2 me-3" type="checkbox"  id="checkbox-all"></th>
+											<th>회원번호</th>
+											<th>회원이름</th>
+											<th>성별</th>
+											<th class="text-center">회원권</th>
+											<th>프로그램명</th>
+											<th>휴대폰</th>
+											<th>이메일</th>
+											<th>출석일자</th>
+											<th>출입시간</th>
 										</tr>
-									</c:when>
-									<c:otherwise>
-										<c:forEach var="user" items="${userAtts }">
-											<tr>
-												<td class="text-start"><input class="form-check-input ms-2 me-3" type="checkbox" name="userNo" value="행체크" id="flexCheckDefault"><span>${user.userNo }</span></td>
-												<td>${user.userName }</td>
-												<td>${user.userGender }</td>
-												<td>${user.membership }</td>
-												<td>${user.programName }</td>
-												<td>${user.userTel }</td>
-												<td>${user.userEmail }</td>
-												<td><fmt:formatDate pattern="yyyy-MM-dd" value="${user.userAttDate }"/></td>
-												<td><fmt:formatDate pattern="yyyy-MM-dd" value="${user.classAttDate }"/></td>
-											</tr>
-										</c:forEach>
-									</c:otherwise>
-								</c:choose>
-							</tbody>
-						</table>
+									</thead class="table-light">
+									<tbody>
+										<c:choose>
+											<c:when test="${empty userAtts }">
+												<tr>	
+													<td colspan="11" class="text-center">출석이력이 없습니다.</td>
+												</tr>
+											</c:when>
+											<c:otherwise>
+												<c:forEach var="user" items="${userAtts }">
+													<tr>
+														<td class="text-start">
+															<c:choose>
+																<c:when test="${user.userSeq ne 0 }">
+																	<input class="form-check-input ms-2 me-3"  type="checkbox"  name="value" value="${user.userSeq }-M" data-user-delete id="flexCheckDefault">
+																</c:when>
+																<c:when test="${user.classSeq ne 0 }">
+																	<input class="form-check-input ms-2 me-3"  type="checkbox"  name="value" value="${user.classSeq }-P" data-user-delete id="flexCheckDefault">
+																</c:when>
+															</c:choose>
+														</td>
+														
+														<td name="userNo" value="${user.userNo }">${user.userNo}</td>
+														<td>${user.userName }</td>
+														<td>${user.userGender }</td>
+														<td class="text-center">${user.membership }</td>
+														<td>${user.programName }</td>
+														<td>${user.userTel }</td>
+														<td>${user.userEmail }</td>
+														<td name="attNo" >
+															<c:choose>
+																<c:when test="${user.userAttDate ne null }">
+																		<fmt:formatDate pattern="yyyy-MM-dd" value="${user.userAttDate }"/>
+																</c:when>
+																<c:when test="${user.classAttDate ne null }">
+																		<fmt:formatDate pattern="yyyy-MM-dd" value="${user.classAttDate }"/>
+																</c:when>
+															</c:choose>
+														</td>
+														<td>
+															<c:choose>
+																<c:when test="${user.startTime != null }">
+																	${user.startTime }
+																</c:when>
+																<c:when test="${user.progStartTime != null }">
+																	${user.progStartTime }
+																</c:when>
+															</c:choose>
+														</td>
+													</tr>
+												</c:forEach>
+											</c:otherwise>
+										</c:choose>
+										
+										
+										
+									</tbody>
+								</table>
+								
+								<c:if test="${not empty	userAtts }">
+									<nav class="pt-3">
+										<ul class="pagination pagination-sm justify-content-center">
+											<li class="page-item">
+												<a class="page-link ${pagination.first ? 'disabled' : '' }"
+													href="userAttList?page=${pagination.prevPage }">이전</a>
+											</li>
+											<c:forEach var="num" begin="${pagination.beginPage }" end="${pagination.endPage }">									
+												<li class="page-item">
+													<a class="page-link ${pagination.page eq num ? 'active' : '' }"
+														href="userAttList?page=${num }">${num }</a>
+												</li>
+											</c:forEach>
+											
+											<li class="page-item">
+												<a class="page-link ${pagination.last ? 'disabled' : '' }"
+													href="userAttList?page=${pagination.nextPage }">다음</a>
+											</li>
+										</ul>
+									</nav>
+								</c:if>
+							</div>
+						</div>
 						
-						<c:if test="${not empty userAtts }">
-							<nav class="pt-3">
-								<ul class="pagination pagination-sm justify-content-center">
-									<li class="page-item">
-										<a class="page-link ${pagination.first ? 'disabled' : '' }"
-											href="list?page=${pagination.prevPage }">이전</a>
-									</li>
-									<c:forEach var="num" begin="${pagination.beginPage }" end="${pagintion.endPage }">									
-										<li class="page-item">
-											<a class="page-link ${pagination.page eq num ? 'active' : '' }"
-												href="list?page=${num }">${num }</a>
-										</li>
-									</c:forEach>
-									
-									<li class="page-item">
-										<a class="page-link ${pagination.last ? 'disabled' : '' }"
-											href="list?page=${pagination.nextPage }">다음</a>
-									</li>
-								</ul>
-							</nav>
-						</c:if>
-					</div>
-				</div>
+						<div class="row" id="personnel">
+							<div class="col-12 " id="personnel" ">
+								<p class="perssonnel-number pt-3">인원 ${totalRows }명</p>
+							</div>
+						</div>
 				
-				<div class="row" id="personnel">
-					<div class="col-12 " id="personnel" ">
-						<p class="perssonnel-number pt-3">인원 00명</p>
-					</div>
-				</div>
-				
-				
+					</form>
 			</div>
 		</div>
 	</div>
@@ -183,22 +225,22 @@
 						<div class="row">
 							<div class="mb-3">
 								<label class="form-label" value="">휴대폰</label>
-								<input type="text"  name="userTel" value="${userTel}" style="width: 150px;">
-								<button type="submit" class="">조회</button>
+								<input type="text"  name="userTel" value="${userTel}" style="width: 150px;" >
+								<button type="submit" class="" id="btn-check">조회</button>
 							</div>
 						</div>
 						
 						<div class="row">
 							<div class="mb-3">
 								<label class="form-label ">회원번호</label>
-								<input type="text"  name="userNo" value="${userNo }" style="width: 150px;">
+								<input type="text"  name="userNo" value="${userNo }" style="width: 150px;" >
 							</div>
 						</div>
 						
 						<div class="row">
 							<div class="mb-3">
 								<label class="form-label " >회원이름</label>
-								<input type="text"  name="userName" value="${userName }" style="width: 150px;">
+								<input type="text"  name="userName" value="${userName }" style="width: 150px;" >
 							</div>
 						</div>
 					
@@ -206,20 +248,20 @@
 						<div class="row">
 							<div class=" mb-3">
 								<label class="form-label" >입실시간</label>
-								<input type="text"  name="startTime">
+								<input type="time"  name="startTime" >
 							</div>
 						</div>
 						
 						<div class="row">
 							<div class="mb-3">
 								<label class="form-label ">출석날짜</label>
-								<input class="form-control " type="date" name="userAttDate" >
+								<input class="form-control " type="date" name="userAttDate" value="${userAttDate }">
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="submit" class="">등록</button>
+					<button type="submit" class="" id="btn-register">등록</button>
 					<%--<a href="user-list?userNo=">취소</a> --%>
 				</div>
   			</div>
@@ -230,7 +272,7 @@
 <!-------프로그램출석등록 모달창 ----------------------------------------------------------------------------------------- -->
   <div class="modal" tabindex="-1" id="modal-form-class-att">
   	<div class="modal-dialog">
-  		<form id="att-check" class="border p-3 bg-light" method="post" action="classAttRegister">
+  		<form id="class-check" class="border p-3 bg-light" method="post" action="/emp/classAttRegister">
   			<div class="modal-content">
   				<div class="modal-header">
   					<h5 class="modal-title">프로그램 출석등록</h5>
@@ -242,7 +284,7 @@
 							<div class="mb-3">
 								<label class="form-label" >휴대폰</label>
 								<input type="text"  name="userTel" value="${userTel}" style="width: 150px;">
-								<button type="submit" class="">조회</button>
+								<button type="submit" class="" id="btn-class-check">조회</button>
 							</div>
 						</div>
 						
@@ -263,37 +305,31 @@
 						<div class="row">
 							<div class=" mb-3">
 								<label class="form-label" >프로그램명</label>
-								<select class="form-select "  name="programNo" value="${userClassAttRegiModyfy.programName }">
-									<option value="none" selected disabled>= 프로그램 =</option>
+								<select class="form-select"  name="programNo" value="${userClassAttRegiModyfy.programName }">
+									<option value="" selected >= 프로그램 =</option>
 									<c:forEach var="category" items="${FitnessProgramCategories }">
 											<option value="${category.categoryNo}">${category.categoryName }</option>
 									</c:forEach>
 								</select>
 							</div>
 						</div>
-						
-						<div class="row">
-							<label class="form-label" >프로그램요일</label>
-						</div>
 						<div class="row">
 							<div class="mb-3" id="prog-days">
-								<input class="form-check-input  border-dark" type="checkbox" name="programName" value="${programName}" id="flexCheckDefault"> 
-								<label class="form-check-label">월</label>
+								<p>프로그램요일</p>
 							</div>
 						</div>
-						 
 						
 						<div class="row">
 							<div class="mb-3">
-								<label class="form-label ">출석날짜</label>
+								<label class="form-label">출석날짜</label>
 								<input class="form-control " type="date" name="classAttDate" value="${userAttRegiModyfy.attDate }">
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="submit" class="">등록</button>
-					<a href="user-list?userNo=">취소</a>
+					<button type="submit" class="" id="class-register">등록</button>
+					<%--<a href="user-list?userNo=">취소</a> --%>
 				</div>
   			</div>
   		</form>
@@ -308,11 +344,19 @@
 	moment.locale('ko');
 $(function(){
 	
+	// 현재날짜 표시
+	/*     document.getElementById('currentDate').value = new Date().toISOString().substring(0, 10);; */
+	
+	// 날짜 표현
+ 	let day = moment().format("YYYY-MM-DD");
+	
+	$("#form-search :input[name=attDate]").val(day);
+
 	// 회원출석 모달창
 	let attendanceFormModal = new bootstrap.Modal("#modal-form-att");
 	
 	$('#btn-check-attendance').click(function(event) {
-		let day = moment().format("YYYY-MM-D");
+		let day = moment().format("YYYY-MM-DD");
 		let hour = moment().format("HH:mm"); 
 		
 		$("#modal-form-att :input[name=startTime]").val(hour);
@@ -335,20 +379,13 @@ $(function(){
 		
 	});
 	
-	$(":input[name=programNo]").cha
 	
 	// 검색
-	function getSearchList(){
-		$.ajax({
-				type:'GET',
-				url: "/getSearchList",
-				data: $("select[name=search").serialize(),
-				success : function(result){
-						// 테이블 초기화
-							$('#board')
-				}
-		});
-	};
+	$('#btn-search').click(function() {
+		
+		$("#form-search").attr("action","/emp/userAttList").trigger("submit");
+	});
+	
 	
 	
 	// 체크박스 전체 선택
@@ -357,7 +394,7 @@ $(function(){
 		//전체 체크박스 여부 조회
 		let checkboxAllChecked = $(this).prop("checked");
 		// 각 게시물의 체크박스 여부를 전체선택 체크박스의 체크여부와 같은 상태로 변경한다.
-		$(":checkbox[name=userNo]").prop('checked',checkboxAllChecked);
+		$(":checkbox[name=value]").prop('checked',checkboxAllChecked);
 		
 		
 	});
@@ -365,7 +402,7 @@ $(function(){
 	
 	
 	// userNo가 바뀔 때 마다 무언가가 실행되게 하기
-	$(":checkbox[name=userNo]").change(function(){
+	$(":checkbox[name=value]").change(function(){
 		
 		toggleCheckboxAll();
 	});
@@ -373,28 +410,110 @@ $(function(){
 	
 	function toggleCheckboxAll() {
 		
-			// 게시글 체크박스 갯수 조회
-			let checkboxLength = $(":checkbox[name=userNo]").length;
-			// 게시글 체크박스 중에서 체크된 갯수 조회
-			let checkedCheckboxLength = $(":checkbox[name=userNo]:checked").length;
-			// 게시글 체크박스의 갯수와 체크된 갯수가일치하면 전체선택 체크박스상태로 변경
-			$("#checkbox-all").prop("checked", checkboxLength == checkedCheckboxLength);
+		// 게시글 체크박스 갯수 조회
+		let checkboxLength = $(":checkbox[name=value]").length;
+		// 게시글 체크박스 중에서 체크된 갯수 조회
+		let checkedCheckboxLength = $(":checkbox[name=value]:checked").length;
+		// 게시글 체크박스의 갯수와 체크된 갯수가일치하면 전체선택 체크박스상태로 변경
+		$("#checkbox-all").prop("checked", checkboxLength == checkedCheckboxLength);
 	};
 	
 	// 선택해제 버튼을 클릭했을 때 해당 체크박스 해제하기
 	$('#deselect').click(function(event){
 		
 		$("#checkbox-all").prop('checked',false);
-		$(":checkbox[name=userNo]").prop('checked',false);
+		$(":checkbox[name=value]").prop('checked',false);
 	});
 
 	// 전체선택 버튼을 클릭했을 때 모든 체크박스가 선택되게하기 
 	$("#select-all").click(function(){
 		$("#checkbox-all").prop('checked',true);
-		$(":checkbox[name=userNo]").prop('checked',true);
+		$(":checkbox[name=value]").prop('checked',true);
 		
 	});
+	
+	// 프로그램 요일
+	$(":input[name=programNo]").change(function() {
 		
+		let today = moment().format("dd");
+		
+		let no = $(this).val();
+		$.getJSON("/emp/ProgramDays",{programNo:no}, function(days) {
+				
+			let text = days.join("/")
+			$("#prog-days").text(text);
+			
+			//$("#prog-days").text().includes('일')
+			
+		});
+		
+	});
+	
+	
+	// 회원출석 삭제
+	$('#btn-delete').click(function() {
+			
+		let len = $("#form-att table tbody :checkbox[data-user-delete]:checked").length;
+		if(len === 0){
+			alert("삭제할 정보를 하나이상 선택하세요.");
+			return;
+		}
+		
+		$("#form-att").attr("action","/emp/delete-userAtt").trigger("submit");
+	});
+	
+	// 회원출석 등록 alert
+	$('#btn-register').click(function() {
+		let userNo =  $("#att-check input[name=userNo]").val();
+			
+		if(userNo === ""){
+			alert("회원번호를 입력하세요");
+			return false;
+		}
+			
+			return true;
+	});
+	
+	$('#btn-check').click(function() {
+		let userTel = $("#att-check input[name=userTel]").val();
+		
+		if(userTel === ""){
+			alert("휴대폰번호를 입력하세요");
+			
+			return false;
+		}
+			return true;
+	});
+	
+	// 일치하지 않을 때 alert
+	
+	
+	
+			
+	// 프로그램출석 등록 alert
+	$('#class-register').click(function() {
+			
+		let userNo = $("#class-check input[name=userNo]").val();
+		
+		if(userNo === ""){
+			alert("회원번호를 입력하세요");
+			return false;
+		}
+		
+		return true;
+	});
+	
+	$("#btn-class-check").click(function() {
+		
+		let userTel = $("#class-check input[name=userTel]").val();
+		
+		if(userTel === ""){
+			alert("휴대폰번호를 입력하세요");
+			return false;
+		}
+		return true;
+	});
+	
 	
 });
 	

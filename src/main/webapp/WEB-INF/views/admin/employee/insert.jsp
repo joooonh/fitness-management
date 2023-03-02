@@ -6,8 +6,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
-<link rel="stylesheet" href="../../../resources/css/common.css">
-<link rel="stylesheet" href="../../../resources/css/content.css">
+<link rel="stylesheet" href="/resources/css/common.css">
+<link rel="stylesheet" href="/resources/css/content.css">
 <title>중앙피트니스</title>
 </head>
 <body>
@@ -24,7 +24,8 @@
 			<!--------------------------------- Content 영역 ------------------------------------------->
 			<div class="row">
 				<div class="col-12">
-					<h1>직원 등록</h1>
+					<span><h5 class="" ><i class="bi bi-person-video ms-2 me-3"></i>직원등록</h5></span>
+					<hr width="103%" color="gray">
 				</div>
 			</div>
 			
@@ -46,6 +47,13 @@
 										<col width="25%">
 										<col width="*">
 									</colgroup>
+									<tr>
+										<th class="table-secondary">클럽명</th>
+										<td>
+											<input type="text" name="fitnessName" value="중앙피트니스센터" class="form-control" readonly />
+											<input type="hidden" name="fitnessNo" value="1" />
+										</td>
+									</tr>
 									<tr>
 										<th class="table-secondary">아이디</th>
 										<td>
@@ -92,8 +100,8 @@
 										<th class="table-secondary">우편번호</th>
 										<td class="d-flex">
 											<form:input path="zipcode" class="form-control w-25 me-3" />
-											<form:errors path="zipcode" cssClass="text-danger" />
 											<button type="button" class="btn btn-outline-secondary btn-sm" id="btn-search-zipcode">우편번호검색</button>
+											<form:errors path="zipcode" cssClass="text-danger" />
 										</td>
 									</tr>
 									<tr>
@@ -113,7 +121,7 @@
 								</table>
 						
 								<div class="text-end">
-									<a href="list" class="btn btn-secondary">취소</a>
+									<a href="/emp/employee/list" class="btn btn-secondary">취소</a>
 									<button class="btn btn-primary">등록</a>
 								</div>
 							</div>

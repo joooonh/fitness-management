@@ -1,5 +1,6 @@
 package com.example.service.admin;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.dto.ProgramDayDto;
 import com.example.dto.ProgramDto;
+import com.example.exception.ApplicationException;
 import com.example.mapper.ProgramMapper;
 import com.example.utils.Pagination;
 import com.example.vo.Program;
@@ -26,6 +28,7 @@ public class ProgramService {
 	@Autowired
 	ProgramMapper programMapper;
 	
+	// 프로그램 목록 조회(페이징)
 	public Map<String, Object> getAllgrograms(int page, String sort, String keyword) {
 		// 검색조건에 해당하는 프로그램 목록 갯수
 		Map<String, Object> rows = new HashMap<>();
@@ -43,7 +46,32 @@ public class ProgramService {
 		param.put("sort", sort);
 		param.put("keyword", keyword);
 		
-		List<Program> programs = programMapper.getAllPrograms(param);
+		List<ProgramDto> programs = programMapper.getAllPrograms(param);
+		
+		for (ProgramDto programDto : programs) {
+			Program program = programMapper.getProgramByProgramNo(programDto.getNo());
+			// 프로그램 정원과 신청인원이 같으면 마감처리한다.
+			if (program.getQuota() == program.getRequestCount()) {
+				program.setStatus("마감");
+				programMapper.updateProgram(program);
+			}
+			// 프로그램 시작일과 종료일, 오늘날짜를 비교한다.
+			Date today = new Date();
+			Date startDate = program.getStartDate();
+			Date endDate = program.getEndDate();
+			boolean startCompare = today.after(startDate);
+			boolean endCompare = today.after(endDate);
+			// 프로그램 시작일이 오늘날짜가 지나면 진행중으로 바뀐다.
+			if (startCompare) {
+				program.setStatus("진행중");
+				programMapper.updateProgram(program);
+			}
+			// 프로그램 종료일이 지나면 마감처리한다.
+			if (endCompare) {
+				program.setStatus("마감");
+				programMapper.updateProgram(program);
+			}
+		}
 		
 		// controller에 전달해줄 Map<String, Object> 객체 생성
 		Map<String, Object> result = new HashMap<>();
@@ -54,10 +82,45 @@ public class ProgramService {
 		return result;
 	}
 	
+	// 모든 프로그램 목록 조회
+	public List<ProgramDto> getAllProgramList() {
+		List<ProgramDto> programs = programMapper.getAllProgramList();
+		
+		for (ProgramDto programDto : programs) {
+			Program program = programMapper.getProgramByProgramNo(programDto.getNo());
+			// 프로그램 정원과 신청인원이 같으면 마감처리한다.
+			if (program.getQuota() == program.getRequestCount()) {
+				program.setStatus("마감");
+				programMapper.updateProgram(program);
+			}
+			// 프로그램 시작일과 종료일, 오늘날짜를 비교한다.
+			Date today = new Date();
+			Date startDate = program.getStartDate();
+			Date endDate = program.getEndDate();
+			boolean startCompare = today.after(startDate);
+			boolean endCompare = today.after(endDate);
+			// 프로그램 시작일이 오늘날짜가 지나면 진행중으로 바뀐다.
+			if (startCompare) {
+				program.setStatus("진행중");
+				programMapper.updateProgram(program);
+			}
+			// 프로그램 종료일이 지나면 마감처리한다.
+			if (endCompare) {
+				program.setStatus("마감");
+				programMapper.updateProgram(program);
+			}
+		}
+		return programs;
+	}
+	
 	// 프로그램 상세 정보
 	public ProgramDto getProgramDetail(int programNo) {
 		// 프로그램번호로 프로그램 정보 조회
-		return programMapper.getProgramDetail(programNo);
+		ProgramDto programDto = programMapper.getProgramDetail(programNo);
+		if (programDto == null) {
+			throw new ApplicationException(programNo+"에 해당하는 프로그램 정보가 없습니다.");
+		}
+		return programDto;
 	}
 	
 	// 프로그램 신청자 목록
@@ -68,6 +131,23 @@ public class ProgramService {
 	// 프로그램 분류 목록
 	public List<ProgramCategory> getProgramCategory() {
 		return programMapper.getProgramCategory();
+	}
+
+	// 프로그램 카테고리 수정
+	public void updateCategory(int no, String name) {
+		ProgramCategory category =programMapper.getCategoryByNo(no);
+		category.setName(name);
+		programMapper.updateCategory(category);
+	}
+	
+	// 프로그램 카테고리 삭제
+	public void deleteCategory(int no, String name) {
+		ProgramCategory category =programMapper.getCategoryByNo(no);
+		programMapper.deleteCategory(category);
+	}
+	// 프로그램 카테고리 등록
+	public void insertCategory(String name) {
+		programMapper.insertCategory(name);
 	}
 	
 	// 프로그램 등록
@@ -93,6 +173,9 @@ public class ProgramService {
 	public void updateProgram(ProgramForm form) {
 		// 프로그램 정보 조회
 		Program program = programMapper.getProgramByProgramNo(form.getNo());
+		if (program == null) {
+			throw new ApplicationException(form.getNo()+"에 해당하는 프로그램 정보가 없습니다.");
+		}
 		BeanUtils.copyProperties(form, program);
 		
 		programMapper.deleteProgramDays(form.getNo());

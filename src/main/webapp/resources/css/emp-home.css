@@ -1,0 +1,22 @@
+@charset "UTF-8";
+
+body {
+       height: 100vh;
+       width: 90vw;
+       background-image: url('/resources/images/home2.jpg');
+       background-repeat : no-repeat;
+       background-size : cover;
+       background-opacity: 0.5;
+}
+.box {
+	margin-top: 250px;
+	margin-left: 110px;
+}
+#img-chat {
+	filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(73deg) brightness(103%) contrast(103%);
+}
+#box-chat {
+	display: flex;
+    justify-content: end;
+    margin-top: 200px;
+}
