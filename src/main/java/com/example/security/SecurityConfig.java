@@ -53,13 +53,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/").permitAll()			
 			.antMatchers("/user/register", "/user/registered").permitAll()
 			.antMatchers("/user/login", "/emp/login").permitAll()
+			.antMatchers("/oauth2/**").permitAll()
+			.antMatchers("/login/oauth2/**").permitAll()
 			// 인증된 사람만 다음 기능 가능 
 			.antMatchers("/logout").authenticated()
 			// 특정 권한을 가진 사람만 다음 페이지 접근 가능
 			.antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
 			.antMatchers("/emp/**").hasAnyRole("EMP", "ADMIN")
 			.antMatchers("/admin/**").hasAnyRole("ADMIN")
-			.anyRequest().authenticated()
+			.anyRequest().permitAll()
 		.and()
 			// 인증정책 설정
 			.formLogin()							// 인증방식은 폼인증 방식 사용
@@ -78,7 +80,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.and()
 			.oauth2Login()
 			.loginPage("/user/login")
-			.successHandler(authenticationSuccessHandler())
+			.defaultSuccessUrl("/")
+			.failureUrl("/user/login")
 			.userInfoEndpoint()
 			.userService(customOAuth2UserService);
 	}
