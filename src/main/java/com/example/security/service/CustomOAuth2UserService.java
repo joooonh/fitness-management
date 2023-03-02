@@ -11,10 +11,10 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import com.example.mapper.UserMapper;
+import com.example.mapper.UserRoleMapper;
 import com.example.security.oauth.info.OAuth2UserInfo;
 import com.example.security.oauth.info.OAuth2UserInfoFactory;
 import com.example.security.vo.CustomOAuth2User;
-import com.example.service.user.UserService;
 import com.example.vo.User;
 import com.example.vo.UserRole;
 
@@ -24,7 +24,8 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 	@Autowired
 	private UserMapper userMapper;
 	@Autowired
-	private UserService userService;
+	private UserRoleMapper userRoleMapper;
+	
 	
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
@@ -34,7 +35,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 		// 현재 진행중인 OAuth2 서비스를 구분. (구글, 카카오, 네이버) {providerType='naver'} 
         String providerType = oAuth2UserRequest.getClientRegistration().getRegistrationId();
         
-        // OAuth2 로그인 시 키 값이 된다. 구글은 키 값이 "sub"이고, 네이버는 "response"이고, 카카오는 "id"이다. 각각 다르므로 이렇게 따로 변수로 받아서 넣어줘야함.
       	OAuth2UserInfo userInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(providerType, oAuth2User.getAttributes());
         User savedUser = userMapper.getUserById(userInfo.getId());
         
@@ -52,8 +52,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
 	private User createUser(OAuth2UserInfo userInfo, String providerType) {
 		User user = new User();
-		UserRole userRole = new UserRole();
-		user = userService.getUserinfo(userInfo.getId());
 		
 		user.setId(userInfo.getId());
 		user.setName(userInfo.getName());
@@ -61,11 +59,10 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 		user.setProviderType(providerType);
 		user.setCreatedDate(new Date());
 		user.setUpdatedDate(new Date());
-		
-		userRole.setUserNo(user.getNo());
-		userRole.setRoleName("ROLE_USER");
-		
 		userMapper.insertUser(user);
+		
+		UserRole userRole = new UserRole(user.getNo(), "ROLE_USER");
+		userRoleMapper.insertUserRole(userRole);
 		
 		return user;
 	}
