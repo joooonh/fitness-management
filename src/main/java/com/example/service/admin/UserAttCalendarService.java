@@ -4,15 +4,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.dto.AttEvent;
+import com.example.dto.UserAttDetailDto;
 import com.example.dto.UserListAttDto;
 import com.example.mapper.UserAttCalendarMapper;
+import com.example.mapper.UserAttMapper;
 import com.example.utils.Pagination;
 import com.example.vo.FitnessProgramCategory;
+import com.example.vo.User;
 
 @Service
 @Transactional
@@ -20,6 +24,9 @@ public class UserAttCalendarService {
 	
 	@Autowired
 	UserAttCalendarMapper userAttCalendarMapper;
+	
+	@Autowired
+	UserAttMapper userAttMapper;
 	
 	//출석리스트 조회
 		public Map<String,Object> getUserList(int page,String opt,String keyword, String programInfo) {
@@ -58,8 +65,32 @@ public class UserAttCalendarService {
 		
 		// 달력 조회
 		public List<AttEvent> getEvents(Map<String, Object> param) {
-
+			
+			
 			return userAttCalendarMapper.getAttEvents(param);
 		}
+
+		// 상세정보 조회
+		public UserAttDetailDto getUserDetail(String userNo) {
+			UserListAttDto attDto = userAttCalendarMapper.getUserByNo(userNo);
+			
+			UserAttDetailDto detailDto = new UserAttDetailDto();
+			BeanUtils.copyProperties(attDto, detailDto);
+			
+			return detailDto;
+			
+		}
+		
+		// 달력에 조회할 회원 정보 조회
+		public UserListAttDto getUserInfo() {
+			
+			return userAttCalendarMapper.getUserInfo();
+		}
+
+		public List<AttEvent> getAttInfo() {
+
+			return userAttCalendarMapper.getAttInfo();
+		}
+		
 		
 }

@@ -15,7 +15,16 @@ public class AttEvent {
 		return String.valueOf(userListAttDto.getUserNo());
 	}
 	public Date getStart() {
-		return DateUtils.textToDate(userListAttDto.getUserAttDate(), userListAttDto.getStartTime()); 
+		/*System.out.println("ATT-DATE: " + userListAttDto.getUserAttDate());
+		System.out.println("CLASS-DATE: " + userListAttDto.getClassAttDate());
+		System.out.println("START-TIME: " + userListAttDto.getStartTime());*/
+		
+		if (userListAttDto.getClassAttDate() != null) {
+			return DateUtils.textToDate(userListAttDto.getClassAttDate(), userListAttDto.getStartTime());
+		} else {
+			return DateUtils.textToDate(userListAttDto.getUserAttDate(), userListAttDto.getStartTime());			
+		}
+		
 	}
 	
 	
@@ -23,9 +32,15 @@ public class AttEvent {
 		return "Y".equals(userListAttDto.getMembership()); 
 	}
 	
+	
+	
+	
 	/*
 	public String getClassStatus() {
 		return userListAttDto.getClassStatus();
 	}
 	*/
+	
+	
+	
 }

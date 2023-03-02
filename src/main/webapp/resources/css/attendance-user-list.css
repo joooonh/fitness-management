@@ -12,28 +12,29 @@
 
 table {
     width: 100%;
-    border-top: 1px solid #444444;
+    border-top: 1px solid #DDDDDD;
     border-collapse: collapse;
-    border-color: #E0E0E0;
+    border-color: black;
     border-radius: 10px;
+    
   }
 th, td {
-  	border-color: none;
-   /*  border-bottom: 1px solid #444444; */
+  	border-color: #DDDDDD;
+    border-bottom: 1px solid #DDDDDD;
     padding: 10px;
   }
 th {
-	background-color: #757575;
-	color: white;
+	background-color: white;
+	color: #2e313d;
 }
 
-tbody tr:nth-child(2n) {
-    background-color: #E0E0E0;
+/* tbody tr:nth-child(2n) {
+    background-color:	white;
   }
   
-tbody tr:nth-child(2n+1) {
+ tbody tr:nth-child(2n+1) {
     background-color:  #EEEEEE;
-  }
+  } */ 
 .memberH {
 	color: #424242;
 	font-size: 20px;
