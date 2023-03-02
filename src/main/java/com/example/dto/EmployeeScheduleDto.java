@@ -3,25 +3,22 @@ package com.example.dto;
 import java.util.Date;
 
 import org.apache.ibatis.type.Alias;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.example.utils.DateUtils;
 import com.example.vo.Employee;
 import com.example.vo.Program;
-import com.example.vo.ProgramDay;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@Alias("ProgramCalendarDto")
-public class ProgramCalendarDto {
+@Alias("EmployeeScheduleDto")
+public class EmployeeScheduleDto {
 
 	@JsonIgnore
 	private Employee employee;
 	private Program program;
-	
 	private String programOpenDays;
 	
 	public String getId() {
-		return String.valueOf(program.getNo());
+		return String.valueOf(employee.getId());
 	}
 	
 	public Date getStart() {
@@ -33,7 +30,7 @@ public class ProgramCalendarDto {
 	}
 	
 	public String getTitle() {
-		return (employee.getName() + "("+program.getName()+")");
+		return program.getName();
 	}
 
 	public String getProgramOpenDays() {
@@ -43,6 +40,7 @@ public class ProgramCalendarDto {
 	public void setProgramOpenDays(String programOpenDays) {
 		this.programOpenDays = programOpenDays;
 	}
+
 	
 	
 }
