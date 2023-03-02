@@ -34,12 +34,12 @@ spring:
             authorization-grant-type: authorization_code
             client-id: 0de5e34431d0d6ef10d353e97efbfe96
             client-secret: XvOVbHHMKS4ZG58yADw67iQN5Gaa05b4
-            redirect-uri: http://localhost/user/home
+            client-authentication-method: POST
+            redirect-uri: http://localhost/login/oauth2/code/kakao
             scope:
               - profile_nickname
               - profile_image
               - account_email
-            client-authentication-method: POST
             client-name: Kakao
             
           naver:
