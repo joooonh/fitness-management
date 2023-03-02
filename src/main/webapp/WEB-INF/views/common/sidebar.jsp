@@ -6,30 +6,30 @@
 		</a>
 	</li>
 	<li class="nav-item mb-2">
-		<a href="/emp/admin/club/club" class="nav-link text-white p-3 mb-2 sidebar-link">
+		<a href="/emp/club/club" class="nav-link text-white p-3 mb-2 sidebar-link">
 			<i class="bi bi-shop-window"></i> 매장관리
 		</a>
 	</li>
 	<li class="nav-item mb-2">
-		<a href="/emp/admin/program/list" class="nav-link text-white p-3 mb-2 sidebar-link">
+		<a href="/emp/program/list" class="nav-link text-white p-3 mb-2 sidebar-link">
 			<i class="bi bi-pc-display-horizontal"></i> 프로그램관리
 		</a>
 		<ul class="submenu  mb-2">
-			<a href="/emp/admin/program/list" class="nav-link text-white">프로그램 조회</a>
+			<a href="/emp/program/list" class="nav-link text-white">프로그램 조회</a>
 			<sec:authorize access="hasRole('ROLE_ADMIN')">
-			<a href="/emp/admin/program/insert" class="nav-link text-white">프로그램 등록</a>
-			<a href="/emp/admin/program/category" class="nav-link text-white">카테고리</a>
+			<a href="/admin/program/insert" class="nav-link text-white">프로그램 등록</a>
+			<a href="/admin/program/category" class="nav-link text-white">카테고리</a>
 			</sec:authorize>
 		</ul>
 	</li>
 	<li class="nav-item mb-2">
-		<a href="" class="nav-link text-white p-3 mb-2 sidebar-link">
+		<a href="/emp/employee/list" class="nav-link text-white p-3 mb-2 sidebar-link">
 			<i class="bi bi-person-video"></i> 직원관리
 		</a>
 		<ul class="submenu  mb-2">
-			<a href="/emp/admin/employee/list" class="nav-link text-white">직원조회</a>
+			<a href="/emp/employee/list" class="nav-link text-white">직원조회</a>
 			<sec:authorize access="hasRole('ROLE_ADMIN')">
-			<a href="/emp/admin/employee/insert" class="nav-link text-white">직원등록</a>
+			<a href="/admin/employee/insert" class="nav-link text-white">직원등록</a>
 			</sec:authorize>
 		</ul>
 	</li>
