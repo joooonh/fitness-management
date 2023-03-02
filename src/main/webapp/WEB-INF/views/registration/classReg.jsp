@@ -101,6 +101,9 @@
 $(function(){
 	// 프로그램 목록 클릭시 신청자 목록이 나온다.
 	$("#programList tbody").on('click', 'tr', function() {
+		$("#programList tbody tr").removeClass("table-secondary");
+		$(this).addClass("table-secondary");
+		
 		// 클릭한 프로그램의 프로그램번호를 가져온다.
 		let no = $(this).children("td").attr("data-program-no");
 		
