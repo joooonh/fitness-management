@@ -22,8 +22,11 @@ public class UserListAttDto {
 	private String userTel;
 	private String startTime;
 	private String endTime;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date userAttDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date classAttDate;
+	private String progStartTime;
 	private int programNo;
 	private String membership;
 	private String classStatus;

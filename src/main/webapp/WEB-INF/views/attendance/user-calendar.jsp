@@ -19,20 +19,7 @@ table {
   }
 th, td {
   	border-color: none;
-   /*  border-bottom: 1px solid #444444; */
     padding: 10px;
-  }
-th {
-	background-color: #757575;
-	color: white;
-}
-
-tbody tr:nth-child(2n) {
-    background-color: #E0E0E0;
-  }
-  
-tbody tr:nth-child(2n+1) {
-    background-color:  #EEEEEE;
   }
 
 </style>
@@ -67,6 +54,56 @@ tbody tr:nth-child(2n+1) {
 							</div>
 						</div>
 						
+							<div class="row mb-3">
+								<h3 class="bg-dark text-white p-2 fs-6 fw-bold">회원상세정보</h3>
+								<table class="table table-bordered ">
+									<colgroup>
+										<col width="20%">
+										<col width="30%">
+										<col width="23%">
+										<col width="27%">
+									</colgroup>
+									<tbody>
+										<tr>
+											<td bgcolor="#FF0000">아이디</td>
+											<td><span id="user-id"></span></td>
+											<td>회원이름</td>
+											<td><span id="user-name"></span></td>
+										</tr>
+										<tr>
+											<td>회원번호</td>
+											<td><span id="user-no"></span></td>
+											<td>휴대폰</td>
+											<td><span id="user-tel"></span></td>
+										</tr>
+										
+										<tr>
+											<td>이메일</td>
+											<td><span id="user-email"></td>
+											<td>성별</td>
+											<td><span id="user-gender"></td>
+										</tr>
+										
+										<tr>
+											<td>회원출석일자</td>
+											<td>
+												<span class="badge text-bg-secondary" id="user-attDate"></td>
+											</td>
+											<td>프로그램출석일자</td>
+											<td>
+												<span class="badge text-bg-secondary" id="user-classDate"></td>
+											</td>
+										</tr>
+										
+										<tr>
+											<td>프로그램명</td>
+											<td><span class="badge text-bg-success" id="prog-name"></td>
+											<td>회원권</td>
+											<td><span class="badge text-bg-warning" id="user-membership"></td>
+										</tr>
+									</tbody>
+								</table>
+						</div>
 						<div class="row mb-2">
 							<div class="col-12">
 								<form id="form-search" method="get" action="/emp/userCalendar">
@@ -94,7 +131,7 @@ tbody tr:nth-child(2n+1) {
 						</div>
 						
 						<div class="row">
-								<table class="table table-sm">
+								<table class="table table-hover" class="table table-sm" id="user-att-table">
 									<colgroup>
 										<col width="15%">
 										<col width="15%">
@@ -102,7 +139,7 @@ tbody tr:nth-child(2n+1) {
 										<col width="15%">
 										<col width="30%">
 									</colgroup>
-									<thead>
+									<thead  class="table-light">
 										<tr style="background-color:#757575; color=white;">
 											<th class="text-center"><span>회원번호</span></th>
 											<th class="text-center">회원이름</th>
@@ -122,7 +159,7 @@ tbody tr:nth-child(2n+1) {
 												<c:forEach var="user" items="${userAtts }">
 													<tr>
 														<td class="text-center"><span>${user.userNo }</span></td>
-														<td class="text-center"><a href="read?userNo=${user.userNo }">${user.userName }</a></td>
+														<td class="text-center"><a href="" data-user-No="${user.userNo }" class="text-decoration-none">${user.userName } </a></td>
 														<td class="text-center">${user.userGender }</td>
 														<td class="text-center">${user.membership }</td>
 														<td>${user.programName }</td>
@@ -138,24 +175,25 @@ tbody tr:nth-child(2n+1) {
 											<ul class="pagination pagination-sm justify-content-center">
 												<li class="page-item">
 													<a class="page-link ${pagination.first ? 'disabled' : '' }"
-															href="list?page=${pagination.prevPage }">이전</a>
+															href="userCalendar?page=${pagination.prevPage }">이전</a>
 												</li>
-												<c:forEach var="num" begin="${pagination.beginPage }" end="${pagintion.endPage }">									
+												<c:forEach var="num" begin="${pagination.beginPage }" end="${pagination.endPage }">									
 												<li class="page-item">
 													<a class="page-link ${pagination.page eq num ? 'active' : '' }"
-																href="list?page=${num }">${num }</a>
+																href="userCalendar?page=${num }">${num }</a>
 												</li>
 												</c:forEach>
 													
 												<li class="page-item">
 													<a class="page-link ${pagination.last ? 'disabled' : '' }"
-															href="list?page=${pagination.nextPage }">다음</a>
+															href="userCalendar?page=${pagination.nextPage }">다음</a>
 												</li>
 											</ul>
 										</nav>
 								</c:if>
 						</div>
 						
+					
 					</div>
 					
 					<div class="col-6">
@@ -217,9 +255,10 @@ $(function(){
 	
 	function refreshEvents(info, successCallback) {
 		let startDate = moment(info.start).format("YYYY-MM-DD");
-		
+		let endDate = moment(info.end).format("YYYY-MM-DD");
 		let param = {
-			startDate: startDate
+			startDate: startDate,
+			endDate: endDate
 		};
 		
 		$.ajax({
@@ -234,6 +273,32 @@ $(function(){
 	}
 	
 	
+	
+	
+	// 이름을 클릭했을 때
+	$('#user-att-table a[data-user-no]').click(function(event){
+
+		event.preventDefault();
+		let no = $(this).attr('data-user-no');
+		
+		$.getJSON('/emp/detail.json', {userNo: no}, function(userAtt) {
+			
+			
+			$("#user-id").text(userAtt.userId);
+			$("#user-name").text(userAtt.userName);
+			$("#user-no").text(userAtt.userNo);
+			$("#user-tel").text(userAtt.userTel);
+			$("#user-email").text(userAtt.userEmail);
+			$("#user-gender").text(userAtt.userGender);
+			$("#user-attDate").text(userAtt.userAttDate);
+			$("#user-classDate").text(userAtt.classAttDate);
+			$("#emp-name").text(userAtt.userId);
+			$("#prog-name").text(userAtt.programName);
+			$("#user-membership").text(userAtt.membership);
+			
+		})
+			
+	});	
 	
 	
 });
