@@ -1,5 +1,26 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"
 	trimDirectiveWhitespaces="true"%>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+<style>
+	body {
+		font-family: 'Noto Sans KR', sans-serif;
+	}
+	.cursor::after {
+		content: '';
+		margin-left: .6rem;
+		border-right: 2px solid #777;
+		animation: cursor .9s infinite steps(2);
+	}
+
+	@keyframes cursor {
+		from { border-right: 2px solid #222; }
+		to { border-right: 2px solid #777; }
+	}
+</style>
+
 <nav class="navbar navbar-expand-md navbar-dark">
 	<button class="navbar-toggler ml-auto mb-2 bg-light" type="button"
 		data-toggle="collapse" data-target="#sidebar">
