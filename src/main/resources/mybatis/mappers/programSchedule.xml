@@ -2,76 +2,38 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.example.mapper.ProgramScheduleMapper">
 
+	<select id="getProgramByProgramName" parameterType="string" resultType="ProgramScheduleDto">
+		select
+			A.employee_id as id,
+			A.employee_name as employeeName,
+			B.program_name as programName
+		from
+			employees A, fitness_programs B
+		where
+			A.employee_id = B.employee_id
+			and B.program_name = #{value}
+	</select>
+
 	<select id="getAllPrograms" resultType="Program">
 			select
-				program_no 							as no,
-				program_name 						as name,
-				program_start_date 					as stardDate,
-				program_end_date 					as endDate,
-				program_start_hour 					as startHour,
-				program_end_hour 					as endHour,
-				program_quota 						as quota,
-				program_request_count 				as requestCount,
-				program_price 						as price,
-				program_status 						as status,
-				program_created_date 				as createdDate,
-				program_updated_date 				as updatedDate,
-				employee_id 						as employeeId,
-				fitness_program_category_no 		as fitnessProgramCategoryNo
+				program_no as no,
+				program_name as name,
+				program_start_date as stardDate,
+				program_end_date as endDate,
+				program_start_hour as startHour,
+				program_end_hour as endHour,
+				program_quota as quota,
+				program_request_count as requestCount,
+				program_price as price,
+				program_status as status,
+				program_created_date as createdDate,
+				program_updated_date as updatedDate,
+				employee_id as employeeId,
+				fitness_program_category_no as fitnessProgramCategoryNo
 			from
 				fitness_programs
 			order by
 				program_no asc
-	</select>
-	
-		<select id = "getProgramEvents" parameterType = "Map" resultType = "ProgramCalendarDto">
-		select
-			A.employee_id 				as "employee.id",
-			A.employee_name 			as "employee.name",
-			B.program_no				as "program.no",
-			B.program_start_date		as "program.startDate",
-			B.program_end_date			as "program.endDate",
-			B.program_start_hour		as "program.startHour",
-			B.program_end_hour			as "program.endHour",
-			B.program_name				as "program.name"
-		from
-			employees A, fitness_programs B
-		where
-			A.employee_id = B.employee_id
-		and
-			(B.program_start_date between #{startDate} and #{endDate}
-		or
-			B.program_end_date between #{startDate} and #{endDate})
-		<if test="progNo != null">
-			and B.program_no = #{progNo}
-		</if>
-	</select>
-	
-	<select id = "getProgramEventsByNo" parameterType = "int" resultType = "ProgramCalendarDto">
-		select
-				A.employee_id 				as "employee.id",
-				A.employee_name 			as "employee.name",
-				B.program_no				as "program.no",
-				B.program_start_date		as "program.startDate",
-				B.program_end_date			as "program.endDate",
-				B.program_start_hour		as "program.startHour",
-				B.program_end_hour			as "program.endHour",
-				B.program_name				as "program.name",
-		from
-			employees A, fitness_programs B
-		where
-			A.employee_id = B.employee_id
-		and 
-			B.programNo = #{value}
-	</select>
-	
-	<select id="getAllProgramDays" parameterType="int" resultType="string">
-		select
-		    program_open_day
-		from
-		    fitness_program_days
-		where
-			program_no = #{value}
 	</select>
 	
 </mapper>

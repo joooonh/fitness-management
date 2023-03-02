@@ -2,75 +2,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.example.mapper.EmployeeScheduleMapper">
 
-	<select id="getEmployeeById" parameterType="string" resultType="EmployeeScheduleDto">
+	<select id="getEmployeeById" parameterType="string" resultType="Employee">
 		select
-			A.employee_id as id,
-			A.employee_name as employeeName,
-			A.employee_tel as tel,
-			B.program_name as programName
-			B.program_start_date as startDate,
-			B.program_end_date as endDate,
-			B.program_start_hour as startHour,
-			B.program_end_hour as endHour
+			employee_id as id,
+			employee_name as name,
+			employee_tel as tel
 		from
-			employees A, fitness_programs B
+			employees
 		where
-			A.employee_id = B.employee_id
-			and A.employee_id = #{value}
+			employee_id = #{value}
 	</select>
 
 	<select id="getAllEmployees" resultType="Employee">
 		select
 			employee_id as id,
 			employee_name as name,
-			employee_email as email,
 			employee_tel as tel
 		from
 			employees
 		order by
 			employee_name asc
 	</select>
-	
-		<select id = "getEmployeeEvents" parameterType = "Map" resultType = "EmployeeScheduleDto">
-		select
-			A.employee_id 				as "employee.id",
-			A.employee_name 			as "employee.name",
-			A.employee_tel 				as "employee.tel",
-			B.program_start_date		as "program.startDate",
-			B.program_end_date			as "program.endDate",
-			B.program_start_hour		as "program.startHour",
-			B.program_end_hour			as "program.endHour",
-			B.program_name				as "program.name"
-		from
-			employees A, fitness_programs B
-		where
-			A.employee_id = B.employee_id
-		and
-			(B.program_start_date between #{startDate} and #{endDate}
-		or
-			B.program_end_date between #{startDate} and #{endDate})
-		<if test="empId != null">
-			and A.employee_id = #{empId}
-		</if>
-	</select>
-	
-	<select id = "getEmployeeEventsById" parameterType = "string" resultType = "EmployeeScheduleDto">
-		select
-				A.employee_id 				as "employee.id",
-				A.employee_name 			as "employee.name",
-				A.employee_tel 				as "employee.tel",
-				B.program_no				as "program.no",
-				B.program_start_date		as "program.startDate",
-				B.program_end_date			as "program.endDate",
-				B.program_start_hour		as "program.startHour",
-				B.program_end_hour			as "program.endHour",
-				B.program_name				as "program.name"
-		from
-			employees A, fitness_programs B
-		where
-			A.employee_id = B.employee_id
-		and 
-			A.employee_id = #{value}
-	</select>
-	
+
 </mapper>
