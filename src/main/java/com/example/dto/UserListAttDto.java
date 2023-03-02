@@ -18,21 +18,27 @@ public class UserListAttDto {
 	private String userId;
 	private String userName;
 	private String userGender;
-	private String userBirthday;
 	private String userEmail;
 	private String userTel;
-	private Date createdDate;
 	private String startTime;
 	private String endTime;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date userAttDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date classAttDate;
+	private String progStartTime;
 	private int programNo;
 	private String membership;
+	private String classStatus;
 	private String programName;
+	private int userSeq;
+	private int classSeq;
 	
 	// 검색기능 객체
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date attDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date classDate;
 	private String onlyMembership;
 	private String programInfo;
 	private String opt;

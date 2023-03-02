@@ -1,0 +1,21 @@
+@charset "UTF-8";
+
+#form-login {
+	margin: 0 auto;
+}
+
+#login-head {
+	text-align: center;
+	font-size: xx-large;
+}
+#row {
+	background-color: #eee;
+	width: 800px;
+	margin: 0 auto;
+	padding: 100px 0;
+	padding-left: 200px;
+	padding-right: 200px;
+	margin-top: 200px;
+	opacity: 0.9;
+	border-radius: 40px;
+}

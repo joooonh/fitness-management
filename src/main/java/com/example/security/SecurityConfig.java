@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -26,8 +27,10 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import com.example.security.service.CustomEmployeeDetailsService;
+import com.example.security.service.CustomOAuth2UserService;
 import com.example.security.service.CustomUserDetailsService;
 
+@Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
@@ -37,6 +40,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	CustomUserDetailsService userDetailsService;
 	@Autowired
 	CustomEmployeeDetailsService employeeDetailsService;
+	@Autowired
+	CustomOAuth2UserService customOAuth2UserService;
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -69,7 +74,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.exceptionHandling()
 			.accessDeniedHandler(accessDeniedHandler())
 		.and()
-			.headers().frameOptions().disable();
+			.headers().frameOptions().disable()
+		.and()
+			.oauth2Login()
+			.loginPage("/user/login")
+			.successHandler(authenticationSuccessHandler())
+			.userInfoEndpoint()
+			.userService(customOAuth2UserService);
 	}
 	
 	// 보안정책을 적용하지 않을 URI 설정 (이미지, 스타일시트, 자바스크립트 소스와 같은 정적 콘텐츠는 인증/인가 작업을 수행하지 않도록 설정)

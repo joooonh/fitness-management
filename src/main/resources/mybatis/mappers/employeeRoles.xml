@@ -20,5 +20,12 @@
 		values
 			(#{value}, 'ROLE_EMP')
 	</insert>
-
+	
+	<!-- 직원 권한 삭제 -->
+	<delete id="deleteEmployeeRoleById" parameterType="string">
+		delete from
+			employee_roles
+		where
+			employee_id = #{value}
+	</delete>
 </mapper>

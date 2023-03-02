@@ -6,8 +6,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
-<link rel="stylesheet" href="../../../resources/css/common.css">
-<link rel="stylesheet" href="../../../resources/css/content.css">
+<link rel="stylesheet" href="/resources/css/common.css">
+<link rel="stylesheet" href="/resources/css/content.css">
 <title>중앙피트니스</title>
 </head>
 <body>
@@ -24,7 +24,8 @@
 			<!--------------------------------- Content 영역 ------------------------------------------->
 			<div class="row">
 				<div class="col-12">
-					<h1>직원 정보 수정</h1>
+					<span><h5 class="" ><i class="bi bi-person-video ms-2 me-3"></i>직원 정보 수정</h5></span>
+					<hr width="103%" color="gray">
 				</div>
 			</div>
 			
@@ -61,29 +62,6 @@
 										</td>
 									</tr>
 									<tr>
-										<th class="table-secondary">비밀번호</th>
-										<td>
-											<form:password path="password" class="form-control form-control-sm" />
-											<form:errors path="password" cssClass="text-danger" />
-											<span id="passwordCheck" class="text-danger"></span>
-										</td>
-									</tr>
-									<tr>
-										<th class="table-secondary">비밀번호 확인</th>
-										<td>
-											<form:password path="passwordConfirm" class="form-control form-control-sm" />
-											<form:errors path="passwordConfirm" cssClass="text-danger" />
-											<span id="passwordConfirmCheck" class="text-danger"></span>
-										</td>
-									</tr>
-									<tr>
-										<th class="table-secondary">이메일</th>
-										<td>
-											<form:input path="email" class="form-control" />
-											<form:errors path="email" cssClass="text-danger" />
-										</td>
-									</tr>
-									<tr>
 										<th class="table-secondary">연락처</th>
 										<td>
 											<form:input path="tel" class="form-control" />
@@ -117,7 +95,7 @@
 										<td>
 											<form:select path="status" class="form-select">
 												<form:option value="재직" />
-												<form:option value="퇴사" />
+												<form:option value="퇴직" />
 												<form:option value="휴직" />
 											</form:select>
 										</td>
@@ -125,7 +103,7 @@
 								</table>
 						
 								<div class="text-end">
-									<a href="list" class="btn btn-secondary">취소</a>
+									<a href="/emp/employee/list" class="btn btn-secondary">취소</a>
 									<button type="button" id="btn-modify-employee" class="btn btn-primary">저장</a>
 								</div>
 							</div>

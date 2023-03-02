@@ -25,6 +25,7 @@ public class ProgramForm {
 	private String endHour;
 	private int quota;
 	private int price;
+	private String status;
 	// 직원 정보
 	private String employeeId; 
 	private String employeeName;
