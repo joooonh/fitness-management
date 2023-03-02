@@ -12,6 +12,7 @@ public class ProgramScheduleDto {
 	private String id;
 	private String employeeName;
 	private String programName;
+	private String programNo;
 	public String getId() {
 		return id;
 	}
@@ -29,6 +30,12 @@ public class ProgramScheduleDto {
 	}
 	public void setProgramName(String programName) {
 		this.programName = programName;
+	}
+	public String getProgramNo() {
+		return programNo;
+	}
+	public void setProgramNo(String programNo) {
+		this.programNo = programNo;
 	}
 	
 	
