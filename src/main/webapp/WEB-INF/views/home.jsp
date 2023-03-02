@@ -17,10 +17,10 @@
 <div class="container">
 	<div class="row box">
 		<div class="row mb-5">
-			<h3 class="text-white">언제 어디서나 운동을 일상처럼</h3>
+			<h3 class="text-white typing1"></h3>
 		</div>
 		<div class="row mb-5">
-			<h1 class="text-white"><strong>Everywhere JA Fitness</strong></h1>
+			<h1 class="text-white typing2">&nbsp;</h1>
 		</div>
 		<div class="row">
 			<sec:authorize access="isAuthenticated()">
@@ -37,5 +37,33 @@
 </div>
 <script	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script>
+	$(() => {
+		let $typing = $(".typing1").addClass("cursor");
+		const letters = ["언제 어디서나 운동을 일상처럼", "Everywhere JA Fitness"];
+		const speed = 100;
+		let i = 0;
+
+		const wait = (ms) => new Promise(res => setTimeout(res, ms));
+		const changeLineBreak = (letter) => letter.map(text => text === "\n" ? "<br>" : text);
+
+		const typing = async () => {
+			const letter = changeLineBreak(letters[i].split(""));
+			while (letter.length) {
+				await wait(speed);
+				$typing.text($typing.text() + letter.shift());
+				if ($typing.text().length === letters[i].length && i !== letters.length - 1) {
+					await wait(800);
+					i++;
+					$typing.removeClass("cursor");
+					$typing = $(".typing2").addClass("cursor");
+					typing();
+				}
+			}
+		}
+
+		typing();
+	});
+</script>
 </body>
 </html>
