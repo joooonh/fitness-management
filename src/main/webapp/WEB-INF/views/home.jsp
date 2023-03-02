@@ -28,6 +28,9 @@
 					<h2 class="mb-4" style="color:white;"><strong>프로그램 신청하기</strong></h2>
 					<a class="btn btn-lg btn-outline-light" href="/user/classReg" style="width:200px; margin:0 auto;">프로그램 신청</a>
 				</div>
+				<div id="box-chat">
+					<a href="/user/chat"><img src="/resources/images/chat-dots-fill.svg" alt="chat" width="100" height="100" id="img-chat"></a>
+				</div>
 			</sec:authorize>
 		</div>
 	</div>
