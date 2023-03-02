@@ -5,9 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.exception.AlreadyRegisteredUserIdException;
 import com.example.service.admin.UserAttService;
 import com.example.vo.FitnessProgramCategory;
 import com.example.web.request.UserAttRegisterForm;
@@ -81,7 +85,19 @@ public class UserAttController {
 		}
 		if(!attDate.isBlank()) {
 			param.put("attDate", attDate);
+			if (!programInfo.isBlank()) {
+				param.put("programInfo", programInfo);
+				if (!keyword.isBlank()) {
+					param.put("keyword", keyword);			
+				}
+			}
 		}
+		if(!attDate.isBlank() && !keyword.isBlank()) {
+			param.put("attDate", attDate);
+			param.put("keyword", keyword);			
+			
+		}
+		
 		if(!classDate.isBlank()) {
 			param.put("classDate", classDate);
 		}
@@ -89,6 +105,7 @@ public class UserAttController {
 		Map<String,Object> result = userAttService.getUserList(param);
 		model.addAttribute("userAtts", result.get("userAtts"));
 		model.addAttribute("pagination", result.get("pagination"));
+		model.addAttribute("totalRows", result.get("totalRows"));
 		
 		return "attendance/user-list";
 	}
@@ -96,6 +113,7 @@ public class UserAttController {
 	// 회원출석등록
 	@PostMapping("/userRegisterAtt")
 	public String insertUserAtt(UserAttRegisterForm form) throws IOException {
+		
 		userAttService.insertUserAtt(form);
 		
 		return "redirect:/emp/userAttList";
