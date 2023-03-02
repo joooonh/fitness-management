@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-// 실제 인증 처리 (인증 전의 Authentication 객체를 받아서 인증이 완료된 객체를 반환) 
+// 실제 인증 처리 (filter -> manager를 통해 인증 전의 Authentication 객체를 받아서 인증이 완료된 객체를 반환) 
 // 사용자 타입이 추가됐기 때문에 Custom 정의 
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
@@ -47,7 +47,6 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 		// 사용자 타입을 담는다
 		customAuthentication.setUserType(userType);
 		
-		
 		// 반환된 Authentication 객체는 SecurityContext 에 저장되고, SecurityContext 는 HttpSession에 저장된다.
 		return customAuthentication;
 	}
@@ -55,7 +54,6 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 	@Override
 	public boolean supports(Class<?> authentication) {
 		return CustomAuthenticationToken.class.isAssignableFrom(authentication);
-				
 	}
 
 }

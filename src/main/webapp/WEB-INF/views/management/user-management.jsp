@@ -52,7 +52,6 @@
 						<div class="row mb-3">
 							<div class="col">
 								<button type="button" class="btn btn-xs btn-dark" id="btn-delete-user"><i class="bi bi-trash"></i> 회원삭제</button>
-								<button type="button" class="btn btn-xs btn-success">sms 전송</button>
 							</div>
 							<div class="col text-end mt-3" id="sort-div">
 								<span class="badge ${empty param.sort or param.sort eq 'no' ? 'bg-warning' : 'bg-secondary' }" data-sort-method="no" style="cursor: pointer;">회원번호순 </span>
