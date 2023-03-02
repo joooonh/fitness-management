@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.annotation.AuthenticatedUser;
 import com.example.exception.InconsistentPasswordException;
-import com.example.security.AuthenticatedUser;
 import com.example.security.vo.LoginUser;
 import com.example.service.user.UserService;
 import com.example.vo.MembershipHistory;
