@@ -32,6 +32,7 @@
 			<div class="row">
 				<div class="col-12">
 					<form:form method="post" action="modify" modelAttribute="form" id="employeeModifyForm" enctype="multipart/form-data">
+						<input type="hidden" name="fitnessNo" value="1" />
 						<div class="row">
 							<div class="col-4">
 								<div class="profile">
@@ -104,7 +105,7 @@
 						
 								<div class="text-end">
 									<a href="/emp/employee/list" class="btn btn-secondary">취소</a>
-									<button type="button" id="btn-modify-employee" class="btn btn-primary">저장</a>
+									<button type="submit" id="btn-modify-employee" class="btn btn-primary">저장</a>
 								</div>
 							</div>
 						</div>
@@ -152,41 +153,6 @@ $(function() {
 	      $("input[name=detailAddress]").val("").focus();
 	    }
 	  }).open();
-	});
-	
-	$("#btn-modify-employee").click(function() {
-		let password = $("#password").val();
-		let passwordConfirm = $("#passwordConfirm").val();
-		
-		// 비밀번호를 변경하지 않을 경우 비밀번호 제외하고 서버로 제출
-		if (password == 0) {
-			$("#employeeModifyForm").submit();
-			
-			return true;
-		}
-		
-		// 비밀번호 유효성 체크
-		let check = RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,20}$/);
-		if (!check.test(password)) {
-			$("#passwordCheck").text("* 비밀번호는 8~20자의 영문 대소문자와 숫자,특수문자를 각각 1개 이상 입력하세요.");
-			$("#password").val("");
-			$("#passwordConfirm").val("");
-			$("#password").focus();
-			
-			return false;
-		};
-		
-		// 비밀번호 일치 확인
-		if (password != passwordConfirm) {
-			$("#passwordCheck").text("* 비밀번호와 비밀번호 확인이 서로 다릅니다.");
-			$("#password").val("");
-			$("#passwordConfirm").val("");
-			$("#password").focus();
-			
-			return false;
-		}
-		
-		$("#employeeModifyForm").trigger("submit");
 	});
 })
 </script>
