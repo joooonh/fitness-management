@@ -65,6 +65,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.and()
 			// 인증정책 설정
 			.formLogin()							// 인증방식은 폼인증 방식 사용
+			.loginPage("/user/login")
 			.loginProcessingUrl("/login")			// 로그인 처리를 요청하는 URI
 		.and()
 			// 로그아웃 정책 설정

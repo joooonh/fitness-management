@@ -41,7 +41,6 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 		if(!passwordEncoder.matches(password, userDetails.getPassword())) {
 			throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
 		}
-		
 		// 인증이 완료되면 새로운 Authentication 객체 생성해서 사용자정보, 비밀번호, 권한정보를 담는다
 		customAuthentication = new CustomAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
 		// 사용자 타입을 담는다

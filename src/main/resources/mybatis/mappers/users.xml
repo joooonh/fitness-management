@@ -19,7 +19,8 @@
 			user_tel				as tel,
 			user_deleted			as deleted,
 			user_created_date		as createdDate,
-			user_updated_date		as updatedDate
+			user_updated_date		as updatedDate,
+			user_provider_type		as providerType
 		from
 			users
 		where
@@ -43,7 +44,8 @@
 			user_tel				as tel,
 			user_deleted			as deleted,
 			user_created_date		as createdDate,
-			user_updated_date		as updatedDate
+			user_updated_date		as updatedDate,
+			user_provider_type		as providerType
 		from
 			users
 		where
@@ -68,7 +70,8 @@
 			user_tel				as tel,
 			user_deleted			as deleted,
 			user_created_date		as createdDate,
-			user_updated_date		as updatedDate
+			user_updated_date		as updatedDate,
+			user_provider_type		as providerType
 		from
 			users
 		where
@@ -83,10 +86,10 @@
 		</selectKey>
 		insert into users
 			(user_no, user_id, user_password, user_name, user_gender, user_birthday, user_email, 
-			 user_photo, user_zipcode, user_basic_address, user_detail_address, user_tel)
+			 user_photo, user_zipcode, user_basic_address, user_detail_address, user_tel, user_provider_type)
 		values
 			(#{no}, #{id}, #{encryptPassword}, #{name}, #{gender}, #{birth}, #{email},
-			 #{photo}, #{zipcode}, #{basicAddr}, #{detailAddr}, #{tel})
+			 #{photo}, #{zipcode}, #{basicAddr}, #{detailAddr}, #{tel}, #{providerType})
 	</insert>
 	
 	<!-- 사용자 정보 변경 -->	
@@ -105,7 +108,8 @@
 			user_detail_address = #{detailAddr},
 			user_tel = #{tel},
 			user_deleted = #{deleted},
-			user_updated_date = sysdate
+			user_updated_date = sysdate,
+			user_provider_type = #{providerType}
 		where
 			user_id = #{id}
 	</update>
