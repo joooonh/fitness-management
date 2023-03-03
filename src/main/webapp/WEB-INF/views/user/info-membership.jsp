@@ -29,7 +29,7 @@
 				<div class="col">
 					<div class="box">
 						<sec:authorize access="isAuthenticated()">
-							<strong><sec:authentication property="principal.name"/></strong> 님의 회원권 내역입니다.
+							<strong><sec:authentication property="principal.nickname"/></strong> 님의 회원권 내역입니다.
 						</sec:authorize>
 					</div>
 					<table class="table table-bordered" id="table-membership">

@@ -36,10 +36,10 @@ public class KakaoOAuth2UserInfo extends OAuth2UserInfo {
 	@Override
 	@SuppressWarnings("unchecked")
 	public String getPhoto() {
-		Map<String, Object> kakaoAccount = (Map<String, Object>) getAttributes().get("kakao_account");
-		if(kakaoAccount == null) {
+		Map<String, Object> properties = (Map<String, Object>) getAttributes().get("properties");
+		if(properties == null) {
 			return null;
 		}
-		return (String) kakaoAccount.get("profile_image_url");
+		return (String) properties.get("profile_image_url");
 	}
 }
