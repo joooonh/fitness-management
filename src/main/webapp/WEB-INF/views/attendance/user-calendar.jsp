@@ -45,7 +45,7 @@ th, td {
 					</div>
 				</div>
 				<div class="row mb-2">
-					<div class="col-6">
+					<div class="col-5">
 						<div class="row mb-3">
 							<div class="col-12">
 								<a class="btn btn-secondary" href="/emp/userAttList"> <i class="bi bi-list-columns-reverse"></i> 출석리스트 </a></button>
@@ -58,9 +58,9 @@ th, td {
 								<h3 class="bg-dark text-white p-2 fs-6 fw-bold">회원상세정보</h3>
 								<table class="table table-bordered ">
 									<colgroup>
+										<col width="25%">
+										<col width="27%">
 										<col width="20%">
-										<col width="30%">
-										<col width="23%">
 										<col width="27%">
 									</colgroup>
 									<tbody>
@@ -89,17 +89,17 @@ th, td {
 											<td>
 												<span class="badge text-bg-secondary" id="user-attDate"></td>
 											</td>
+											<td>회원권</td>
+											<td><span class="badge text-bg-warning" id="user-membership"></td>
+										</tr>
+										
+										<tr>
 											<td>프로그램출석일자</td>
 											<td>
 												<span class="badge text-bg-secondary" id="user-classDate"></td>
 											</td>
-										</tr>
-										
-										<tr>
 											<td>프로그램명</td>
 											<td><span class="badge text-bg-success" id="prog-name"></td>
-											<td>회원권</td>
-											<td><span class="badge text-bg-warning" id="user-membership"></td>
 										</tr>
 									</tbody>
 								</table>
@@ -117,14 +117,14 @@ th, td {
 			
 									</select> 
 									
-									<select class="form-select form-select-sm d-inline-block border-secondary"	name="opt" style="width: 130px;">
+									<select class="form-select form-select-sm d-inline-block border-secondary"	name="opt" style="width: 115px;">
 											<option value="" selected >선택하세요</option>
 											<option value="userName" ${param.opt eq 'userName' ? 'selected' : '' }>회원이름</option>
 											<option value="userNo" ${param.opt  == 'userNo' ? 'selected' : ''} >회원번호</option>
 											<option value="userTel" ${param.opt  == 'userTel' ? 'selected' : ''}>휴대폰</option>
 									</select> 
 									
-									<input class="form-control form-control-sm d-inline-block border-secondary"	name="keyword" style="width: 150px;">
+									<input class="form-control form-control-sm d-inline-block border-secondary"	name="keyword" style="width: 125px;">
 									<button id="btn-search" type="submit" class="btn btn-sm" style="background-color: #E0E0E0;"> <i class="bi bi-search"></i></button>
 								</form>
 							</div>
@@ -159,10 +159,10 @@ th, td {
 												<c:forEach var="user" items="${userAtts }">
 													<tr>
 														<td class="text-center"><span>${user.userNo }</span></td>
-														<td class="text-center"><a href="" data-user-No="${user.userNo }" class="text-decoration-none">${user.userName } </a></td>
+														<td class="text-center"><a href="" data-user-No="${user.userNo }"  data-user-programNo="${user.programNo }" data-user-membership="${user.membership }" class="text-decoration-none">${user.userName } </a></td>
 														<td class="text-center">${user.userGender }</td>
-														<td class="text-center">${user.membership }</td>
-														<td>${user.programName }</td>
+														<td class="text-center"><span>${user.membership }</span></td>
+														<td><span>${user.programName }</span></td>
 													</tr>
 												</c:forEach>
 											</c:otherwise>
@@ -196,7 +196,7 @@ th, td {
 					
 					</div>
 					
-					<div class="col-6">
+					<div class="col-7">
 						<div id="calendar" ></div>
 					</div>
 				</div>
@@ -209,9 +209,10 @@ th, td {
 <script	src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.1/index.global.min.js'></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js" ></script>
 <script src="https://momentjs.com/downloads/moment-with-locales.js" type="text/javascript"></script>
-<script src="https://momentjs.com/downloads/moment.js"></script>
 <script type="text/javascript">
 $(function(){
+	
+	moment.locale('ko');
 	
 	// FullCalendar의 Calender객체를 생성한다.
 	// new FullCalendar.Calendar(엘리먼트객체, 옵션객체)
@@ -253,6 +254,8 @@ $(function(){
 		$("#form-search").attr("action","/emp/userCalendar").trigger("submit");
 	});
 	
+	
+	
 	function refreshEvents(info, successCallback) {
 		let startDate = moment(info.start).format("YYYY-MM-DD");
 		let endDate = moment(info.end).format("YYYY-MM-DD");
@@ -275,26 +278,75 @@ $(function(){
 	
 	
 	
-	// 이름을 클릭했을 때
+	// 이름을 클릭했을 때 상세정보 나타내기
 	$('#user-att-table a[data-user-no]').click(function(event){
-
+		calendar.removeAllEvents();
+		
 		event.preventDefault();
+		
+		// 지금 클릭이벤트가 발생한 그 엘리먼트의 속성값을 조회한다.
 		let no = $(this).attr('data-user-no');
 		
-		$.getJSON('/emp/detail.json', {userNo: no}, function(userAtt) {
+		// 달력의 시작 날짜와 끝날짜를 표시한다.
+		let startDate = moment(calendar.view.activeStart).format("YYYY-MM-DD")
+		let endDate = moment(calendar.view.activeEnd).format("YYYY-MM-DD")
+		
+		let data = {
+			userNo: no, 
+			startDate:startDate, 
+			endDate:endDate
+		};
+		
+		// userNo의 회원권,프로그램 여부등 속성값을 조회한다
+		if ( $(this).attr('data-user-membership') == "Y") {
+			data['membership'] = 'Y';
+		}
+		if ( $(this).attr('data-user-programNo') != "0" ) {
+			data["programNo"] = $(this).attr('data-user-programNo')
+		}
+	
+		$.getJSON('/emp/detail.json', data, function(map) {
+			/*
+				map = {
+					user: {userId:"hong", userName:"Hong gildong"},
+					events: [
+						{id:10, start:"2023-01-11", end:"2023-01-11", title:""}.
+						{id:10, start:"2023-01-11", end:"2023-01-11", title:""}.
+						{id:10, start:"2023-01-11", end:"2023-01-11", title:""}.
+						{id:10, start:"2023-01-11", end:"2023-01-11", title:""}.
+						{id:10, start:"2023-01-11", end:"2023-01-11", title:""}.
+						{id:10, start:"2023-01-11", end:"2023-01-11", title:""}.
+						{id:10, start:"2023-01-11", end:"2023-01-11", title:""}.
+						{id:10, start:"2023-01-11", end:"2023-01-11", title:""}.
+						{id:10, start:"2023-01-11", end:"2023-01-11", title:""}.
+						{id:10, start:"2023-01-11", end:"2023-01-11", title:""}.
+						{id:10, start:"2023-01-11", end:"2023-01-11", title:""}.
+					]
+				}
+			*/
+			
+			let user = map.user;
+			let events = map.events;
 			
 			
-			$("#user-id").text(userAtt.userId);
-			$("#user-name").text(userAtt.userName);
-			$("#user-no").text(userAtt.userNo);
-			$("#user-tel").text(userAtt.userTel);
-			$("#user-email").text(userAtt.userEmail);
-			$("#user-gender").text(userAtt.userGender);
-			$("#user-attDate").text(userAtt.userAttDate);
-			$("#user-classDate").text(userAtt.classAttDate);
-			$("#emp-name").text(userAtt.userId);
-			$("#prog-name").text(userAtt.programName);
-			$("#user-membership").text(userAtt.membership);
+			$("#user-id").text(user.userId);
+			$("#user-name").text(user.userName);
+			$("#user-no").text(user.userNo);
+			$("#user-tel").text(user.userTel);
+			$("#user-email").text(user.userEmail);
+			$("#user-gender").text(user.userGender);
+			$("#user-attDate").text(user.userAttDate);
+			$("#user-classDate").text(user.classAttDate);
+			$("#emp-name").text(user.userId);
+			$("#prog-name").text(user.programName);
+			$("#user-membership").text(user.membership);
+			
+			//calendar.addEvent(events);
+			
+			$.each(events, function(index, event){
+				calendar.addEvent(event)
+			}) 
+			
 			
 		})
 			

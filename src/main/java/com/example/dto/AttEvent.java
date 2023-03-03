@@ -28,19 +28,12 @@ public class AttEvent {
 	}
 	
 	
-	public boolean getAllDay() {
-		return "Y".equals(userListAttDto.getMembership()); 
+	public String getTitle() {
+		if(userListAttDto.getProgramName() != null) {
+			return userListAttDto.getProgramName();
+		}else {
+			return userListAttDto.getMembership();
+		}
 	}
-	
-	
-	
-	
-	/*
-	public String getClassStatus() {
-		return userListAttDto.getClassStatus();
-	}
-	*/
-	
-	
 	
 }

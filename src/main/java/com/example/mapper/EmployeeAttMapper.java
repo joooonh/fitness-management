@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.example.dto.EmployeeAttDto;
+import com.example.vo.Employee;
 import com.example.vo.EmployeeAttendance;
 import com.example.vo.FitnessProgram;
 
@@ -23,5 +24,11 @@ public interface EmployeeAttMapper {
 
 	// 프로그램 조회
 	List<FitnessProgram> getPrograms();
+	
+	// 강사번호 조회하기
+	List<Employee> getEmpId();
+	
+	// 강사아이디를 조회해서 모달창에 나타내기
+	EmployeeAttDto getEmpById(String empId);
 
 }
