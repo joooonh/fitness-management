@@ -20,7 +20,6 @@
 				<li><a href="/user/info">내 정보 조회/수정</a></li>
 				<li><a href="/user/reservation">내 예약 조회</a></li>
 				<li><a href="/user/membership" style="color:white" id="current-page">내 회원권 조회</a></li>
-				<li><a href="/user/attendance">내 출석 조회</a></li>
 				<li><a href="/user/delete">회원 탈퇴</a></li>
 			</div>
 		</div>
