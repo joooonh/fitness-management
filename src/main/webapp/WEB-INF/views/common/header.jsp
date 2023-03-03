@@ -39,7 +39,7 @@
 						<div class="col-md-10">
 							<ul class="navbar-nav justify-content-end">
 								<sec:authorize access="isAuthenticated()">
-									<span class="navbar-text me-2"><strong class="text-white"><sec:authentication property="principal.name"/></strong>님 환영합니다.</span>
+									<span class="navbar-text me-2"><strong class="text-white"><sec:authentication property="principal.nickname"/></strong>님 환영합니다.</span>
 									<sec:authorize access="hasRole('ROLE_USER')">  
 										<li class="nav-item dropdown">
 								            <a href="#" class="nav-link dropdown-toggle ${menu eq 'info' ? 'active' : '' }" role="button" data-bs-toggle="dropdown" aria-expanded="false">

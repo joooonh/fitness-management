@@ -10,20 +10,23 @@ import lombok.Setter;
 public class LoginUser {
 
 	private String id;
-	private String name;
+	private String nickname;
 	private String userType;
+	private String providerType;
 	private String email;
 	
 	public LoginUser() {}
 	public LoginUser(User user) {
+		user.setProviderType(user.getProviderType());
+		this.providerType = user.getProviderType();
 		this.id = user.getId();
-		this.name = user.getName();
+		this.nickname = user.getName();
 		this.email = user.getEmail();
 	}
 	public LoginUser(String id, String name, String userType) {
 		super();
 		this.id = id;
-		this.name = name;
+		this.nickname = name;
 		this.userType = userType;
 	}
 	
