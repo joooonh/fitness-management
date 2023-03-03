@@ -49,7 +49,6 @@
 								               <li><a class="dropdown-item" href="/user/info">내 정보 조회</a></li>
 								               <li><a class="dropdown-item" href="/user/reservation">예약 조회</a></li>
 								               <li><a class="dropdown-item" href="/user/membership">회원권 조회</a></li>
-								               <li><a class="dropdown-item" href="/user/attendance">출석 조회</a></li>
 								               <li><hr class="dropdown-divider"></li>
 								               <li><a class="dropdown-item" href="/user/delete">회원 탈퇴</a></li>
 								            </ul>

@@ -45,6 +45,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         // OAuth2UserInfoFactory클래스에서 메소드를 호출하여 소셜 로그인에 사용된 사용자 정보를 가져옴
       	OAuth2UserInfo userInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(providerType, oAuth2User.getAttributes());
         User savedUser = userMapper.getUserById(userInfo.getId());
+        
         // 해당 아이디의 사용자가 이미 있을 경우
         if(savedUser != null) {
         	if(!providerType.equals(savedUser.getProviderType())) {
@@ -80,6 +81,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 		user.setCreatedDate(new Date());
 		user.setUpdatedDate(new Date());
 		userMapper.insertUser(user);
+		
 		// 등록된 user의 no를 가지고 userRole 등록
 		UserRole userRole = new UserRole(user.getNo(), "ROLE_USER");
 		userRoleMapper.insertUserRole(userRole);
@@ -89,11 +91,12 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     // 이미 저장된 정보라면, update 처리
     private User updateUser(User user, OAuth2UserInfo userInfo) {
 
-        if (userInfo.getName() != null && !user.getName().equals(userInfo.getName())) {
+        if (userInfo.getName() != null && user.getName().equals(userInfo.getName())) {
             user.setName(userInfo.getName());
+            user.setEmail(userInfo.getEmail());
+            user.setPhoto(userInfo.getPhoto());
         }
         userMapper.updateUser(user);
-
         return user;
     }
 }
