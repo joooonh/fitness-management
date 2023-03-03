@@ -14,10 +14,17 @@ public class CustomOAuth2User extends LoginUser implements OAuth2User{
 	private Collection<GrantedAuthority> authorites; 
 	private Map<String, Object> attributes;
 	
+<<<<<<< HEAD
 	public CustomOAuth2User(User user, Collection<GrantedAuthority> authorities, Map<String, Object> attributes) {
 		super(user);
 		this.providerType = user.getProviderType();
 		this.authorites = authorities;
+=======
+	public CustomOAuth2User(User user, Collection<GrantedAuthority> authorites, Map<String, Object> attributes) {
+		super(user);
+		this.providerType = user.getProviderType();
+		this.authorites = authorites;
+>>>>>>> b8735a79c3060a0f5d3bf4d8c3a33dddb9b4e242
 		this.attributes = attributes;
 	}
 
