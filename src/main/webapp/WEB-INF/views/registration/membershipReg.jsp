@@ -43,7 +43,7 @@
 							<div class="col-auto">
 								<select class="form-select" name="period">
 									<option selected disabled>기간</option>
-									<option value="전체" ${param.period eq '전체' ? 'selected' : '' }>전체</option>
+									<option value="0" ${param.period eq '0' ? 'selected' : '' }>전체</option>
 									<option value="1" ${param.period eq '1' ? 'selected' : '' }>1개월</option>
 									<option value="3" ${param.period eq '3' ? 'selected' : '' }>3개월</option>
 									<option value="6" ${param.period eq '6' ? 'selected' : '' }>6개월</option>
