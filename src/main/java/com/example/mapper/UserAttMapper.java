@@ -5,9 +5,13 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.example.dto.ClassRegistrationDto;
+import com.example.dto.MembershipDto;
 import com.example.dto.UserListAttDto;
+import com.example.vo.ClassRegistrationHistory;
 import com.example.vo.FitnessProgram;
 import com.example.vo.FitnessProgramCategory;
+import com.example.vo.Membership;
 import com.example.vo.UserAttendance;
 import com.example.vo.UserClassAttendance;
 
@@ -35,6 +39,19 @@ public interface UserAttMapper {
 		// 회원출석 삭제
 		void deleteUserAtt(int no);
 		void deleteClassAtt(int no);
+		
+		// 모달창에 회원정보 조회하기
+		List<Membership> getMembership();
+		
+		// 회원번호 조회해서 모달창에 나타내기
+		MembershipDto getUserByNo(int userNo);
+		
+		// 프로그램 출석 모달창에 회원정보 조회
+		List<ClassRegistrationHistory> getClassRegistration();
+		// 프로그램 회원번호 조회해서 모달창에 나타내기
+		ClassRegistrationDto getClassUserByNo(int userNo);
+		
+		
 
 		
 }

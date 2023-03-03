@@ -173,38 +173,42 @@
   					<button  type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
   				</div>
 				<div class="modal-body">
+					<div class="row">
+						<div class="mb-3">
+							<select name="empId" class="form-select d-inline">
+								<option selected >= 아이디 =</option>
+								<c:forEach var="emp" items="${EmpId }">
+										<option>${emp.id }</option>
+								</c:forEach>
+							</select>
+						</div>
+					</div>
+					
 					<div class="row mb-2">
 						<div class="row">
 							<div class="mb-3">
-								<label class="form-label" value="">아이디</label>
-								<input type="text"  name="empId" value="${empId}" style="width: 150px;">
-								<button type="submit" class="">조회</button>
-							</div>
-						</div>
-						
-						<div class="row">
-							<div class="mb-3">
-								<label class="form-label ">이름</label>
-								<input type="text"  name="empName" value="${empName }" style="width: 150px;">
+								<label class="form-label" value="">이름</label>
+								<input type="text" id="emp-name" name="name" value="${name }" style="width: 150px;">
 							</div>
 						</div>
 						
 						<div class="row">
 							<div class="mb-3">
 								<label class="form-label " >휴대폰</label>
-								<input type="text"  name="empTel" value="${empTel }" style="width: 150px;">
+								<input type="text" id="emp-tel" name="tel" value="${tel }" style="width: 150px;">
 							</div>
 						</div>
 					
 						<div class="row">
 							<div class=" mb-3">
 								<label class="form-label" >프로그램명</label>
-								<select class="form-select"  name="progName" >
+								<input type="text" id="prog-name" value="${progName }" style="width: 150px;">
+								<%-- <select class="form-select"  name="progName" >
 									<option value="" selected >= 프로그램 =</option>
 									<c:forEach var="program" items="${programs }">
 											<option value="${program.no}">${program.name }</option>
 									</c:forEach>
-								</select>
+								</select> --%>
 							</div>
 						</div>
 						<div class="row">
@@ -374,7 +378,15 @@ $(function(){
 		return true;
 	});
 	
-	
+	// 모달창에 이름을 선택했을 때 나타내기
+	$(":input[name=empId]").change(function() {
+		const empId = $(this).val();
+		$.getJSON("/emp/EmployeeInfo", {empId:empId}, function(emp) {
+			$("#emp-name").val(emp.name);
+			$("#emp-tel").val(emp.tel);
+			$("#prog-name").val(emp.progName);
+		})
+	})
 	
 });
 	

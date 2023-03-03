@@ -116,7 +116,35 @@
 			fitness_program_category_no	    as programCategoryNo
 		from
 			fitness_programs
-	
-	
 	</select>
+	
+	<!-- 직원 이름 조회하기 -->
+	<select id="getEmpId" parameterType="map" resultType="Employee">
+		select
+			employee_id as id
+		from 
+			employees
+	</select>
+	
+	<select id="getEmpById" parameterType="map" resultType="EmployeeAttDto">
+		select
+			A.employee_id 			as id,
+            A.employee_tel 			as tel,
+            A.employee_name 		as name,
+            B.program_no 			as progNo,
+            B.program_name 			as progName,
+            B.program_start_date 	as startDate,
+            B.program_end_date 		as endDate,
+            B.program_start_hour 	as startHour,
+            B.program_end_hour  	as endHour
+            
+            
+		from 
+			employees A, fitness_programs B
+        where 
+        A.employee_id = B.employee_id
+        and A.employee_id = #{value}
+			
+	</select>
+	
 </mapper>

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.example.dto.AttEvent;
 import com.example.dto.ProgramDetailDto;
 import com.example.dto.UserListAttDto;
 import com.example.vo.FitnessProgram;
@@ -48,5 +49,7 @@ public interface UserMapper {
 	// 프로그램 출석 등록
 	void insertUserClassAtt(UserClassAttendance classAtt);
 	int getTotalRows();
+	// 회원 달력 조회
+	List<AttEvent> getUserEvents(Map<String, Object> param);
 
 }

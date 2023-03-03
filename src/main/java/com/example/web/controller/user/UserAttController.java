@@ -5,12 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,11 +16,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.example.exception.AlreadyRegisteredUserIdException;
+import com.example.dto.ClassRegistrationDto;
+import com.example.dto.MembershipDto;
 import com.example.service.admin.UserAttService;
+import com.example.vo.ClassRegistrationHistory;
 import com.example.vo.FitnessProgramCategory;
 import com.example.web.request.UserAttRegisterForm;
 import com.example.web.request.UserClassAttRegisterForm;
+import com.example.vo.Membership;
 
 @Controller
 @RequestMapping("/emp")
@@ -46,7 +47,8 @@ public class UserAttController {
 		return userAttService.getProgramDays(programNo);
 	}
 	
-
+	
+	//출석 리스트
 	@GetMapping("/userAttList")
 	public String userAttList(@RequestParam(name = "page" , required = false , defaultValue ="1") int page, 
 							  @RequestParam(name = "opt", required = false, defaultValue = "") String opt, 
@@ -54,7 +56,7 @@ public class UserAttController {
 							  @RequestParam(name = "programInfo" , required = false, defaultValue = "")String programInfo,
 							  @RequestParam(name = "onlyMembership" , required = false, defaultValue = "")String onlyMembership, 
 							  @RequestParam(name = "attDate" , required = false, defaultValue = "")String attDate,
-							  @RequestParam(name = "classDate", required = false, defaultValue = "")String classDate, Model model) {
+							  @RequestParam(name = "classAttDate", required = false, defaultValue = "")String classAttDate, Model model) {
 		
 		Map<String,Object> param = new HashMap<String,Object>();
 		
@@ -72,17 +74,20 @@ public class UserAttController {
 		}
 		if(!onlyMembership.isBlank()) {
 			param.put("onlyMembership", onlyMembership);
-			if(!keyword.isBlank()) {
-				param.put("keyword", keyword);
+			if (!opt.isBlank() && !keyword.isBlank()) {
+				param.put("opt", opt);
+				param.put("keyword", keyword);			
 			}
 			// 의미가 없는거 같음
-			if (!programInfo.isBlank()) {
+			/*if (!programInfo.isBlank()) {
 				param.put("programInfo", programInfo);
 				if (!keyword.isBlank()) {
 					param.put("keyword", keyword);			
 				}
-			}
+			}*/
 		}
+		
+		// 회원출석 날짜
 		if(!attDate.isBlank()) {
 			param.put("attDate", attDate);
 			if (!programInfo.isBlank()) {
@@ -98,8 +103,15 @@ public class UserAttController {
 			
 		}
 		
-		if(!classDate.isBlank()) {
-			param.put("classDate", classDate);
+		// 프로그램 출석 날짜
+		if(!classAttDate.isBlank()) {
+			param.put("classAttDate", classAttDate);
+			if (!programInfo.isBlank()) {
+				param.put("programInfo", programInfo);
+				if (!keyword.isBlank()) {
+					param.put("keyword", keyword);			
+				}
+			}
 		}
 		
 		Map<String,Object> result = userAttService.getUserList(param);
@@ -146,7 +158,33 @@ public class UserAttController {
 		return "attendance/user-day";
 	}
 	
+	// 회원출석 회원정보 조회
+	@ModelAttribute("Membership")
+	public List<Membership> Membership(Model model) {
+				
+		return userAttService.getMembership();
+	}
 	
+	// 회원 출석 모달에서 정보조회
+	@GetMapping("/userInfo")
+	@ResponseBody
+	public MembershipDto getUser(@RequestParam("userNo") int userNo) {
+		return userAttService.getUserByNo(userNo);
+	}
+	
+	// 프로그램 출석 회원정보 조회
+	@ModelAttribute("ClassRegistration")
+	public List<ClassRegistrationHistory> getClassRegistration(Model model) {
+					
+		return userAttService.getClassRegistration();
+	}
+	
+	// 프로그램 회원번호 조회해서 모달창에 나타내기
+	@GetMapping("/ClassUserInfo")
+	@ResponseBody
+	public ClassRegistrationDto getClassUserByNo(@RequestParam("userNo") int userNo) {
+		return userAttService.getClassUserByNo(userNo);
+	}
 	
 	
 	

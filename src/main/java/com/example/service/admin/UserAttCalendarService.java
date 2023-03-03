@@ -8,6 +8,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.dto.AttEvent;
 import com.example.dto.UserAttDetailDto;
@@ -16,7 +17,6 @@ import com.example.mapper.UserAttCalendarMapper;
 import com.example.mapper.UserAttMapper;
 import com.example.utils.Pagination;
 import com.example.vo.FitnessProgramCategory;
-import com.example.vo.User;
 
 @Service
 @Transactional
@@ -41,10 +41,10 @@ public class UserAttCalendarService {
 				param.put("opt", opt);
 				param.put("keyword", keyword);			
 			}
-
-			int totalRows = userAttCalendarMapper.getTotalRows(param);
-			Pagination pagination = new Pagination(page,totalRows);
 			
+			// 페이징 처리
+			int totalRows = userAttCalendarMapper.getTotalRows(param);
+			Pagination pagination = new Pagination(page,totalRows,5);
 			param.put("begin", pagination.getBegin());
 			param.put("end", pagination.getEnd());
 			
@@ -66,13 +66,12 @@ public class UserAttCalendarService {
 		// 달력 조회
 		public List<AttEvent> getEvents(Map<String, Object> param) {
 			
-			
 			return userAttCalendarMapper.getAttEvents(param);
 		}
 
 		// 상세정보 조회
-		public UserAttDetailDto getUserDetail(String userNo) {
-			UserListAttDto attDto = userAttCalendarMapper.getUserByNo(userNo);
+		public UserAttDetailDto getUserDetail(Map<String, Object> param) {
+			UserListAttDto attDto = userAttCalendarMapper.getUserById(param);
 			
 			UserAttDetailDto detailDto = new UserAttDetailDto();
 			BeanUtils.copyProperties(attDto, detailDto);
@@ -80,17 +79,10 @@ public class UserAttCalendarService {
 			return detailDto;
 			
 		}
+
 		
-		// 달력에 조회할 회원 정보 조회
-		public UserListAttDto getUserInfo() {
-			
-			return userAttCalendarMapper.getUserInfo();
-		}
-
-		public List<AttEvent> getAttInfo() {
-
-			return userAttCalendarMapper.getAttInfo();
-		}
+		
+	
 		
 		
 }
