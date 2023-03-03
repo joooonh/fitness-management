@@ -100,13 +100,6 @@ public class UserController {
 		return "user/info-reservation";
 	}
 	
-	// 내 출석 조회
-	@GetMapping("/attendance")
-	public String getAttendance() {
-		
-		return "user/info-attendance";
-	}
-	
 	// 회원 탈퇴 페이지 요청
 	@GetMapping("/delete")
 	public String getdeleteForm() {
