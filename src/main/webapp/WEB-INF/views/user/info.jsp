@@ -32,7 +32,15 @@
 						<form:input type="hidden" path="no" />
 						<div class="row mb-3" style="margin:auto;text-align:center;">
 							<div>
-								<img id="profile-img" src="/resources/images/profile/${modifyForm.photo }" width="100" height="100" class="border inline-block align-text-center rounded-circle">
+								<sec:authentication property="principal.providerType" var="providerType"/>
+								<c:choose>
+									<c:when test="${empty providerType }">
+										<img id="profile-img" src="/resources/images/profile/${modifyForm.photo }" width="100" height="100" class="border inline-block align-text-center rounded-circle">
+									</c:when>
+									<c:otherwise>
+										<img id="profile-img" src="${modifyForm.photo }" width="100" height="100" class="border inline-block align-text-center rounded-circle">
+									</c:otherwise>								
+								</c:choose>
 								<button type="button" id="btn-upload" class="btn-image"><img src="/resources/images/camera-fill.svg" id="camera-img"></button>
 								<form:input type="file" accept="image/*" path="upfile" id="file-upload" style="display:none" />
 							</div>

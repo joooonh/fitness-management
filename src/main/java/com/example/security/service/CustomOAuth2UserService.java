@@ -24,7 +24,6 @@ import com.example.vo.UserRole;
 @Service
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
-<<<<<<< HEAD
 	@Autowired
 	private UserMapper userMapper;
 	@Autowired
@@ -84,61 +83,8 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 		// 등록된 user의 no를 가지고 userRole 등록
 		UserRole userRole = new UserRole(user.getNo(), "ROLE_USER");
 		userRoleMapper.insertUserRole(userRole);
-		
 		return user;
 	}
-=======
-    @Autowired
-    private UserMapper userMapper;
-    @Autowired
-    private UserRoleMapper userRoleMapper;
-
-
-    @Override
-    public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
-        OAuth2UserService<OAuth2UserRequest, OAuth2User> oAuth2UserService = new DefaultOAuth2UserService();
-        OAuth2User oAuth2User = oAuth2UserService.loadUser(oAuth2UserRequest);
-
-        // 현재 진행중인 OAuth2 서비스를 구분. (구글, 카카오, 네이버) {providerType='naver'}
-        String providerType = oAuth2UserRequest.getClientRegistration().getRegistrationId();
-
-        OAuth2UserInfo userInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(providerType, oAuth2User.getAttributes());
-        User savedUser = userMapper.getUserById(userInfo.getId());
-
-        if (savedUser != null) {
-            if (!providerType.equals(savedUser.getProviderType())) {
-                throw new OAuth2AuthenticationException("소셜로그인 공급자가 일치하지 않습니다.");
-            }
-            updateUser(savedUser, userInfo);
-        } else {
-            savedUser = createUser(userInfo, providerType);
-        }
-        UserRole userRole = userRoleMapper.getUserRoleByNo(savedUser.getNo());
-
-        return new CustomOAuth2User(
-                savedUser,
-                Collections.singletonList(new SimpleGrantedAuthority(userRole.getRoleName())),
-                userInfo.getAttributes()
-        );
-    }
->>>>>>> b8735a79c3060a0f5d3bf4d8c3a33dddb9b4e242
-
-    private User createUser(OAuth2UserInfo userInfo, String providerType) {
-        User user = new User();
-
-        user.setId(userInfo.getId());
-        user.setName(userInfo.getName());
-        user.setEmail(userInfo.getEmail());
-        user.setProviderType(providerType);
-        user.setCreatedDate(new Date());
-        user.setUpdatedDate(new Date());
-        userMapper.insertUser(user);
-
-        UserRole userRole = new UserRole(user.getNo(), "ROLE_USER");
-        userRoleMapper.insertUserRole(userRole);
-
-        return user;
-    }
 
     // 이미 저장된 정보라면, update 처리
     private User updateUser(User user, OAuth2UserInfo userInfo) {
