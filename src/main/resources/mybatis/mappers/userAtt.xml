@@ -73,7 +73,7 @@
 					user_class_attendance_no 	as classSeq
 		from        (
 	                select 
-		                row_number() over (order by user_no desc) row_numbers,
+		                row_number() over (order by user_attendance_date asc) row_numbers,
 		                user_no,
 		                user_id,
 		                user_name,
@@ -177,8 +177,8 @@
 				  		<if test="attDate != null">
 				  			and user_attendance_date = #{attDate}
 				  		</if>
-				  		<if test="classDate != null">
-				  			and class_attendance_date = #{classDate}
+				  		<if test="classAttDate != null">
+				  			and class_attendance_date = #{classAttDate}
 				  		</if>
 				  	</where>
 		)
@@ -190,8 +190,8 @@
 	<!-- 페이징처리 -->
 	<select id="getTotalRows" parameterType="map" resultType="int">
 		select
-        count(*)
-    from(
+        	count(*)
+   		 from(
 			 select 
 		                row_number() over (order by user_no desc) row_numbers,
 		                user_no,
@@ -274,16 +274,32 @@
 				<if test="opt != null and keyword != null">
 			  		<choose>
 			  		 	<when test="opt == 'userName' ">
-			  		 		and a.user_name = #{keyword}
+			  		 		and user_name = #{keyword}
 			  		 	</when>
 			  		 	<when test="opt == 'userNo' ">
-			  		 		and a.user_no = #{keyword}
+			  		 		and user_no = #{keyword}
 			  		 	</when>
 			  		 	<when test="opt == 'userTel'">
-			  		 		and a.user_tel =  #{keyword}
+			  		 		and user_tel =  #{keyword}
 			  		 	</when>
 			  		 </choose> 
 		  		</if>
+		  		<if test="programInfo != null">
+				  			and program_no= #{programInfo}
+				</if>         
+				<if test="onlyMembership != null">
+					<choose>
+					 	<when test="onlyMembership != null ">
+							and membership_payment_status  = 'Y'
+						</when>
+					</choose> 
+				</if>
+				<if test="attDate != null">
+				  			and user_attendance_date = #{attDate}
+				</if>
+				<if test="classAttDate != null">
+				  			and class_attendance_date = #{classAttDate}
+				</if>
 			</where>
 	</select>
 	
@@ -308,6 +324,61 @@
 		where
 			user_no = #{value}
 			user_attendance_date = #{value}
+	</select>
+	
+	<!-- 회원상세 정보 조회(모달창)  -->
+	<select id="getMembership" parameterType="map" resultType="Membership">
+		select
+			user_no	as userNo
+		from
+			membership_histories
+	</select>
+	
+	<!-- 회원번호 조회해서 모달창에 나타내기  -->
+	<select id="getUserByNo" parameterType="int" resultType="MembershipDto">
+		select
+			A.user_no						as userNo,
+			A.user_id 						as id,
+			A.user_tel						as tel,
+			A.user_name						as name,
+			B.membership_no 				as membershipNo,
+			B.membership_start_date 		as startDate,
+			B.membership_end_date 			as endDate,
+			B.membership_payment_status     as paymentStatus
+		from
+			users A, membership_histories B
+		where
+			A.user_no = B.user_no
+			and	A.user_no = #{value}
+	</select>
+	
+	<!--프로그램 신청 회원번호 조회 -->
+	<select id="getClassRegistration" parameterType="map" resultType="ClassRegistrationHistory">
+		select
+			user_no as no
+		from
+			class_registration_histories
+	</select>
+	
+	<!-- 프로그램 회원번호 조회해서  프로그램 출석 모달창에 나타내기  -->
+	<select id="getClassUserByNo" parameterType="int" resultType="ClassRegistrationDto">
+		select
+			A.user_no 						as userNo,
+			A.user_id 						as userId,
+			A.user_tel 						as usertel,
+			A.user_name						as userName,
+			A.user_deleted				    as deleted,
+			B.program_no 					as programNo,
+			B.class_payment_status 			as paymentStatus,
+			C.program_name					as programName
+            
+		from
+			users A, class_registration_histories B, fitness_programs C
+		where
+			A.user_no = B. user_no
+			and C.program_no = B.program_no
+			and A.user_no = #{value}
+					
 	</select>
 	
 	<!-- 회원출석삭제 -->

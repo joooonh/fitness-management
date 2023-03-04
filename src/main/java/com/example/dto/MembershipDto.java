@@ -18,8 +18,10 @@ public class MembershipDto {
 	private Date endDate;
 	private int period;
 	private Date completedDate;
+	private String paymentStatus; // ahin 추가 
+	
 	// 이용자 정보
 	private int userNo;
 	private String name;
-	private String tel;
+	private String tel;	// ahin 추가
 }

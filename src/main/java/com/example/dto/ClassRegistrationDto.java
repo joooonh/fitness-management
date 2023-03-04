@@ -21,7 +21,13 @@ public class ClassRegistrationDto {
 	private String paymentStatus;
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date completedDate;
+	
+	// fitness_programs
+	private String programName;	// ahin 추가
+	
 	// 사용자 정보
 	private String userName;
 	private String userTel;
+	private String userId;	// ahin 추가
+	private String deleted; // ahin 추가
 }

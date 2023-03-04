@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.example.dto.EmployeeAttDto;
 import com.example.mapper.EmployeeAttMapper;
 import com.example.utils.Pagination;
+import com.example.vo.Employee;
 import com.example.vo.EmployeeAttendance;
 import com.example.vo.FitnessProgram;
 import com.example.web.request.EmployeeAttRegister;
@@ -53,6 +54,18 @@ public class EmployeeAttService {
 	public List<FitnessProgram> getPrograms(){
 		
 		return empAttMapper.getPrograms();
+	}
+	
+	// 강사 번호 조회하기
+	public List<Employee> getEmpId() {
+		
+		return empAttMapper.getEmpId();
+	}
+	
+	// 강사아이디를 조회해서 모달창에 나타내기
+	public EmployeeAttDto getEmpById(String empId) {
+		
+		return empAttMapper.getEmpById(empId);
 	}
 	
 }

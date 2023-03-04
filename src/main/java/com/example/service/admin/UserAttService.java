@@ -9,10 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.dto.ClassRegistrationDto;
+import com.example.dto.MembershipDto;
 import com.example.dto.UserListAttDto;
 import com.example.mapper.UserAttMapper;
 import com.example.utils.Pagination;
+import com.example.vo.ClassRegistrationHistory;
 import com.example.vo.FitnessProgramCategory;
+import com.example.vo.Membership;
 import com.example.vo.UserAttendance;
 import com.example.vo.UserClassAttendance;
 import com.example.web.request.UserAttRegisterForm;
@@ -45,8 +49,6 @@ public class UserAttService {
 		return result;
 	}
 	
-
-		
 	// 프로그램 조회
 	public List<FitnessProgramCategory> getPrograms() {
 			
@@ -93,6 +95,32 @@ public class UserAttService {
 		}
 		
 	}
+
+
+	// 모달창 user정보 조회
+	public List<Membership> getMembership() {
+		
+		return userAttMapper.getMembership();
+	}
+	
+	// 회원번호 조회해서 모달창에 나타내기
+	public MembershipDto getUserByNo(int userNo) {
+
+		return userAttMapper.getUserByNo(userNo);
+	}
+	
+	// 프로그램 모달창에 user정보 조회
+	public List<ClassRegistrationHistory> getClassRegistration() {
+		
+		return userAttMapper.getClassRegistration();
+	}
+	
+	// 프로그램 회원번호 조회해서 모달창에 나타내기
+	public ClassRegistrationDto getClassUserByNo(int userNo) {
+
+		return userAttMapper.getClassUserByNo(userNo);
+	}
+	
 	
 	
 }

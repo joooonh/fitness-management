@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.dto.EmployeeAttDto;
 import com.example.service.admin.EmployeeAttService;
+import com.example.vo.Employee;
 import com.example.vo.FitnessProgram;
 import com.example.web.request.EmployeeAttRegister;
 
@@ -57,7 +60,6 @@ public class EmployeeAttListController {
 		
 		return "redirect:/emp/empAttList";
 	}
-		
 	
 	// 프로그램 조회
 	@ModelAttribute("programs")
@@ -65,4 +67,19 @@ public class EmployeeAttListController {
 		
 		return empAttService.getPrograms();
 	}
+	// 강사 아이디 조회
+	@ModelAttribute("EmpId")
+	public List<Employee> empId(Model model) {
+			
+		return empAttService.getEmpId();
+	}
+	
+	// 강사 정보 조회해서 모달창에 나타내기
+	@GetMapping("/EmployeeInfo")
+	@ResponseBody
+	public EmployeeAttDto getEmpInfo(@RequestParam(name = "empId", required = false ,defaultValue = "") String empId) {
+		return empAttService.getEmpById(empId);
+	}
+	
 }
+

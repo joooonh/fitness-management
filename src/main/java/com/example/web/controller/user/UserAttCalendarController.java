@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.dto.AttEvent;
 import com.example.dto.UserAttDetailDto;
-import com.example.dto.UserListAttDto;
 import com.example.service.admin.UserAttCalendarService;
 import com.example.vo.FitnessProgramCategory;
 
@@ -52,6 +51,7 @@ public class UserAttCalendarController {
 		return userAttCalendarService.getPrograms();
 	}
 	
+	// 달력조회
 	@GetMapping("/events")
 	@ResponseBody
 	public List<AttEvent> getEvents(@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
@@ -68,27 +68,37 @@ public class UserAttCalendarController {
 		
 		return userAttCalendarService.getEvents(param);
 	}
-
+	
+	// 상세정보 조회
 	@GetMapping("/detail.json")
 	@ResponseBody
-	public UserAttDetailDto userDetail(@RequestParam("userNo") String userNo) {
-		UserAttDetailDto dto = userAttCalendarService.getUserDetail(userNo);
+	public Map<String,Object> userDetail(@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+			@RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate,
+			@RequestParam("userNo") int userNo,
+			@RequestParam(name = "membership", required = false) String membership,
+			@RequestParam(name = "programNo", required = false, defaultValue = "0") int programNo) {		
 		
-		return dto;
-	}
-	
-	@ResponseBody
-	public Map<String,Object> getPerson(){
+		Map<String, Object> param = new HashMap<>();
+		param.put("startDate", startDate);
+		param.put("endDate", endDate);
+		param.put("userNo", userNo);
+		if (membership != null) {
+			param.put("membership", membership);			
+		}
+		if (programNo != 0) {
+			param.put("programNo", programNo);			
+		}
 		
-		// 회원정보 갖고 오기
-		 UserListAttDto userInfo = userAttCalendarService.getUserInfo();
-		 List<AttEvent> attEvent = userAttCalendarService.getAttInfo();
+		UserAttDetailDto dto = userAttCalendarService.getUserDetail(param);
+		List<AttEvent> attEvents = userAttCalendarService.getEvents(param);
 		
-		Map<String,Object> map = new HashMap<>();
-		map.put("attDto", userInfo);
-		map.put("attEvent", attEvent);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("user", dto);
+		map.put("events", attEvents);
 		
 		return map;
 	}
+	
+	
 
 }

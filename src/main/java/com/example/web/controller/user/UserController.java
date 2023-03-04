@@ -3,6 +3,8 @@ package com.example.web.controller.user;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +12,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -18,9 +21,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.dto.AttEvent;
 import com.example.annotation.AuthenticatedUser;
 import com.example.exception.InconsistentPasswordException;
 import com.example.security.vo.LoginUser;
@@ -105,7 +111,7 @@ public class UserController {
 	public String getdeleteForm() {
 		return "user/info-delete";
 	}
-	
+		
 	// 회원 탈퇴 요청
 	@PostMapping("/delete")
 	public String deleteUser(@AuthenticatedUser LoginUser loginUser, String password) throws IOException {
@@ -125,6 +131,29 @@ public class UserController {
 	@GetMapping("/deleted")
 	public String deleteSuccess() {
 		return "user/delete-success";
+	}
+		
+	// 내 출석 조회
+	@GetMapping("/attendance")
+	public String getAttendance() {
+		
+		return "user/info-attendance";
+	}
+	
+	// 회원 출석달력
+	@GetMapping("/userEvents")
+	@ResponseBody
+	public List<AttEvent> getEvents(@AuthenticatedUser LoginUser loginUser,
+			@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+			@RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate) {
+		
+		
+		Map<String, Object> param = new HashMap<>();
+		param.put("startDate", startDate);
+		param.put("endDate", endDate);
+		param.put("loginUser", loginUser);
+		
+		return userService.getUserEvents(param);
 	}
 	
 }

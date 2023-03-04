@@ -46,10 +46,16 @@
 		
 					</div>
 					 --%>
-					<div class="col-7">
+					<div class="col-8">
 						<form id="form-search" method="get" action="/emp/userAttList">
-							<input class="form-control form-control-sm d-inline-block border-secondary"	type="date" name ="attDate"  id="currentDate"  ${param.attDate eq 'attDate' ? 'selected' : '' } style="width: 120px;">
-							<%-- <input class="form-control form-control-sm d-inline-block border-secondary"	type="date" name ="classDate"  id="currentDate"  ${param.attDate eq 'attDate' ? 'selected' : '' } style="width: 120px;"> --%>
+								<c:choose>
+									<c:when test="${param.attDate eq null }">
+										<input class="form-control form-control-sm d-inline-block border-secondary"	type="date" name ="attDate"  value="${param.attDate }" ${param.attDate eq '${param.attDate }' ? 'selected' : '' } style="width: 120px;">
+									</c:when>
+									<c:when test="${param.classAttDate eq null }">
+										<input class="form-control form-control-sm d-inline-block border-secondary"	type="date" name ="classAttDate" value="${param.classAttDate }"  ${param.classAttDate eq '${param.classAttDate }' ? 'selected' : '' } style="width: 120px;">
+									</c:when>
+								</c:choose>
 							
 							<select class="form-select form-select-sm d-inline-block border-secondary"	name="onlyMembership" style="width: 130px;">
 									<option value="" selected >= 선택 =</option>
@@ -59,7 +65,7 @@
 									<input class="form-check-input  border-dark" type="checkbox" name="onlyMembership" value=""${param.onlyMembership eq 'Y' ? 'checked' : '' } id="flexCheckDefault"> 
 									<label class="form-check-label">회원권</label>
 								</div>  --%>
-							<select class="form-select form-select-sm d-inline-block border-secondary" name="programInfo" style="width: 130px;">
+							<select class="form-select form-select-sm d-inline-block border-secondary" name="programInfo" style="width: 225px;">
 										
 									<option value="" selected >= 프로그램 =</option>
 									<c:forEach var="category" items="${FitnessProgramCategories }">
@@ -82,7 +88,7 @@
 					<div class="col text-end">
 								<button type="button" id="btn-check-attendance"  class="btn btn-sm btn-outline-secondary"">회원출석<i class="bi bi-check2"></i></button>
 								<button type="button" id="btn-check-class-attendance"  class="btn btn-sm btn-outline-secondary">프로그램출석<i class="bi bi-check2"></i></button>
-								<button type="button" class="btn  btn-sm"  style="background-color:#E0E0E0;">수정</button>
+								<!-- <button type="button" class="btn  btn-sm"  style="background-color:#E0E0E0;">수정</button> -->
 								<button type="submit" id="btn-delete" class="btn btn-sm" style="background-color:#E0E0E0;">삭제</button>
 					</div>
 				</div>
@@ -222,25 +228,39 @@
   				</div>
 				<div class="modal-body">
 					<div class="row mb-2">
+					
 						<div class="row">
 							<div class="mb-3">
-								<label class="form-label" value="">휴대폰</label>
-								<input type="text"  name="userTel" value="${userTel}" style="width: 150px;" >
-								<button type="submit" class="" id="btn-check">조회</button>
+								<label class="form-label ">회원번호</label>
+								<select name="userNo" class="form-select d-inline">	
+									<option>회원번호 선택</option>
+									<c:forEach var="Membership" items="${Membership }">
+										<option>${Membership.userNo }</option>
+									</c:forEach>
+								</select>
 							</div>
 						</div>
 						
 						<div class="row">
 							<div class="mb-3">
-								<label class="form-label ">회원번호</label>
-								<input type="text"  name="userNo" value="${userNo }" style="width: 150px;" >
+								<label class="form-label" value="">휴대폰</label>
+								<input type="text" id="user-tel" name="userTel" value="${userTel}" style="width: 150px;" >
 							</div>
 						</div>
+						
+						
 						
 						<div class="row">
 							<div class="mb-3">
 								<label class="form-label " >회원이름</label>
-								<input type="text"  name="userName" value="${userName }" style="width: 150px;" >
+								<input type="text" id="user-name" name="userName" value="${userName }" style="width: 150px;" >
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="mb-3">
+								<label class="form-label " >회원권여부</label>
+								<input type="text" id="membership-status" name="membership" value="${membership }" style="width: 150px;" >
 							</div>
 						</div>
 					
@@ -280,39 +300,55 @@
   				</div>
 				<div class="modal-body">
 					<div class="row mb-2">
+					
 						<div class="row">
 							<div class="mb-3">
-								<label class="form-label" >휴대폰</label>
-								<input type="text"  name="userTel" value="${userTel}" style="width: 150px;">
-								<button type="submit" class="" id="btn-class-check">조회</button>
+								<label class="form-label ">회원번호</label>
+								<select name="userNo" class="form-select d-inline">	
+									<option>회원번호 선택</option>
+									<c:forEach var="Class" items="${ClassRegistration }">
+										<option>${Class.no }</option>
+									</c:forEach>
+								</select>
 							</div>
 						</div>
 						
 						<div class="row">
 							<div class="mb-3">
-								<label class="form-label ">회원번호</label>
-								<input type="text"  name="userNo" value="${userNo }" style="width: 150px;">
+								<label class="form-label" >휴대폰</label>
+								<input type="text" id="class-tel" name="userTel" value="${userTel}" style="width: 150px;">
 							</div>
 						</div>
+						
+						
 						
 						<div class="row">
 							<div class="mb-3">
 								<label class="form-label " >회원이름</label>
-								<input type="text"  name="userName" value="${userName }" style="width: 150px;">
+								<input type="text" id="class-name" name="userName" value="${userName }" style="width: 150px;">
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="mb-3">
+								<input type="text" id="class-prog"  style="width: 225px;">
 							</div>
 						</div>
 						
 						<div class="row">
 							<div class=" mb-3">
 								<label class="form-label" >프로그램명</label>
-								<select class="form-select"  name="programNo" value="${userClassAttRegiModyfy.programName }">
+								<select class="form-select" id="class-prog" name="programNo" value="${userClassAttRegiModyfy.programNo }">
 									<option value="" selected >= 프로그램 =</option>
 									<c:forEach var="category" items="${FitnessProgramCategories }">
-											<option value="${category.categoryNo}">${category.categoryName }</option>
+											<option  value="${category.categoryNo}">${category.categoryName }</option>
 									</c:forEach>
 								</select>
 							</div>
 						</div>
+						
+						
+						
 						<div class="row">
 							<div class="mb-3" id="prog-days">
 								<p>프로그램요일</p>
@@ -322,7 +358,7 @@
 						<div class="row">
 							<div class="mb-3">
 								<label class="form-label">출석날짜</label>
-								<input class="form-control " type="date" name="classAttDate" value="${userAttRegiModyfy.attDate }">
+								<input class="form-control " type="date" name="classAttDate" value="${userClassAttRegiModyfy.classAttDate }">
 							</div>
 						</div>
 					</div>
@@ -341,7 +377,7 @@
 <script src="https://momentjs.com/downloads/moment-with-locales.js" type="text/javascript"></script>
 <script src="https://momentjs.com/downloads/moment.js"></script>
 <script type="text/javascript">
-	moment.locale('ko');
+
 $(function(){
 	
 	// 현재날짜 표시
@@ -351,6 +387,7 @@ $(function(){
  	let day = moment().format("YYYY-MM-DD");
 	
 	$("#form-search :input[name=attDate]").val(day);
+	$("#form-search :input[name=classAttDate]").val(day);
 
 	// 회원출석 모달창
 	let attendanceFormModal = new bootstrap.Modal("#modal-form-att");
@@ -434,8 +471,18 @@ $(function(){
 	
 	// 프로그램 요일
 	$(":input[name=programNo]").change(function() {
+		$("#prog-days").text("");
 		
-		let today = moment().format("dd");
+		let obj = {
+			Su:'일',
+			Mo:'월',
+			Tu:'화',
+			We:'수',
+			Hh:'목',
+			Fr:'금',
+			Sa:'토'
+		}
+		let today = obj[moment().format("dd")];
 		
 		let no = $(this).val();
 		$.getJSON("/emp/ProgramDays",{programNo:no}, function(days) {
@@ -443,7 +490,11 @@ $(function(){
 			let text = days.join("/")
 			$("#prog-days").text(text);
 			
-			//$("#prog-days").text().includes('일')
+			let prog = text.includes(today);
+			
+			if(!prog){
+				alert("오늘은 해당수업을 운영하지 않습니다.");
+			}
 			
 		});
 		
@@ -462,11 +513,33 @@ $(function(){
 		$("#form-att").attr("action","/emp/delete-userAtt").trigger("submit");
 	});
 	
+	
+	
 	// 회원출석 등록 alert
 	$('#btn-register').click(function() {
 		let userNo =  $("#att-check input[name=userNo]").val();
-			
+		let userTel =  $("#att-check input[name=userTel]").val();
+		let userName =  $("#att-check input[name=userName]").val();
+		let membership =  $("#att-check input[name=membership]").val();
+		
+		if(membership != "Y"){
+			alert("회원권을 등록하세요")
+			return false
+		}
+		
 		if(userNo === ""){
+			alert("회원번호를 입력하세요");
+			return false;
+		}
+		if(userTel === ""){
+			alert("회원번호를 입력하세요");
+			return false;
+		}
+		if(userName === ""){
+			alert("회원번호를 입력하세요");
+			return false;
+		}
+		if(membership === ""){
 			alert("회원번호를 입력하세요");
 			return false;
 		}
@@ -484,8 +557,6 @@ $(function(){
 		}
 			return true;
 	});
-	
-	// 일치하지 않을 때 alert
 	
 	
 	
@@ -514,6 +585,25 @@ $(function(){
 		return true;
 	});
 	
+	// 회원 번호 입력했을 때, 상세 정보 나오기
+	$(":input[name=userNo]").change(function() {
+		const userNo = $(this).val();
+		$.getJSON("/emp/userInfo", {userNo:userNo}, function(user){
+			$("#user-tel").val(user.tel);
+			$("#user-name").val(user.name);
+			$("#membership-status").val(user.paymentStatus);
+		})
+	});
+	
+	// 프로그램 출석 모달창에 회원번호를 입력했을 때, 상세정보 나오기
+	$(":input[name=userNo]").change(function() {
+		const userNo = $(this).val();
+		$.getJSON("/emp/ClassUserInfo", {userNo:userNo}, function(user) {
+			$("#class-tel").val(user.userTel);
+			$("#class-name").val(user.userName);
+			$("#class-prog").val(user.programName);
+		})
+	})
 	
 });
 	
