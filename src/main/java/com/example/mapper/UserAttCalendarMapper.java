@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.example.dto.AttEvent;
 import com.example.dto.UserListAttDto;
@@ -24,11 +25,10 @@ public interface UserAttCalendarMapper {
 			List<AttEvent> getAttEvents(Map<String, Object>param);
 			
 			// 회원 아이디 조회
-			UserListAttDto getUserByNo(String userNo);
+			UserListAttDto getUserById(Map<String, Object> param);
 			
-			// 달력에 조회할 회원 정보 조회
-			UserListAttDto getUserInfo();
-
-			// 달력에 조회할 회원 출석 정보조회
-			List<AttEvent> getAttInfo();
+			// 달력
+			List<AttEvent> getEvents(String userNo);
+			
+			
 }

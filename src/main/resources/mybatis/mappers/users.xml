@@ -178,5 +178,39 @@
 		from
    			 fitness_program_category
 	</select>
-
+	
+	<!-- 사용자 추가 -->
+	<select id="getUserEvents" parameterType="map" resultType="com.example.dto.AttEvent">
+		select
+			  A.user_no 				    as "userListAttDto.userNo",
+			  A.user_id 				    as "userListAttDto.userId",
+			  A.user_name			    	as "userListAttDto.userName",
+			  A.user_gender					as "userListAttDto.userGender",
+			  A.user_email					as "userListAttDto.userEmail",
+			  A.user_tel				    as "userListAttDto.userTel",
+			  B.user_start_time				as "userListAttDto.StartTime",
+			  B.user_end_time	    		as "userListAttDto.EndTime",
+              B.user_attendance_date        as "userListAttDto.userAttDate",
+   			  C.class_attendance_date		as "userListAttDto.classAttDate",
+			  C.program_no					as "userListAttDto.programNo",
+		      F.program_name				as "userListAttDto.programName",
+			  B.user_attendance_no			as "userListAttDto.userSeq",
+			  C.user_class_attendance_no 	as "userListAttDto.classSeq"
+		from
+			users A, user_attendances B, user_class_attendances C ,fitness_programs F
+		where
+			A.user_no = B.user_no(+)
+			and A.user_no = C.user_no(+)
+			and C.program_no = F.program_no(+)
+			<if test="userNo != null">
+				and B.user_no = #{userNo}
+			</if>
+			and (B.user_attendance_date between #{startDate} and #{endDate}
+			or C.class_attendance_date between #{startDate} and #{endDate})
+			and A.user_no = #{value}
+			and B.user_attendance_no = #{value}
+			and C.user_class_attendance_no = #{value}
+	
+	
+	</select>
 </mapper>

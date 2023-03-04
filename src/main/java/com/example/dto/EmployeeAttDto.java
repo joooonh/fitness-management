@@ -18,7 +18,7 @@ public class EmployeeAttDto {
 	private String email;
 	private String tel;
 	private String photo;
-	private int ziocode;
+	private int zipcode;
 	private String basicAddress;
 	private String detailAddress;
 	private String empStatus;
@@ -26,4 +26,10 @@ public class EmployeeAttDto {
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date progAttDate;
 	private int progNo;
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	private Date startDate;
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	private Date endDate;
+	private String startHour;
+	private String endHour;
 }

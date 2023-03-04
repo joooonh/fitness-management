@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import com.example.dto.ProgramDetailDto;
+import com.example.dto.AttEvent;
 import com.example.dto.ClassRegHistoryDto;
 import com.example.dto.ConsultingHistoryDto;
 
@@ -232,6 +233,12 @@ public class UserService {
 		
 		
 		return result;
+	}
+	
+	// 회원달력 조회
+	public List<AttEvent> getUserEvents(Map<String, Object> param) {
+
+		return userMapper.getUserEvents(param);
 	}
 	
 	
