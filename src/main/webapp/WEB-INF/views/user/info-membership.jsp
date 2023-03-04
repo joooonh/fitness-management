@@ -18,9 +18,8 @@
 		<div class="col-3"">
 			<div id="side-menu">
 				<li><a href="/user/info">내 정보 조회/수정</a></li>
-				<li><a href="/user/membership" style="color:white" id="current-page">내 회원권 조회</a></li>
 				<li><a href="/user/reservation">내 예약 조회</a></li>
-				<li><a href="/user/attendance">내 출석 조회</a></li>
+				<li><a href="/user/membership" style="color:white" id="current-page">내 회원권 조회</a></li>
 				<li><a href="/user/delete">회원 탈퇴</a></li>
 			</div>
 		</div>
@@ -29,7 +28,7 @@
 				<div class="col">
 					<div class="box">
 						<sec:authorize access="isAuthenticated()">
-							<strong><sec:authentication property="principal.name"/></strong> 님의 회원권 내역입니다.
+							<strong><sec:authentication property="principal.nickname"/></strong> 님의 회원권 내역입니다.
 						</sec:authorize>
 					</div>
 					<table class="table table-bordered" id="table-membership">

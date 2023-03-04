@@ -25,7 +25,7 @@
 			<div class="row ms-3">
 				<div class="row pt-2 mb-3">
 					<div class="col-12">
-						<h5><i class="bi bi-person-lines-fill ms-2 me-3"></i><strong>회원권 신청현황</strong></h5>
+						<h5><i class="bi bi-person-lines-fill ms-2 me-3"></i><strong>회원권 신청 현황</strong></h5>
 						<hr width="103%" color="gray">
 					</div>
 				</div>
@@ -43,7 +43,7 @@
 							<div class="col-auto">
 								<select class="form-select" name="period">
 									<option selected disabled>기간</option>
-									<option value="전체" ${param.period eq '전체' ? 'selected' : '' }>전체</option>
+									<option value="0" ${param.period eq '0' ? 'selected' : '' }>전체</option>
 									<option value="1" ${param.period eq '1' ? 'selected' : '' }>1개월</option>
 									<option value="3" ${param.period eq '3' ? 'selected' : '' }>3개월</option>
 									<option value="6" ${param.period eq '6' ? 'selected' : '' }>6개월</option>

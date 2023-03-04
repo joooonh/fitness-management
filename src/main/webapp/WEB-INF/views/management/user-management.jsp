@@ -191,7 +191,6 @@
 							<li class="tab-button active">회원권</li>
 							<li class="tab-button">수업</li>
 							<li class="tab-button">상담</li>
-							<li class="tab-button">출석</li>
 						</div>
 					</div>
 					<div class="row" id="tab-table-list">
@@ -269,31 +268,6 @@
 							</thead>
 							<tbody id="tbody-consulting">
 								<!-- ajax로 받은 상담 리스트 출력 -->
-							</tbody>
-						</table>
-						<!-- 출석 탭 -->
-						<table class="table table-sm border" id="table-attendance" style="display:none;">
-							<colgroup>
-								<col width="*">
-								<col width="*">
-								<col width="*">
-								<col width="*">
-								<col width="*">
-								<col width="*">
-							</colgroup>
-							<thead>
-								<tr class="border table-secondary">
-									<th class="text-center">회원권 번호</th>
-									<th class="text-center">회원권 기간</th>
-									<th class="text-center">회원권 시작일자</th>
-									<th class="text-center">회원권 종료일자</th>
-									<th class="text-center">회원권 등록일자</th>
-									<th class="text-center">결제 금액</th>
-									<th class="text-center">결제 일자</th>
-								</tr>
-							</thead>
-							<tbody id="tbody-membership">
-								<!-- ajax로 받은 회원권 리스트 출력 -->
 							</tbody>
 						</table>
 					</div>
@@ -473,7 +447,6 @@ $(function(){
 		$("#tab-table-list .table-sm").hide();
 		$("#tab-table-list .table-sm").eq(index).show();
 	})
-	
 	
 })
 </script>

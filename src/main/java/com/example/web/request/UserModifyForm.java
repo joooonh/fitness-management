@@ -19,6 +19,7 @@ public class UserModifyForm {
 
 	private MultipartFile upfile;
 	private String photo;
+	private String providerType;
 	
 	private int no;
 	private String id;

@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.annotation.AuthenticatedUser;
 import com.example.dto.EmployeeDetail;
-import com.example.security.AuthenticatedUser;
 import com.example.security.vo.LoginUser;
 import com.example.service.admin.EmployeeService;
 import com.example.web.request.EmployeeModifyForm;

@@ -18,9 +18,8 @@
 		<div class="col-3" id="col">
 			<div id="side-menu">
 				<li><a href="/user/info" style="color:white" id="current-page">내 정보 조회/수정</a></li>
-				<li><a href="/user/membership">내 회원권 조회</a></li>
 				<li><a href="/user/reservation">내 예약 조회</a></li>
-				<li><a href="/user/attendance">내 출석 조회</a></li>
+				<li><a href="/user/membership">내 회원권 조회</a></li>
 				<li><a href="/user/delete">회원 탈퇴</a></li>
 			</div>
 		</div>
@@ -32,7 +31,15 @@
 						<form:input type="hidden" path="no" />
 						<div class="row mb-3" style="margin:auto;text-align:center;">
 							<div>
-								<img id="profile-img" src="/resources/images/profile/${modifyForm.photo }" width="100" height="100" class="border inline-block align-text-center rounded-circle">
+								<sec:authentication property="principal.providerType" var="providerType"/>
+								<c:choose>
+									<c:when test="${empty providerType }">
+										<img id="profile-img" src="/resources/images/profile/${modifyForm.photo }" width="100" height="100" class="border inline-block align-text-center rounded-circle">
+									</c:when>
+									<c:otherwise>
+										<img id="profile-img" src="${modifyForm.photo }" width="100" height="100" class="border inline-block align-text-center rounded-circle">
+									</c:otherwise>								
+								</c:choose>
 								<button type="button" id="btn-upload" class="btn-image"><img src="/resources/images/camera-fill.svg" id="camera-img"></button>
 								<form:input type="file" accept="image/*" path="upfile" id="file-upload" style="display:none" />
 							</div>

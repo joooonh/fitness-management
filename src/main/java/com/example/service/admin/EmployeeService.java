@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.dto.EmployeeDetail;
 import com.example.exception.AlreadyRegisteredEmailException;
 import com.example.exception.AlreadyRegisteredUserIdException;
-import com.example.exception.ApplicationException;
 import com.example.exception.InconsistentPasswordException;
 import com.example.mapper.EmployeeMapper;
 import com.example.mapper.EmployeeRoleMapper;
@@ -87,7 +86,7 @@ public class EmployeeService {
 		BeanUtils.copyProperties(form, employee);
 		
 		// 비밀번호가 빈칸이 아니면 비밀번호를 암호화한다.
-		if (!form.getPassword().isBlank()) {
+		if (form.getPassword() != null && !form.getPassword().isBlank()) {
 			// 비밀번호 암호화
 			employee.setPassword(passwordEncoder.encode(form.getPassword()));			
 		} else {

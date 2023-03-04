@@ -293,7 +293,7 @@ $(function() {
 			programNos.push($(this).val());
 		});
 		
-		location.href = "delete?programNo=" + programNos;
+		location.href = "/admin/program/delete?programNo=" + programNos;
 	});
 	
 	// 프로그램 수정 페이지 이동
@@ -322,7 +322,7 @@ $(function() {
 			return false;
 		};
 		
-		location.href = "modify?programNo=" + programNo;
+		location.href = "/admin/program/modify?programNo=" + programNo;
 	});
 	
 	// 페이지 클릭 이벤트
