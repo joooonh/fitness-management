@@ -6,8 +6,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
-<link rel="stylesheet" href="../../../resources/css/common.css">
-<link rel="stylesheet" href="../../../resources/css/content.css">
+<link rel="stylesheet" href="/resources/css/common.css">
+<link rel="stylesheet" href="/resources/css/content.css">
 <title>중앙피트니스</title>
 </head>
 <body>
@@ -232,7 +232,7 @@ $(function() {
 		
 		// 삭제여부를 확인한다.
 		if (confirm("삭제한 직원은 복구가 안됩니다. 삭제하시겠습니까?")) {
-			location.href = "delete?empId=" + idList;
+			location.href = "/admin/employee/delete?empId=" + idList;
 		}
 	});
 	
@@ -255,7 +255,7 @@ $(function() {
 			return false;
 		};
 		
-		location.href = "modify-form?empId=" + id;
+		location.href = "/admin/employee/modify-form?empId=" + id;
 	});
 	
 	// 페이지 클릭 이벤트

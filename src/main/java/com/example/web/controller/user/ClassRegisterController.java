@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.annotation.AuthenticatedUser;
 import com.example.dto.ScheduleCheckDto;
-import com.example.security.AuthenticatedUser;
 import com.example.security.vo.LoginUser;
 import com.example.service.admin.ClubService;
 import com.example.service.user.ClassRegisterService;

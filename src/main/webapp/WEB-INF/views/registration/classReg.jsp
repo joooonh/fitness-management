@@ -29,7 +29,7 @@
 			<div class="row ms-3">
 				<div class="row pt-2 mb-3">
 					<div class="col-12">
-						<h5><i class="bi bi-person-lines-fill ms-2 me-3"></i><strong>프로그램 신청현황</strong></h5>
+						<h5><i class="bi bi-person-lines-fill ms-2 me-3"></i><strong>프로그램 신청 현황</strong></h5>
 						<hr width="103%" color="gray">
 					</div>
 				</div>
@@ -101,6 +101,9 @@
 $(function(){
 	// 프로그램 목록 클릭시 신청자 목록이 나온다.
 	$("#programList tbody").on('click', 'tr', function() {
+		$("#programList tbody tr").removeClass("table-secondary");
+		$(this).addClass("table-secondary");
+		
 		// 클릭한 프로그램의 프로그램번호를 가져온다.
 		let no = $(this).children("td").attr("data-program-no");
 		

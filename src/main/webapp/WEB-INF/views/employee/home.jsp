@@ -29,7 +29,7 @@
 					<h1 class="text-white"><strong>Everywhere JA Fitness</strong></h1>
 				</div>
 				<div id="box-chat">
-					<a href="/emp/chat"><img src="/resources/images/chat-dots-fill.svg" alt="chat" width="100" height="100" id="img-chat"></a>
+					<a href="/emp/chat"><img src="/resources/images/chat.png" alt="chat" width="130" height="130" id="img-chat"></a>
 				</div>
 			</div>
 		</div>

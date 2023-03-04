@@ -1,5 +1,26 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"
 	trimDirectiveWhitespaces="true"%>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+<style>
+	body {
+		font-family: 'Noto Sans KR', sans-serif;
+	}
+	.cursor::after {
+		content: '';
+		margin-left: .6rem;
+		border-right: 2px solid #777;
+		animation: cursor .9s infinite steps(2);
+	}
+
+	@keyframes cursor {
+		from { border-right: 2px solid #222; }
+		to { border-right: 2px solid #777; }
+	}
+</style>
+
 <nav class="navbar navbar-expand-md navbar-dark">
 	<button class="navbar-toggler ml-auto mb-2 bg-light" type="button"
 		data-toggle="collapse" data-target="#sidebar">
@@ -18,7 +39,7 @@
 						<div class="col-md-10">
 							<ul class="navbar-nav justify-content-end">
 								<sec:authorize access="isAuthenticated()">
-									<span class="navbar-text me-2"><strong class="text-white"><sec:authentication property="principal.name"/></strong>님 환영합니다.</span>
+									<span class="navbar-text me-2"><strong class="text-white"><sec:authentication property="principal.nickname"/></strong>님 환영합니다.</span>
 									<sec:authorize access="hasRole('ROLE_USER')">  
 										<li class="nav-item dropdown">
 								            <a href="#" class="nav-link dropdown-toggle ${menu eq 'info' ? 'active' : '' }" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -26,9 +47,8 @@
 								            </a>
 								            <ul class="dropdown-menu">
 								               <li><a class="dropdown-item" href="/user/info">내 정보 조회</a></li>
-								               <li><a class="dropdown-item" href="/user/membership">회원권 조회</a></li>
 								               <li><a class="dropdown-item" href="/user/reservation">예약 조회</a></li>
-								               <li><a class="dropdown-item" href="/user/attendance">출석 조회</a></li>
+								               <li><a class="dropdown-item" href="/user/membership">회원권 조회</a></li>
 								               <li><hr class="dropdown-divider"></li>
 								               <li><a class="dropdown-item" href="/user/delete">회원 탈퇴</a></li>
 								            </ul>

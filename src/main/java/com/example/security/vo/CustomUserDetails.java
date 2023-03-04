@@ -16,7 +16,7 @@ public class CustomUserDetails extends LoginUser implements UserDetails{
 	// 로그인한 id로 사용자/직원 정보를 조회해서 UserDetails 객체에 로그인한 사용자의 아이디, 비밀번호, 이름, 권한정보를 저장
 	public CustomUserDetails(String id, String encryptPassword, String name, Collection<? extends GrantedAuthority> authorities) {
 		setId(id);
-		setName(name);
+		setNickname(name);
 		this.encryptPassword = encryptPassword;
 		this.authorities = authorities;
 	}
