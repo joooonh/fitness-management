@@ -13,6 +13,7 @@ import javax.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -119,7 +120,7 @@ public class UserController {
 		try {
 			userService.deleteUser(loginUser.getId(), password);
 			// 탈퇴시 로그아웃 처리
-			//SecurityContextHolder.clearContext();
+			SecurityContextHolder.clearContext();
 		} catch(InconsistentPasswordException ex) {
 			return "redirect:delete?error=fail";
 		}
