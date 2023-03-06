@@ -72,6 +72,11 @@ public class ClassRegisterService {
 		map.put("memPrice", memPrice);
 		
 		classRegisterMapper.insertClassRegistration(map);
+		
+		// 프로그램 신청자수를 증가시킨다.
+		program.setRequestCount(program.getRequestCount() + 1);
+		programMapper.updateProgram(program);
+		
 		if(memStartDate != null && memEndDate != null && memPeriod != null && memPrice != null) {
 			classRegisterMapper.insertMembership(map);
 		}
