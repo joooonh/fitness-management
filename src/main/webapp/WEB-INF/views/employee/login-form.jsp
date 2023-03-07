@@ -36,16 +36,13 @@
 						<input type="text" class="form-control" name="id" placeholder="아이디" value="moon" />
 					</div>
 				</div>
-				<div class="row mb-3">
+				<div class="row mb-5">
 					<div >
 						<input type="password" class="form-control" name="password" placeholder="비밀번호" value="Zxcv1234!" />
 					</div>
 				</div>
-			    <div class="row mb-3">
-						<button type="submit" class="btn btn-dark" >로그인</button>
-				</div>
-			    <div class="row mb-3">
-						<button type="button" class="btn btn-secondary" onclick="location.href='/user/register' " >회원가입</button>
+			    <div class="row mb-1">
+						<button type="submit" class="btn btn-dark" >관리자 로그인</button>
 				</div>
 			</form>
 		</div>

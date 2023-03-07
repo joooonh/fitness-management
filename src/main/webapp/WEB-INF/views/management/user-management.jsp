@@ -196,39 +196,14 @@
 					</div>
 					<div class="row">
 						<div class="tab-list">
-							<li class="tab-button active">회원권</li>
-							<li class="tab-button">수업</li>
+							<li class="tab-button active">수업</li>
+							<li class="tab-button">회원권</li>
 							<li class="tab-button">상담</li>
 						</div>
 					</div>
 					<div class="row" id="tab-table-list">
-						<!-- 회원권 탭 -->
-						<table class="table table-sm border" id="table-membership">
-							<colgroup>
-								<col width="*">
-								<col width="*">
-								<col width="*">
-								<col width="*">
-								<col width="*">
-								<col width="*">
-							</colgroup>
-							<thead>
-								<tr class="border table-secondary">
-									<th class="text-center">회원권 번호</th>
-									<th class="text-center">회원권 기간</th>
-									<th class="text-center">회원권 시작일자</th>
-									<th class="text-center">회원권 종료일자</th>
-									<th class="text-center">회원권 등록일자</th>
-									<th class="text-center">결제 금액</th>
-									<th class="text-center">결제 일자</th>
-								</tr>
-							</thead>
-							<tbody id="tbody-membership">
-								<!-- ajax로 받은 회원권 리스트 출력 -->
-							</tbody>
-						</table>
 						<!-- 수업 탭 -->
-						<table class="table table-sm border" id="table-class" style="display:none;">
+						<table class="table table-sm border" id="table-class">
 							<colgroup>
 								<col width="*">
 								<col width="*">
@@ -252,6 +227,31 @@
 							</thead>
 							<tbody id="tbody-class">
 								<!-- ajax로 받은 수업 리스트 출력 -->
+							</tbody>
+						</table>
+						<!-- 회원권 탭 -->
+						<table class="table table-sm border" id="table-membership" style="display:none;">
+							<colgroup>
+								<col width="*">
+								<col width="*">
+								<col width="*">
+								<col width="*">
+								<col width="*">
+								<col width="*">
+							</colgroup>
+							<thead>
+								<tr class="border table-secondary">
+									<th class="text-center">회원권 번호</th>
+									<th class="text-center">회원권 기간</th>
+									<th class="text-center">회원권 시작일자</th>
+									<th class="text-center">회원권 종료일자</th>
+									<th class="text-center">회원권 등록일자</th>
+									<th class="text-center">결제 금액</th>
+									<th class="text-center">결제 일자</th>
+								</tr>
+							</thead>
+							<tbody id="tbody-membership">
+								<!-- ajax로 받은 회원권 리스트 출력 -->
 							</tbody>
 						</table>
 						<!-- 예약 탭 -->
@@ -378,7 +378,32 @@ $(function(){
 				$("#cell-user-email").text(user.email);
 				$("#cell-user-tel").text(user.tel);
 				$("#cell-user-created-date").text(user.createdDate);
-				$("#cell-user-address").text(user.basicAddr + " " + user.detailAddr);
+				if(user.basicAddr != null && user.detailAddr != null){
+					$("#cell-user-address").text(user.basicAddr + " " + user.detailAddr);
+				}
+				
+				// 수업 조회
+				$("#tbody-class").empty();
+				let classReg = "";
+				if(classList.length > 0){
+					for(let index in classList){
+						classReg += "<tr>";
+						classReg += "	<td class='text-center'>" + classList[index].classRegNo + "</td>";
+						classReg += "	<td class='text-center'>" + classList[index].programCategoryName + "</td>";
+						classReg += "	<td class='text-center'>" + classList[index].programName + "</td>";
+						classReg += "	<td class='text-center'>" + classList[index].empName + "</td>";
+						classReg += "	<td class='text-center'>" + classList[index].openDays + "</td>";
+						classReg += "	<td class='text-center'>" + classList[index].startHour + " ~ " + classList[index].endHour + "</td>";
+						classReg += "	<td class='text-center'>" + classList[index].totalPaymentPrice + " 원 </td>";
+						classReg += "	<td class='text-center'>" + classList[index].paymentCompletedDate + "</td>";
+						classReg += "</tr>";
+					}
+				} else {
+					classReg += "<tr>";
+					classReg += "	<td colspan='12' class='text-center'>수업신청 내역이 존재하지 않습니다.</td>"
+					classReg += "</tr>";
+				}
+				$("#tbody-class").append(classReg);
 				
 				// 회원권 조회
 				$("#tbody-membership").empty(); 
@@ -403,29 +428,6 @@ $(function(){
 				
 				$("#tbody-membership").append(membership);
 					
-				// 수업 조회
-				$("#tbody-class").empty();
-				let classReg = "";
-				if(classList.length > 0){
-					for(let index in classList){
-						classReg += "<tr>";
-						classReg += "	<td class='text-center'>" + classList[index].classRegNo + "</td>";
-						classReg += "	<td class='text-center'>" + classList[index].programCategoryName + "</td>";
-						classReg += "	<td class='text-center'>" + classList[index].programName + "</td>";
-						classReg += "	<td class='text-center'>" + classList[index].empName + "</td>";
-						classReg += "	<td class='text-center'>" + classList[index].openDays + "</td>";
-						classReg += "	<td class='text-center'>" + classList[index].startHour + " ~ " + classList[index].endHour + "</td>";
-						classReg += "	<td class='text-center'>" + classList[index].totalPaymentPrice + " 원 </td>";
-						classReg += "	<td class='text-center'>" + classList[index].paymentCompletedDate + "</td>";
-						classReg += "</tr>";
-					}
-				} else {
-					classReg += "<tr>";
-					classReg += "	<td colspan='12' class='text-center'>수업신청 내역이 존재하지 않습니다.</td>"
-					classReg += "</tr>";
-				}
-				$("#tbody-class").append(classReg);
-				
 				// 상담 조회 
 				$("#tbody-consulting").empty();
 				let consulting = "";
