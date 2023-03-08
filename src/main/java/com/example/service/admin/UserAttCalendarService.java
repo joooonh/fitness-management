@@ -29,7 +29,7 @@ public class UserAttCalendarService {
 	UserAttMapper userAttMapper;
 	
 	//출석리스트 조회
-		public Map<String,Object> getUserList(int page,String opt,String keyword, String programInfo) {
+		public Map<String,Object> getUserList(int page, String startDate, String endDate, String opt,String keyword, String programInfo) {
 			Map<String,Object> param = new HashMap<String,Object>();
 			if (!programInfo.isBlank()) {
 				param.put("programInfo", programInfo);
@@ -37,6 +37,10 @@ public class UserAttCalendarService {
 					param.put("keyword", keyword);			
 				}
 			}
+			
+			param.put("startDate", startDate);
+			param.put("endDate", endDate);
+			
 			if (!opt.isBlank() && !keyword.isBlank()) {
 				param.put("opt", opt);
 				param.put("keyword", keyword);			
