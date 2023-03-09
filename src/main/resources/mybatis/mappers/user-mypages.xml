@@ -53,7 +53,7 @@
 		    E.employee_name             	as empName,
 		    P.program_name              	as programName,
 		    V.consulting_reservation_date   as reservationDate,
-		    V.consulting_created_date   	as createdDate,
+		    V.consulting_create_date   		as createdDate,
 		    V.consulting_status         	as status
 		from
 		    fitness_visitant V, employees E, fitness_programs P
