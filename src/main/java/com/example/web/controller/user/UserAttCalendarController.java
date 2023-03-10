@@ -1,8 +1,5 @@
 package com.example.web.controller.user;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAdjusters;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -35,20 +32,12 @@ public class UserAttCalendarController {
 	// 회원리스트 및 검색
 	@GetMapping("/userCalendar")
 	public String userAttList(@RequestParam(name = "page" , required = false , defaultValue ="1") int page, 
-								@RequestParam(name = "startDate", required = false, defaultValue = "") String startDate,
-								@RequestParam(name = "endDate", required = false, defaultValue = "") String endDate, 
 								@RequestParam(name = "opt", required = false, defaultValue = "") String opt, 
 								@RequestParam(name = "keyword", required = false, defaultValue = "") String keyword,
 								@RequestParam(name = "programInfo" , required = false, defaultValue = "")String programInfo, Model model) {
 
-		if (startDate.isBlank()) {
-			startDate = LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-		}
-		if (endDate.isBlank()) {
-			endDate = LocalDate.now().with(TemporalAdjusters.lastDayOfMonth()).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-		}
 		
-		Map<String,Object> result = userAttCalendarService.getUserList(page, startDate, endDate, opt ,keyword, programInfo);
+		Map<String,Object> result = userAttCalendarService.getUserList(page, opt ,keyword, programInfo);
 		model.addAttribute("userAtts", result.get("userAtts"));
 		model.addAttribute("pagination", result.get("pagination"));
 		
