@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="/resources/css/common.css">
 <link rel="stylesheet" href="/resources/css/background.css">
 <link rel="stylesheet" href="/resources/css/success.css">
-<title>애플리케이션</title>
+<title>중앙피트니스</title>
 </head>
 <body class="pt-5">
 <c:set var="menu" value="login" />

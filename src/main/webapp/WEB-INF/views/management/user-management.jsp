@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
 <link rel="stylesheet" href="/resources/css/common.css">
 <link rel="stylesheet" href="/resources/css/user-management.css">
-<title>애플리케이션</title>
+<title>중앙피트니스</title>
 </head>
 <body>
 <!-- 헤더 navbar 영역 -->
@@ -139,8 +139,16 @@
 				<div class="col">
 					<div class="row">
 						<div class="col-3 pt-4" style="text-align:center" >
-							<div >
-								<img id="profile-img" src="/resources/images/default.png" width="170" height="170" class="border inline-block">
+							<div>
+								<sec:authentication property="principal.providerType" var="providerType"/>
+								<c:choose>
+									<c:when test="${empty providerType }">
+										<img id="profile-img" src="/resources/images/default.png" width="170" height="170" class="border inline-block">
+									</c:when>
+									<c:otherwise>
+										<img id="profile-img" src="${user.photo }" width="170" height="170" class="border inline-block">
+									</c:otherwise>
+								</c:choose>
 							</div>
 						</div>
 						<div class="col">
@@ -356,8 +364,12 @@ $(function(){
 				const classList = map.classRegList;
 				const consultingList = map.consultingList;
 				
-				// 회원 상세정보 조회 
-				$("#profile-img").attr("src", "/resources/images/profile/" + user.photo);
+				// 회원 상세정보 조회
+				if (user.providerType == null) {
+					$("#profile-img").attr("src", "/resources/images/profile/" + user.photo);					
+				} else {
+					$("#profile-img").attr("src", user.photo);					
+				}
 				$("#cell-user-no").text(user.no);
 				$("#cell-user-id").text(user.id);
 				$("#cell-user-name").text(user.name);

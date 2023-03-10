@@ -188,21 +188,21 @@
 						<div class="row">
 							<div class="mb-3">
 								<label class="form-label" value="">이름</label>
-								<input type="text" id="emp-name" name="name" value="${name }" style="width: 150px;">
+								<input type="text" id="emp-name" name="name" value="${name }" style="width: 150px;" disabled="disabled"> 
 							</div>
 						</div>
 						
 						<div class="row">
 							<div class="mb-3">
 								<label class="form-label " >휴대폰</label>
-								<input type="text" id="emp-tel" name="tel" value="${tel }" style="width: 150px;">
+								<input type="text" id="emp-tel" name="tel" value="${tel }" style="width: 150px;" disabled="disabled">
 							</div>
 						</div>
 					
 						<div class="row">
 							<div class=" mb-3">
 								<label class="form-label" >프로그램명</label>
-								<input type="text" id="prog-name" value="${progName }" style="width: 150px;">
+								<input type="text" id="prog-name" value="${progName }" style="width: 220px;" disabled="disabled">
 								<%-- <select class="form-select"  name="progName" >
 									<option value="" selected >= 프로그램 =</option>
 									<c:forEach var="program" items="${programs }">
@@ -315,7 +315,6 @@ $(function(){
 		$("#checkbox-all").prop('checked',false);
 		$(":checkbox[name=value]").prop('checked',false);
 	});
-
 	// 전체선택 버튼을 클릭했을 때 모든 체크박스가 선택되게하기 
 	$("#select-all").click(function(){
 		$("#checkbox-all").prop('checked',true);
