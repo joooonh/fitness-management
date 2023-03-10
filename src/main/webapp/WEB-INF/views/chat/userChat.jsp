@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="/resources/css/common.css">
 <link rel="stylesheet" href="/resources/css/background.css">
 <link rel="stylesheet" href="/resources/css/chat.css">
-<title>애플리케이션</title>
+<title>중앙피트니스</title>
 </head>
 <body class="pt-5">
 <%@ include file="../common/header.jsp" %>
