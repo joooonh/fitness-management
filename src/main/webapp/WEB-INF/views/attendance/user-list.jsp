@@ -377,7 +377,6 @@
 <script src="https://momentjs.com/downloads/moment-with-locales.js" type="text/javascript"></script>
 <script src="https://momentjs.com/downloads/moment.js"></script>
 <script type="text/javascript">
-
 $(function(){
 	
 	// 현재날짜 표시
@@ -388,7 +387,6 @@ $(function(){
 	
 	$("#form-search :input[name=attDate]").val(day);
 	$("#form-search :input[name=classAttDate]").val(day);
-
 	// 회원출석 모달창
 	let attendanceFormModal = new bootstrap.Modal("#modal-form-att");
 	
@@ -461,7 +459,6 @@ $(function(){
 		$("#checkbox-all").prop('checked',false);
 		$(":checkbox[name=value]").prop('checked',false);
 	});
-
 	// 전체선택 버튼을 클릭했을 때 모든 체크박스가 선택되게하기 
 	$("#select-all").click(function(){
 		$("#checkbox-all").prop('checked',true);

@@ -21,9 +21,8 @@ th, td {
   	border-color: none;
     padding: 10px;
   }
-
 </style>
-<title>애플리케이션</title>
+<title>중앙피트니스</title>
 </head>
 <body>
 <!------------------------------------ 헤더 navbar 영역 ---------------------------------------->
@@ -344,7 +343,6 @@ $(function(){
 	
 	
 });
-
 	
 	
 </script>

@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="/resources/css/common.css">
 <link rel="stylesheet" href="/resources/css/background.css">
 <link rel="stylesheet" href="/resources/css/login-form.css">
-<title>애플리케이션</title>
+<title>중앙피트니스</title>
 </head>
 <body class="pt-5">
 <%@ include file="../common/header.jsp" %>
@@ -33,7 +33,7 @@
    				</c:if>
    				<div class="row mb-3">
 					<div >
-						<input type="text" class="form-control" name="id" placeholder="아이디" value="moon" />
+						<input type="text" class="form-control" name="id" placeholder="아이디" value="hong" />
 					</div>
 				</div>
 				<div class="row mb-5">

@@ -315,7 +315,6 @@ $(function(){
 		$("#checkbox-all").prop('checked',false);
 		$(":checkbox[name=value]").prop('checked',false);
 	});
-
 	// 전체선택 버튼을 클릭했을 때 모든 체크박스가 선택되게하기 
 	$("#select-all").click(function(){
 		$("#checkbox-all").prop('checked',true);

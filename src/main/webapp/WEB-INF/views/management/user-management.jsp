@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
 <link rel="stylesheet" href="/resources/css/common.css">
 <link rel="stylesheet" href="/resources/css/user-management.css">
-<title>애플리케이션</title>
+<title>중앙피트니스</title>
 </head>
 <body>
 <!-- 헤더 navbar 영역 -->
