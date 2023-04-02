@@ -85,22 +85,12 @@ th, td {
 										</tr>
 										
 										<tr>
-											<td>회원출석일자</td>
-											<td>
-												<span class="badge text-bg-secondary" id="user-attDate"></td>
-											</td>
+											<td>프로그램명</td>
+											<td><span class="badge text-bg-success" id="prog-name"></td>
 											<td>회원권</td>
 											<td><span class="badge text-bg-warning" id="user-membership"></td>
 										</tr>
 										
-										<tr>
-											<td>프로그램출석일자</td>
-											<td>
-												<span class="badge text-bg-secondary" id="user-classDate"></td>
-											</td>
-											<td>프로그램명</td>
-											<td><span class="badge text-bg-success" id="prog-name"></td>
-										</tr>
 									</tbody>
 								</table>
 						</div>
@@ -161,7 +151,7 @@ th, td {
 														<td class="text-center"><span>${user.userNo }</span></td>
 														<td class="text-center"><a href="" data-user-No="${user.userNo }"  data-user-programNo="${user.programNo }" data-user-membership="${user.membership }" class="text-decoration-none">${user.userName } </a></td>
 														<td class="text-center">${user.userGender }</td>
-														<td class="text-center"><span>${user.membership }</span></td>
+														<td class="text-center"><span>${user.membership == 'Y' ? '회원권': '' }</span></td>
 														<td><span>${user.programName }</span></td>
 													</tr>
 												</c:forEach>

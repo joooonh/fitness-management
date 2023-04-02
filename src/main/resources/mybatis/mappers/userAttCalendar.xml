@@ -4,387 +4,289 @@
 
 	<!-- 출석 목록 조회 -->
 	<select id="getUserList" parameterType="map" resultType="UserListAttDto">
-		select
-	                user_no 				    as userNo,
-					user_id 				    as userId,
-					user_name			    	as userName,
-					user_gender					as userGender,
-					user_email					as userEmail,
-					user_tel				    as userTel,
-					user_start_time				as StartTime,
-					user_end_time	    		as EndTime,
-                    user_attendance_date        as userAttDate,
-					class_attendance_date		as classAttDate,
-					program_no					as programNo,
-	                membership_payment_status   as membership,
-                    class_payment_status        as classStatus,
-					program_name				as programName,
-					user_attendance_no			as userSeq,
-					user_class_attendance_no 	as classSeq
-		from        (
+	select 
+	    user_no as userNo,
+	    user_id as userId,
+	    user_name as userName,
+	    user_gender as userGender,
+	    program_no as programNo,
+	    program_name as programName,
+	    membership_payment_status as membership
+	from (
+	        select 
+	            row_number() over (order by user_no desc) row_numbers,
+	            user_no,
+	            user_id,
+	            user_name,
+	            user_gender,
+	            program_no,
+	            program_name,
+	            membership_payment_status
+	        from (
 	                select 
-		                row_number() over (order by user_no desc) row_numbers,
-		                user_no,
-		                user_id,
-		                user_name,
-		                user_gender,
-		                user_email,
-		                user_tel,
-		                user_start_time,
-		                user_end_time,
-                        user_attendance_date,
-		                class_attendance_date,
-		                program_no, 
-		                membership_payment_status,
-                        class_payment_status,
-		                program_name,
-		                user_attendance_no,
-		                user_class_attendance_no
-		            from (
-			                         select
-			                            A.user_no,
-			                            A.user_id,
-			                            A.user_name,
-			                            A.user_gender,
-			                            A.user_email,
-			                            A.user_tel,
-			                            null as user_start_time,
-			                            null as user_end_time,
-	                                    C.class_attendance_date,
-	                                    null as user_attendance_date,
-			                            C.program_no,
-			                            null as membership_payment_status,
-                                        K.class_payment_status,
-			                            D.program_name,
-			                            C.user_class_attendance_no,
-			                            null as user_attendance_no
-			                          
-			                        from 
-			                            users A, user_class_attendances C , fitness_programs D , class_registration_histories K
-			                        where
-			                            A.user_no = C.user_no
-			                            and C.program_no = D.program_no
-			                            and A.user_no = K.user_no
-			                            and K.class_payment_status = 'Y'
-			                            and C.class_attendance_date is not null
-			                         
-			                            
-				                union
-				                        select
-				                            A.user_no,
-				                            A.user_id,
-				                            A.user_name,
-				                            A.user_gender,
-				                            A.user_email,
-				                            A.user_tel,
-				                            B.user_start_time,
-				                            B.user_end_time,
-		                                    null as class_attendance_date,
-				                            B.user_attendance_date,
-				                            null,
-				                            E.membership_payment_status,
-                                            null as class_payment_status,
-				                            null,
-				                            null as user_class_attendance_no,
-				                            B.user_attendance_no
-				                        from 
-				                            users A, user_attendances B ,  membership_histories E
-				                        where
-				                            A.user_no = B.user_no
-				                            and A.user_no = E.user_no
-				                            and E.membership_payment_status = 'Y'
-				                            and B.user_attendance_date is not null
-			
-		            )
-					 <where> 
-			
-						<if test="opt != null and keyword != null">
-			
-					  		<choose>
-					  		 	<when test="opt == 'userName' ">
-					  		 		and user_name = #{keyword}
-					  		 	</when>
-					  		 	<when test="opt == 'userNo' ">
-					  		 		and user_no = #{keyword}
-					  		 	</when>
-					  		 	<when test="opt == 'userTel'">
-					  		 		and user_tel =  #{keyword}
-					  		 	</when>
-					  		 </choose> 
-				  		</if>
-				  		<if test="programInfo != null">
-				  			and program_no= #{programInfo}
-				  		</if>         
-				  	</where>    
-		)
-		            
-		WHERE
-	  		  row_numbers between #{begin} and #{end}
+	                    A.user_no,
+	                    A.user_id,
+	                    A.user_name,
+	                    A.user_gender,
+	                    D.program_no,
+	                    D.program_name,
+	                    null membership_payment_status
+	                from 
+	                    users A, fitness_programs D , class_registration_histories K
+	                where
+	                    K.program_no = D.program_no
+	                    and A.user_no = K.user_no
+	                    and K.class_payment_status = 'Y'
+	                    and D.program_start_date &lt;= #{endDate} and D.program_end_date >= #{startDate}
+	                   <if test="opt != null and keyword != null">
+	                        <choose>
+	                            <when test="opt == 'userName' ">
+	                                and user_name = #{keyword}
+	                            </when>
+	                            <when test="opt == 'userNo' ">
+	                                and user_no = #{keyword}
+	                            </when>
+	                            <when test="opt == 'userTel'">
+	                                and user_tel =  #{keyword}
+	                            </when>
+	                         </choose> 
+	                    </if>
+	                    <if test="programInfo != null">
+	                        and D.program_no= #{programInfo}
+	                    </if>  
+	                    and exists (select 1
+	                                from user_class_attendances X
+	                                where X.user_no = A.user_no )
+	                union
+	                select 
+	                    A.user_no,
+	                    A.user_id,
+	                    A.user_name,
+	                    A.user_gender,
+	                    null program_no,
+	                    null program_name,
+	                    E.membership_payment_status
+	                from 
+	                    users A, membership_histories E
+	                where
+	                    A.user_no = E.user_no
+	                    and E.membership_payment_status = 'Y'
+	                    and E.membership_start_date &lt;= #{endDate} and E.membership_end_date >=  #{startDate}
+	                 <if test="opt != null and keyword != null">
+	                        <choose>
+	                            <when test="opt == 'userName' ">
+	                                and user_name = #{keyword}
+	                            </when>
+	                            <when test="opt == 'userNo' ">
+	                                and user_no = #{keyword}
+	                            </when>
+	                            <when test="opt == 'userTel'">
+	                                and user_tel =  #{keyword}
+	                            </when>
+	                         </choose> 
+	                    </if>
+	                    and exists (select 1
+	                                from user_attendances X
+	                                where X.user_no = A.user_no)
+	        )
+	)
+	where
+	    row_numbers between #{begin} and #{end}
+
+
 	</select>
 	
 	<select id="getAttEvents" parameterType="map" resultType="com.example.dto.AttEvent">
-		select
-			  A.user_no 				    as "userListAttDto.userNo",
-			  A.user_id 				    as "userListAttDto.userId",
-			  A.user_name			    	as "userListAttDto.userName",
-			  A.user_gender					as "userListAttDto.userGender",
-			  A.user_email					as "userListAttDto.userEmail",
-			  A.user_tel				    as "userListAttDto.userTel",
-			  B.user_start_time				as "userListAttDto.StartTime",
-			  B.user_end_time	    		as "userListAttDto.EndTime",
-              B.user_attendance_date        as "userListAttDto.userAttDate",
-   			  C.class_attendance_date		as "userListAttDto.classAttDate",
-			  C.program_no					as "userListAttDto.programNo",
-		      F.program_name				as "userListAttDto.programName",
-			  B.user_attendance_no			as "userListAttDto.userSeq",
-			  C.user_class_attendance_no 	as "userListAttDto.classSeq"
-		from
-			users A, user_attendances B, user_class_attendances C ,fitness_programs F
-		where
-			A.user_no = B.user_no(+)
-			and A.user_no = C.user_no(+)
-			and C.program_no = F.program_no(+)
-			<if test="userNo != null">
-				and B.user_no = #{userNo}
-			</if>
-			and (B.user_attendance_date between #{startDate} and #{endDate}
-			or C.class_attendance_date between #{startDate} and #{endDate})
-			
+		select 
+		    A.user_no 					as "userListAttDto.userNo", 
+		    A.user_id 					as "userListAttDto.userId", 
+		    A.user_name 				as "userListAttDto.userName", 
+		    A.user_gender 				as "userListAttDto.userGender", 
+		    A.user_email 				as "userListAttDto.userEmail", 
+		    A.user_tel					as "userListAttDto.userTel", 
+		    B.user_start_time 			as "userListAttDto.StartTime", 
+		    B.user_end_time 			as "userListAttDto.EndTime", 
+		    B.user_attendance_date 		as "userListAttDto.userAttDate", 
+		    G.membership_payment_status as "userListAttDto.membership", 
+		    null 						as "userListAttDto.classAttDate", 
+		    null 						as "userListAttDto.programNo", 
+		    null 						as "userListAttDto.programName", 
+		    B.user_attendance_no 		as "userListAttDto.userSeq", 
+		    null 						as "userListAttDto.classSeq" 
+		    
+		from 
+			users A, user_attendances B ,fitness_programs E ,membership_histories G
+		
+		where A.user_no = B.user_no 
+		and A.user_no = G.user_no
+		and A.user_no = #{userNo} 
+		
+		and B.user_attendance_date between #{startDate} and #{endDate} 
+		union 
+		select 
+		    A.user_no 					as "userListAttDto.userNo", 
+		    A.user_id 					as "userListAttDto.userId", 
+		    A.user_name 				as "userListAttDto.userName", 
+		    A.user_gender 				as "userListAttDto.userGender", 
+		    A.user_email 				as "userListAttDto.userEmail", 
+		    A.user_tel 					as "userListAttDto.userTel", 
+		    null 						as "userListAttDto.StartTime", 
+		    null 						as "userListAttDto.EndTime", 
+		    null	 					as "userListAttDto.userAttDate",
+		    null 						as "userListAttDto.memberShip", 
+		    C.class_attendance_date 	as "userListAttDto.classAttDate", 
+		    C.program_no 				as "userListAttDto.programNo", 
+		    E.program_name 				as "userListAttDto.programName", 
+		    null 						as "userListAttDto.userSeq", 
+		    C.user_class_attendance_no  as "userListAttDto.classSeq" 
+		
+		from 
+			users A, user_class_attendances C ,fitness_programs E 
+		
+		where A.user_no = C.user_no 
+		and C.program_no = E.program_no(+) 
+		and A.user_no = #{userNo} 
+		and C.class_attendance_date between #{startDate} and #{endDate}	
 	</select>
 	
-	<!-- AttEvents의 userNo번호 조회 -->
-	<select id="getEvents" parameterType="map" resultType="com.example.dto.AttEvent">
-		select
-			  A.user_no 				    as "userListAttDto.userNo",
-			  A.user_id 				    as "userListAttDto.userId",
-			  A.user_name			    	as "userListAttDto.userName",
-			  A.user_gender					as "userListAttDto.userGender",
-			  A.user_email					as "userListAttDto.userEmail",
-			  A.user_tel				    as "userListAttDto.userTel",
-			  B.user_start_time				as "userListAttDto.StartTime",
-			  B.user_end_time	    		as "userListAttDto.EndTime",
-              B.user_attendance_date        as "userListAttDto.userAttDate",
-   			  C.class_attendance_date		as "userListAttDto.classAttDate",
-			  C.program_no					as "userListAttDto.programNo",
-		      F.program_name				as "userListAttDto.programName",
-			  B.user_attendance_no			as "userListAttDto.userSeq",
-			  C.user_class_attendance_no 	as "userListAttDto.classSeq"
-		from
-			users A, user_attendances B, user_class_attendances C ,fitness_programs F
-		where
-			A.user_no = B.user_no(+)
-			and A.user_no = C.user_no(+)
-			and C.program_no = F.program_no(+)
-			<if test="userNo != null">
-				and B.user_no = #{userNo}
-			</if>
-			and (B.user_attendance_date between #{startDate} and #{endDate}
-			or C.class_attendance_date between #{startDate} and #{endDate})
-			and A.user_no = #{value}
-			and B.user_attendance_date = #{value}      
-   			and C.class_attendance_date = #{value}
-			and B.user_attendance_no = #{value}
-			and C.user_class_attendance_no = #{value}
-	</select>
 	
 	<!-- 페이징처리 -->
 	<select id="getTotalRows" parameterType="map" resultType="int">
-		select
-        	count(*)
-   		 from(
-			 select 
-		                row_number() over (order by user_no desc) row_numbers,
-		                user_no,
-		                user_id,
-		                user_name,
-		                user_gender,
-		                user_email,
-		                user_tel,
-		                user_start_time,
-		                user_end_time,
-		                program_start_hour,
-                        user_attendance_date,
-		                class_attendance_date,
-		                program_no, 
-		                membership_payment_status,
-                        class_payment_status,
-		                program_name,
-		                user_attendance_no,
-		                user_class_attendance_no
-		            from (
-			                        select
-			                            A.user_no,
-			                            A.user_id,
-			                            A.user_name,
-			                            A.user_gender,
-			                            A.user_email,
-			                            A.user_tel,
-			                            null as user_start_time,
-			                            null as user_end_time,
-			                            D.program_start_hour,
-	                                    C.class_attendance_date,
-	                                    null as user_attendance_date,
-			                            C.program_no,
-			                            null as membership_payment_status,
-                                        K.class_payment_status,
-			                            D.program_name,
-			                            C.user_class_attendance_no,
-			                            null as user_attendance_no
-			                          
-			                        from 
-			                            users A, user_class_attendances C , fitness_programs D , class_registration_histories K
-			                        where
-			                            A.user_no = C.user_no
-			                            and C.program_no = D.program_no
-			                            and A.user_no = K.user_no
-			                            and K.class_payment_status = 'Y'
-			                            and C.class_attendance_date is not null
-			                         
-			                            
-				                union
-				                        select
-				                            A.user_no,
-				                            A.user_id,
-				                            A.user_name,
-				                            A.user_gender,
-				                            A.user_email,
-				                            A.user_tel,
-				                            B.user_start_time,
-				                            B.user_end_time,
-				                            null as program_start_hour,
-		                                    null as class_attendance_date,
-				                            B.user_attendance_date,
-				                            null,
-				                            E.membership_payment_status,
-                                            null as class_payment_status,
-				                            null,
-				                            null as user_class_attendance_no,
-				                            B.user_attendance_no
-				                        from 
-				                            users A, user_attendances B ,  membership_histories E
-				                        where
-				                            A.user_no = B.user_no
-				                            and A.user_no = E.user_no
-				                            and E.membership_payment_status = 'Y'
-				                            and B.user_attendance_date is not null
-			
-		            )
-			)
-			<where>
-				<if test="opt != null and keyword != null">
-			  		<choose>
-			  		 	<when test="opt == 'userName' ">
-			  		 		and user_name = #{keyword}
-			  		 	</when>
-			  		 	<when test="opt == 'userNo' ">
-			  		 		and user_no = #{keyword}
-			  		 	</when>
-			  		 	<when test="opt == 'userTel'">
-			  		 		and user_tel =  #{keyword}
-			  		 	</when>
-			  		 </choose> 
-		  		</if>
-		  		<if test="programInfo != null">
-				  			and program_no= #{programInfo}
-				</if>         
-				<if test="onlyMembership != null">
-					<choose>
-					 	<when test="onlyMembership != null ">
-							and membership_payment_status  = 'Y'
-						</when>
-					</choose> 
-				</if>
-				<if test="attDate != null">
-				  			and user_attendance_date = #{attDate}
-				</if>
-				<if test="classAttDate != null">
-				  			and class_attendance_date = #{classAttDate}
-				</if>
-			</where>
-	  		
+		select count(*)
+		from 
+		(select 
+	                    A.user_no,
+	                    A.user_id,
+	                    A.user_name,
+	                    A.user_gender,
+	                    D.program_no,
+	                    D.program_name,
+	                    null membership_payment_status
+	                from 
+	                    users A, fitness_programs D , class_registration_histories K
+	                where
+	                    K.program_no = D.program_no
+	                    and A.user_no = K.user_no
+	                    and K.class_payment_status = 'Y'
+	                    and D.program_start_date &lt;= #{endDate} and D.program_end_date >= #{startDate}
+	                   <if test="opt != null and keyword != null">
+	                        <choose>
+	                            <when test="opt == 'userName' ">
+	                                and user_name = #{keyword}
+	                            </when>
+	                            <when test="opt == 'userNo' ">
+	                                and user_no = #{keyword}
+	                            </when>
+	                            <when test="opt == 'userTel'">
+	                                and user_tel =  #{keyword}
+	                            </when>
+	                         </choose> 
+	                    </if>
+	                    <if test="programInfo != null">
+	                        and D.program_no= #{programInfo}
+	                    </if>  
+	                    and exists (select 1
+	                                from user_class_attendances X
+	                                where X.user_no = A.user_no )
+	                union
+	                select 
+	                    A.user_no,
+	                    A.user_id,
+	                    A.user_name,
+	                    A.user_gender,
+	                    null program_no,
+	                    null program_name,
+	                    E.membership_payment_status
+	                from 
+	                    users A, membership_histories E
+	                where
+	                    A.user_no = E.user_no
+	                    and E.membership_payment_status = 'Y'
+	                    and E.membership_start_date &lt;= #{endDate} and E.membership_end_date >=  #{startDate}
+	                 <if test="opt != null and keyword != null">
+	                        <choose>
+	                            <when test="opt == 'userName' ">
+	                                and user_name = #{keyword}
+	                            </when>
+	                            <when test="opt == 'userNo' ">
+	                                and user_no = #{keyword}
+	                            </when>
+	                            <when test="opt == 'userTel'">
+	                                and user_tel =  #{keyword}
+	                            </when>
+	                         </choose> 
+	                    </if>
+	                    and exists (select 1
+	                                from user_attendances X
+	                                where X.user_no = A.user_no))
 	</select>
 	
 	<select id="getUserById" parameterType="map" resultType="UserListAttDto">
-		select
-			distinct
-	                user_no 				    as userNo,
-					user_id 				    as userId,
-					user_name			    	as userName,
-					user_gender					as userGender,
-					user_email					as userEmail,
-					user_tel				    as userTel,
-					program_no					as programNo,
-	                membership_payment_status   as membership,
-                    class_payment_status        as classStatus,
-					program_name				as programName
-		from        (
-	                select 
-		                user_no,
-		                user_id,
-		                user_name,
-		                user_gender,
-		                user_email,
-		                user_tel,
-		                program_no, 
-		                membership_payment_status,
-                        class_payment_status,
-		                program_name
-		               
-		            from (
-			                         select
-			                            A.user_no,
-			                            A.user_id,
-			                            A.user_name,
-			                            A.user_gender,
-			                            A.user_email,
-			                            A.user_tel,
-			                            C.program_no,
-			                            null as membership_payment_status,
-                                        K.class_payment_status,
-			                            D.program_name
-			                          
-			                        from 
-			                            users A, user_class_attendances C , fitness_programs D , class_registration_histories K
-			                        where
-			                            A.user_no = C.user_no
-			                            and C.program_no = D.program_no
-			                            and A.user_no = K.user_no
-			                            and K.class_payment_status = 'Y'
-			                            and C.class_attendance_date is not null
-			                         
-			                            
-				                union
-				                        select
-				                            A.user_no,
-				                            A.user_id,
-				                            A.user_name,
-				                            A.user_gender,
-				                            A.user_email,
-				                            A.user_tel,
-				                            null,
-				                            E.membership_payment_status,
-                                            null as class_payment_status,
-				                            null
-				                        from 
-				                            users A, user_attendances B ,  membership_histories E
-				                        where
-				                            A.user_no = B.user_no
-				                            and A.user_no = E.user_no
-				                            and E.membership_payment_status = 'Y'
-				                            and B.user_attendance_date is not null
-			
-		            )
-					    
+		select 
+		        user_no 				    as userNo,
+		        user_id 				    as userId,
+		        user_name			    	as userName,
+		        user_gender					as userGender,
+		        user_email					as userEmail,
+		        user_tel				    as userTel,
+		        program_no					as programNo,
+		        class_payment_status        as classStatus,
+		        program_name				as programName,
+		        membership_payment_status	as membership
+		        
+		from (
+		        select
+		            A.user_no,
+		            A.user_id,
+		            A.user_name,
+		            A.user_gender,
+		            A.user_email,
+		            A.user_tel,
+		            D.program_no,
+		            D.program_name,
+		            K.class_payment_status,
+		            null membership_payment_status
+		        from 
+		            users A, fitness_programs D , class_registration_histories K
+		            WHERE 
+		                A.user_no = #{userNo}
+		                and A.user_no = K.user_no
+		                and D.program_no = K.program_no
+		                and K.class_payment_status = 'Y'
+		                and D.program_start_date &lt;= #{endDate} and D.program_end_date >= #{startDate}
+		                  <if test="membership != null">
+		                    and 1 != 1
+		                  </if>
+		               <if test="programNo != null">
+		                    and D.program_no = #{programNo}
+		                </if>
+		        union
+		        select
+		            A.user_no,
+		            A.user_id,
+		            A.user_name,
+		            A.user_gender,
+		            A.user_email,
+		            A.user_tel,
+		            null program_no,
+		            null program_name,
+		            null class_payment_status,
+		            nvl2((select distinct 1 
+		                  from membership_histories X
+		                  where X.user_no = user_no
+		                  and X.membership_payment_status = 'Y'
+		                  and X.membership_start_date &lt;= #{endDate} and X.membership_end_date >= #{startDate}), '회원권', 'N') as membership_payment_status
+		        from 
+		            users A,  membership_histories E
+		            WHERE 
+		                A.user_no = #{userNo}
+		                and A.user_no = E.user_no
+		                and E.membership_payment_status = 'Y'
+		               and E.membership_start_date &lt;= #{endDate} and E.membership_end_date >=  #{startDate}
+		               <if test="programNo != null">
+		                    and 1 != 1
+		                </if>
 		)
-		            
-		WHERE user_no = #{userNo}
-		<if test="membership != null">
-			and membership_payment_status = #{membership}
-		</if>
-		<if test="programNo != null">
-			and program_no = #{programNo}
-		</if>
-	  		 
 	</select>
 	
 	<!--프로그램 카테고리 조회 -->

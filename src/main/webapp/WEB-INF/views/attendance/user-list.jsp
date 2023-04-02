@@ -148,7 +148,7 @@
 														<td name="userNo" value="${user.userNo }">${user.userNo}</td>
 														<td>${user.userName }</td>
 														<td>${user.userGender }</td>
-														<td class="text-center">${user.membership }</td>
+														<td class="text-center">${user.membership == 'Y' ? '회원권':''}</td>
 														<td>${user.programName }</td>
 														<td>${user.userTel }</td>
 														<td>${user.userEmail }</td>
