@@ -113,7 +113,6 @@ $(function() {
 	// 웹소켓으로 상담메시지 전달
 	function chat() {
 		const inputMessage = $(":input[name='message']").val();
-		
 		if (inputMessage) {
 			const message = {
 					cmd: 'chat-message',
@@ -143,11 +142,9 @@ $(function() {
 		`;
 		$("#card-chat .card-body").append(content);
 	}
-	
 	$("#card-chat .card-footer button").click(function(){
 		chat();
 	});
-	
 	$(":input[name='message']").keydown(function(event){
 		if (event.which == 13) {
 			chat();

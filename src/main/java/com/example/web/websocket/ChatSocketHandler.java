@@ -108,9 +108,10 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 			String uuid = UUID.randomUUID().toString();
 			/*
 			 * waitingEmployeeSessions 맵에서 첫번째 직원의 WebSocketSession을 가져와 employeeId 변수에 할당
-			 * keySet() : 맵의 key들을 Set 형태로 반환 stream() : key들의 스트림 생성 findFirst() : 스트림에서
-			 * 첫번째 값만 가져옴 (waitingEmployeeSession 맵에서 첫번째 key) get() : 해당 key에 대응하는 value인
-			 * WebSocketSession 객체 가져옴
+			 * keySet() : 맵의 key들을 Set 형태로 반환 
+			 * stream() : key들의 스트림 생성 
+			 * findFirst() : 스트림에서 첫번째 값만 가져옴 (waitingEmployeeSession 맵에서 첫번째 key) 
+			 * get() : 해당 key에 대응하는 value인 WebSocketSession 객체 가져옴
 			 */
 			String employeeId = waitingEmployeeSessions.keySet().stream().findFirst().get();
 			WebSocketSession employeeSession = waitingEmployeeSessions.get(employeeId);
@@ -202,7 +203,6 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 				chatRoom.remove(loginId);
 				chatRooms.remove(roomId);
 			}
-			;
 		}
 	}
 
