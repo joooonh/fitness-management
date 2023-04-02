@@ -5,9 +5,11 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,9 @@ import com.example.mapper.UserMapper;
 import com.example.vo.Program;
 import com.example.vo.User;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 @Transactional
 public class ClassRegisterService {
@@ -83,6 +88,9 @@ public class ClassRegisterService {
 		List<ScheduleCheckDto> schedules = new ArrayList<>();
 		// 모든 프로그램 조회
 		List<Program> programs = classRegisterMapper.getAllPrograms();
+		
+		log.info("[SCHEDULES] - program size: {}", programs.size());
+		
 		for(Program program : programs) {
 			// 각 프로그램별 요일 리스트 조회
 			List<String> dayNames = classRegisterMapper.getAllProgramDays(program.getNo());
@@ -96,10 +104,13 @@ public class ClassRegisterService {
 			// 모든 수업에 대해 리스트를 담아서 전체 리스트 반환
 			schedules.addAll(scheduleEvents);
 		}
+		
+		log.info("[SCHEDULES] - result size: {}", schedules.size());
 		return schedules;
 	}
 	// 지정된 기간, 요일에 해당하는 schedulecheckdto 리스트를 반환하는 메소드  
 	public List<ScheduleCheckDto> getEvents(String startDateStr, String endDateStr, Program program, List<String> dayNames){
+		log.info("[SCHEDULES] - get Events start: {} end: {}, day:{}", startDateStr, endDateStr, dayNames);
 		// 문자열로 받은 startDate, endDate를 LocalDate 객체로 변환(날짜 정보를 쉽게 다루는 클래스) - 날짜 + 시간 정보 
 		// startDsateStr : 2023-02-01 00:00:00
 		// endDate에 1을 더해야 마지막 날짜까지 포함
@@ -110,7 +121,8 @@ public class ClassRegisterService {
 		// 시작일부터 종료일 전까지 반복 
 		while(startDate.isBefore(endDate)) {
 			// startDate에 해당하는 요일을 문자열로 반환
-			String dayname = startDate.format(DateTimeFormatter.ofPattern("EEE"));
+			// DatetimeFormatter 쓸 때 Locale 추가해서 한글로 나오게 수정
+			String dayname = startDate.format(DateTimeFormatter.ofPattern("EEE", Locale.KOREAN));
 			
 			// 해당 요일이 해당 프로그램의 요일 리스트에 포함되면 Schedule 객체 생성 -> 리스트에 추가
 			if(dayNames.contains(dayname)) {
