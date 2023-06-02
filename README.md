@@ -11,10 +11,10 @@ spring boot, jsp를 이용해서 만든 피트니스 회원관리 프로그램
 <br/>
 
 
-#### 📅 개발 기간
+#### ✔ 개발 기간
 > 2023.01.30 ~ 2023.03.03
 
-#### 🔨 기술 스택
+#### ✔ 기술 스택
 > <img src="https://img.shields.io/badge/JAVA-007396?style=flat&logo=JAVA&logoColor=white"/>
 > <img src="https://img.shields.io/badge/Spring-6DB33F?style=flat&logo=Spring&logoColor=white"/>
 > <img src="https://img.shields.io/badge/SpringBoot-6DB33F?style=flat&logo=SpringBoot&logoColor=white"/>
@@ -27,7 +27,7 @@ spring boot, jsp를 이용해서 만든 피트니스 회원관리 프로그램
 > <img src="https://img.shields.io/badge/Oracle-F80000?style=flat&logo=Oracle&logoColor=white" />
 > 
 
-#### 👪 팀원 구성
+#### ✔ 팀원 구성
 > ##### 김준희(팀장) 
 > : 메인 페이지, 회원가입, 로그인, 마이페이지(내 정보 조회/수정, 내 예약 조회, 회원 탈퇴), 프로그램 신청, 채팅
 > <br/>
