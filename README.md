@@ -1,30 +1,24 @@
 # fitness-management
-spring boot, jsp를 이용해서 만든 피트니스 회원관리 프로그램
-<br/>
-<br/>
 
 ## 💻 프로젝트 소개
-관리자와 사용자가 상호작용하며
-<br/>
-사용자가 회원가입 후 프로그램을 신청하면, 관리자는 회원관리와 프로그램관리 등을 수행하는 프로그램입니다.
-<br/>
-<br/>
+- 사용자와 관리자가 서로 상호작용하며 프로그램을 신청하고, 회원과 프로그램 등을 관리하는 피트니스 회원관리 프로그램입니다. 
+- 스프링 시큐리티를 사용하여 사용자와 관리자의 로그인을 구분하여, 사용자 모드와 관리자 모드로 서비스를 이용할 수 있습니다. 
+<br/> 사용자는 간편하게 프로그램 일정을 조회하여 신청할 수 있고, 관리자는 편리하게 프로그램의 예약과 일정, 회원의 정보, 출석 등을 관리할 수 있습니다.
+- 사용자 : 회원가입, 로그인, 프로그램 신청, 마이페이지, 관리자와 채팅 등의 기능을 이용할 수 있습니다.
+- 관리자 : 매장관리, 직원관리, 회원관리, 프로그램관리, 출석관리, 일정관리, 사용자와 채팅 등의 기능을 이용할 수 있습니다.
 
+<br/>
 
 #### ✔ 개발 기간
 > 2023.01.30 ~ 2023.03.03
 
-#### ✔ 기술 스택
-> <img src="https://img.shields.io/badge/JAVA-007396?style=flat&logo=JAVA&logoColor=white"/>
-> <img src="https://img.shields.io/badge/Spring-6DB33F?style=flat&logo=Spring&logoColor=white"/>
-> <img src="https://img.shields.io/badge/SpringBoot-6DB33F?style=flat&logo=SpringBoot&logoColor=white"/>
-> <img src="https://img.shields.io/badge/SpringSecurity-6DB33F?style=flat&logo=SpringSecurity&logoColor=white"/>
-> <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=JavaScript&logoColor=black"/>
-> <img src="https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=HTML5&logoColor=white" />
-> <img src="https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=CSS3&logoColor=white" />
-> <br/>
-> <img src="https://img.shields.io/badge/Eclipse-2C2255?style=flat&logo=Eclipse&logoColor=white" />
-> <img src="https://img.shields.io/badge/Oracle-F80000?style=flat&logo=Oracle&logoColor=white" />
+#### ✔ 개발 도구
+> - language : Java 11, javascript, html/css
+> - framework : spring boot, sprint security
+> - database : Oracle, Mybatis
+> - IDE : Eclipse
+> - Server : AWS
+> - etc. : JSP, Git
 > 
 
 #### ✔ 팀원 구성
@@ -42,7 +36,7 @@ spring boot, jsp를 이용해서 만든 피트니스 회원관리 프로그램
 <br/>
 
 
-## 📺 화면 구성
+## 🛠 맡은 기능
 #### 1. 메인페이지
 ![image](https://user-images.githubusercontent.com/116352772/223400902-e1a93125-7937-4ffa-afb3-899c6f213a8d.png)
 #### 2. 회원가입
