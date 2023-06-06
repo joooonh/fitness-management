@@ -32,6 +32,7 @@
 ## 🛠 맡은 기능
 #### 1. 메인페이지
 ![image](https://user-images.githubusercontent.com/116352772/223400902-e1a93125-7937-4ffa-afb3-899c6f213a8d.png)
+[로그인한 사용자만 접근](https://github.com/joooonh/fitness-management/blob/2f3da540eeb99b42c7d3cfc568529a9fee51240b/src/main/webapp/WEB-INF/views/common/header.jsp#L41-L61)
 #### 2. 회원가입
 ![image](https://user-images.githubusercontent.com/116352772/223400788-682ffa5f-846e-4bea-af38-4a6cec5f3ec8.png)
 #### 3. 로그인
