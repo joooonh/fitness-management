@@ -15,12 +15,12 @@
 <div class="container">
    <div class="row">
 		<div class="col-12">
-			<form:form modelAttribute="userRegisterForm" id="form-register" class="border bg-light mt-5 p-3" method="post" action="/user/register" enctype="multipart/form-data">
+			<form:form modelAttribute="userRegisterForm" id="form-register" method="post" action="/user/register" enctype="multipart/form-data" class="border bg-light mt-5 p-3">
 				<div class="row mb-3" style="margin:auto;text-align:center;">
 					<div>
 						<img id="profile-img" src="/resources/images/default.png" width="100" height="100" class="inline-block align-text-center rounded-circle">
 						<button type="button" id="btn-upload" class="btn-image"><img src="/resources/images/camera-fill.svg" id="camera-img"></button>
-						<form:input type="file" accept="image/*" path="upfile" id="file-upload" style="display:none"></form:input>
+						<form:input type="file" id="file-upload" accept="image/*" path="upfile" style="display:none"></form:input>
 					</div>
 				</div>
 				<div class="row mb-3">

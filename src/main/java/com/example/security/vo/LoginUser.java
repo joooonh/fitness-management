@@ -29,5 +29,4 @@ public class LoginUser {
 		this.nickname = name;
 		this.userType = userType;
 	}
-	
 }

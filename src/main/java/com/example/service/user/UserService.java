@@ -43,6 +43,9 @@ import com.example.web.request.UserClassAttRegisterForm;
 import com.example.web.request.UserModifyForm;
 import com.example.web.request.UserRegisterForm;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 @Transactional
 public class UserService {
@@ -77,6 +80,7 @@ public class UserService {
 		User user = new User();
 		BeanUtils.copyProperties(userRegisterForm, user);
 		
+		// 회원가입시 입력한 비밀번호를 암호화해서 User 객체에 저장
 		user.setEncryptPassword(passwordEncoder.encode(userRegisterForm.getEncryptPassword()));
 		userMapper.insertUser(user);
 		
@@ -88,7 +92,7 @@ public class UserService {
 	public User getUserinfo(String userId) {
 		User user = userMapper.getUserById(userId);
 		if(user == null) {
-			throw new ApplicationException("[" + userId + "] 존재하지 않는 아이디입니다.");
+			return null;
 		}
 		return user;
 	}
@@ -112,7 +116,7 @@ public class UserService {
 		
 		User user = userMapper.getUserById(userId);
 		if(user == null) {
-			throw new ApplicationException("[" + userId + "] 존재하지 않는 아이디입니다.");
+			return null;
 		}
 		
 		List<MembershipHistory> membershipList = userMypageMapper.getAllMembershipsByUserNo(user.getNo());
@@ -125,7 +129,7 @@ public class UserService {
 		
 		User user = userMapper.getUserById(userId);
 		if(user == null) {
-			throw new ApplicationException("[" + userId + "] 존재하지 않는 아이디입니다.");
+			return null;
 		}
 		
 		// 수업 신청 내역 조회

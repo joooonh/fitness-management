@@ -1,7 +1,6 @@
 package com.example.web.controller.user;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
 import javax.validation.Valid;
@@ -9,7 +8,6 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -23,6 +21,9 @@ import com.example.exception.InconsistentPasswordException;
 import com.example.service.user.UserService;
 import com.example.web.request.UserRegisterForm;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 @RequestMapping("/user")
 public class UserHomeController {
@@ -50,8 +51,10 @@ public class UserHomeController {
 	
 	// 회원가입 요청 
 	@PostMapping("/register")
-	public String register(@ModelAttribute("userRegisterForm") @Valid UserRegisterForm userRegisterForm, BindingResult errors) throws IOException {
+	public String register(@Valid @ModelAttribute("userRegisterForm") UserRegisterForm userRegisterForm, BindingResult errors) throws IOException {
 
+		log.info("errors={}", errors);
+		
 		if(errors.hasErrors()) {
 			return "user/register-form";
 		}
@@ -61,7 +64,8 @@ public class UserHomeController {
 			String filename = upfile.getOriginalFilename();
 			userRegisterForm.setPhoto(filename);
 			
-			FileCopyUtils.copy(upfile.getInputStream(), new FileOutputStream(new File(directory, filename)));
+			//FileCopyUtils.copy(upfile.getInputStream(), new FileOutputStream(new File(directory, filename)));
+			upfile.transferTo(new File(directory, filename));
 		}
 		
 		try {
