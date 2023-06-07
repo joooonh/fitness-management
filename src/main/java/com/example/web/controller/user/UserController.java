@@ -49,7 +49,12 @@ public class UserController {
 	// 내 정보 조회/수정 폼 요청
 	@GetMapping("/info")
 	public String getInfo(@AuthenticatedUser LoginUser loginUser, Model model) {
+		
 		User user = userService.getUserinfo(loginUser.getId());
+		
+		if (user == null) {
+			return "error/denied";
+		}
 		
 		UserModifyForm modifyForm = new UserModifyForm();
 		BeanUtils.copyProperties(user, modifyForm);
@@ -90,6 +95,11 @@ public class UserController {
 	public String getMembership(@AuthenticatedUser LoginUser loginUser, Model model) {
 		
 		List<MembershipHistory> membershipList = userService.getMembershipHistory(loginUser.getId());
+		
+		if (membershipList == null) {
+			return "error/denied";
+		}
+		
 		model.addAttribute("membership", membershipList);
 		
 		return "user/info-membership";
@@ -100,6 +110,10 @@ public class UserController {
 	public String getReservation(@AuthenticatedUser LoginUser loginUser, Model model) {
 		
 		Map<String, Object> param = userService.getRegistrationHistory(loginUser.getId());
+		
+		if (param == null) {
+			return "error/denied";
+		}
 		
 		model.addAttribute("classRegList", param.get("classRegList"));
 		model.addAttribute("consultingList", param.get("consultingList"));

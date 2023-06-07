@@ -46,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
-			.csrf().disable()
+//			.csrf().disable()
 			// 인가정책 설정
 			.authorizeRequests()
 			// 다음 페이지에 모두 접근 가능
@@ -64,18 +64,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.anyRequest().permitAll()
 		.and()
 			// 인증정책 설정
-			.formLogin()							// 인증방식은 폼인증 방식 사용
+			.formLogin()								// 인증방식은 폼인증 방식 사용
 			.loginPage("/user/login")
-			.loginProcessingUrl("/login")			// 로그인 처리를 요청하는 URI
+			.usernameParameter("id")
+			.loginProcessingUrl("/login")				// 로그인 처리를 요청하는 URI
 		.and()
 			// 로그아웃 정책 설정
 			.logout()
-			.logoutUrl("/logout")					// 로그아웃 처리를 요청하는 URI
-			.logoutSuccessUrl("/")					// 사용자 로그아웃 성공 시 재요청할 URI
+			.logoutUrl("/logout")						// 로그아웃 처리를 요청하는 URI
+			.logoutSuccessUrl("/")						// 로그아웃 성공 시 재요청할 URI
 		.and()
-			.addFilter(authenticationFilter())
-			.exceptionHandling()
-			.accessDeniedHandler(accessDeniedHandler())
+			.addFilter(authenticationFilter())			// 커스텀한 필터 추가 (필터에서 인증 예외처리)
+			.exceptionHandling()						// 예외처리 등록하기 위함
+			.accessDeniedHandler(accessDeniedHandler())	// 인가 예외처리
 		.and()
 			.headers().frameOptions().disable()
 		.and()
@@ -87,40 +88,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.userService(customOAuth2UserService);
 	}
 	
-	// 보안정책을 적용하지 않을 URI 설정 (이미지, 스타일시트, 자바스크립트 소스와 같은 정적 콘텐츠는 인증/인가 작업을 수행하지 않도록 설정)
+	// 보안정책을 적용하지 않을 URI 설정 (정적 리소스)
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers("/resources/**", "/favicon.ico");
 	}
 	
-	// 사용자정의 UserDetailsService 객체(customUserDetailsService)와 비밀번호 암호화객체를 AuthenticationManagerBuilder에 등록
-	// -> 기본제공하는거 말고 얘네를 써라
+	// 커스텀한 Provider를 AuthenticationManagerBuilder에 등록
+	// -> 기본 시큐리티 로직이 아닌 내가 만든 인증로직을 바탕으로 동작
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.authenticationProvider(authenticationProvider());
 	}
 	
-	@Bean
-	public AccessDeniedHandler accessDeniedHandler() {
-		return new AccessDeniedHandler() {
-			
-			@Override
-			public void handle(HttpServletRequest request, HttpServletResponse response,
-					AccessDeniedException accessDeniedException) throws IOException, ServletException {
-				response.sendRedirect("/access-denied");
-			}
-		};
-	}
-	
-	@Bean
-	public CustomAuthenticationFilter authenticationFilter() throws Exception {
-		 CustomAuthenticationFilter filter = new CustomAuthenticationFilter();
-		 filter.setAuthenticationManager(authenticationManager());
-		 filter.setAuthenticationSuccessHandler(authenticationSuccessHandler());
-		 filter.setAuthenticationFailureHandler(authenticationFailureHandler());
-		 return filter;
-	}
-	
+	// 커스텀한 Provider를 빈에 등록, 반환 -> 이 로직대로 동작
 	@Bean
 	public AuthenticationProvider authenticationProvider() {
 		// 여기서 map에 담아서 CustomAuthenticationProvider에서 값 꺼내서 사용
@@ -129,6 +110,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		map.put("관리자", employeeDetailsService);
 		
 		return new CustomAuthenticationProvider(map, passwordEncoder);
+	}
+	
+	@Bean
+	public CustomAuthenticationFilter authenticationFilter() throws Exception {
+		CustomAuthenticationFilter filter = new CustomAuthenticationFilter();		// 커스텀한 필터
+		filter.setAuthenticationManager(authenticationManager());					// 필터에 authenticationManager 등록
+		filter.setAuthenticationSuccessHandler(authenticationSuccessHandler());	// 필터에 커스텀한 로그인 성공 핸들러 등록
+		filter.setAuthenticationFailureHandler(authenticationFailureHandler());	// 필터에 커스텀한 로그인 실패 핸들러 등록
+		return filter;
 	}
 	
 	@Bean
@@ -164,6 +154,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				} else if("관리자".equals(userType)) {
 					response.sendRedirect("/emp/login?error=fail");
 				}
+			}
+		};
+	}
+	
+	@Bean
+	public AccessDeniedHandler accessDeniedHandler() {
+		return new AccessDeniedHandler() {
+			
+			@Override
+			public void handle(HttpServletRequest request, HttpServletResponse response,
+					AccessDeniedException accessDeniedException) throws IOException, ServletException {
+				response.sendRedirect("/access-denied");
 			}
 		};
 	}

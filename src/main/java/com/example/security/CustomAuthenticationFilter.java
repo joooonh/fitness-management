@@ -8,8 +8,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-// 로그인 인증 처리
-// 로그인 요청 정보를 받아서 정보 추출, 인증객체 생성 -> Manager로 넘김
+import lombok.extern.slf4j.Slf4j;
+
+// 로그인 요청 정보를 받아서 정보 추출 -> 토큰 생성 -> 토큰으로 Authentication 객체 생성 -> Manager로 넘김
+@Slf4j
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter{
 
 	@Override
@@ -24,14 +26,12 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 		String password = request.getParameter("password");
 		String userType = request.getParameter("userType");
 		
-		System.out.println("id: " + id);
-		System.out.println("password: " + password);
-		System.out.println("userType: " + userType);
+		log.info("id={}, password={}, userType={}", id, password, userType);
+		
 		// 넘겨받은 아이디, 비밀번호, 사용자타입으로 CustomAuthenticationToken 객체 생성 
 		CustomAuthenticationToken authenticationToken = new CustomAuthenticationToken(id, password);
 		authenticationToken.setUserType(userType);
-		// 인증 매니저에게 전달하여 인증이 성공하면 인증 결과를 Authentication 객체로 반환 
-		// 매니저 - provider를 통해서 실질적인 인증작업 수행 
+		// 인증 매니저에게 생성한 토큰을 전달하여 인증이 성공하면 인증된 Authentication 객체를 받아서 반환 -> SecurityContext에 저장
 		return this.getAuthenticationManager().authenticate(authenticationToken);
 	}
 }
