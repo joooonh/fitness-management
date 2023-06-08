@@ -13,6 +13,7 @@ import javax.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,12 +31,16 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.dto.AttEvent;
 import com.example.annotation.AuthenticatedUser;
 import com.example.exception.InconsistentPasswordException;
+import com.example.security.vo.CustomOAuth2User;
 import com.example.security.vo.LoginUser;
 import com.example.service.user.UserService;
 import com.example.vo.MembershipHistory;
 import com.example.vo.User;
 import com.example.web.request.UserModifyForm;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 @RequestMapping("/user")
 @SessionAttributes({"modifyForm"})
@@ -76,7 +81,6 @@ public class UserController {
 		if(!upfile.isEmpty()) {
 			String filename = upfile.getOriginalFilename();
 			userModifyForm.setPhoto(filename);
-			
 			FileCopyUtils.copy(upfile.getInputStream(), new FileOutputStream(new File(directory, filename)));
 		}
 		

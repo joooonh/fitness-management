@@ -31,6 +31,5 @@ public class User {
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date createdDate;
 	private Date updatedDate;
-
 	private String providerType;
 }

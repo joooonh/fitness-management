@@ -30,8 +30,8 @@ public class CustomOAuth2User extends LoginUser implements OAuth2User{
 	}
 	
 	@Override
-	public String getName() {
-		return getId();
+	public String getName() {	// authenticated principal의 name(pk값) 
+		return getId();		
 	}
 	
 	@Override
@@ -39,13 +39,4 @@ public class CustomOAuth2User extends LoginUser implements OAuth2User{
 		return super.getProviderType();
 	}
 	
-	@Override
-	public void setNickname(String nickname) {
-		super.setNickname(nickname);
-	}
-	
-	@Override
-	public void setProviderType(String providerType) {
-		super.setProviderType(providerType);
-	}
 }

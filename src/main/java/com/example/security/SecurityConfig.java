@@ -30,6 +30,9 @@ import com.example.security.service.CustomEmployeeDetailsService;
 import com.example.security.service.CustomOAuth2UserService;
 import com.example.security.service.CustomUserDetailsService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -64,7 +67,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.anyRequest().permitAll()
 		.and()
 			// 인증정책 설정
-			.formLogin()								// 인증방식은 폼인증 방식 사용
+			.formLogin()								// Form 로그인
 			.loginPage("/user/login")
 			.usernameParameter("id")
 			.loginProcessingUrl("/login")				// 로그인 처리를 요청하는 URI
@@ -80,12 +83,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.and()
 			.headers().frameOptions().disable()
 		.and()
-			.oauth2Login()
+			.oauth2Login()								// OAuth2 로그인
 			.loginPage("/user/login")
 			.defaultSuccessUrl("/")
 			.failureUrl("/user/login")
-			.userInfoEndpoint()
-			.userService(customOAuth2UserService);
+			.userInfoEndpoint()							// 로그인 성공 후 사용자정보 가져옴
+			.userService(customOAuth2UserService);		// 가져온 사용자 정보를 처리할 때 사용
 	}
 	
 	// 보안정책을 적용하지 않을 URI 설정 (정적 리소스)

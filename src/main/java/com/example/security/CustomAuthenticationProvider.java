@@ -34,8 +34,6 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 		String password = customAuthentication.getCredentials().toString();
 		String userType = customAuthentication.getUserType();
 		
-		log.info("인증 전 username={}, password={}, userType={}", username, password, userType);
-		
 		// userType에 해당하는 CustomXXXDetailsService 객체를 Map 객체에서 꺼낸다. 
 		UserDetailsService detailsService = detailsServiceMap.get(userType);
 		
@@ -51,8 +49,6 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 		customAuthentication = new CustomAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
 		// 사용자 타입을 담는다
 		customAuthentication.setUserType(userType);
-		
-		log.info("인증 후 principal={}, username={}, password={}, userType={}, authorities={}", customAuthentication.getPrincipal(), customAuthentication.getName(), customAuthentication.getCredentials(), customAuthentication.getUserType(), customAuthentication.getAuthorities());
 		
 		// 반환된 Authentication 객체는 SecurityContext 에 저장되고, SecurityContext 는 HttpSession에 저장된다.
 		return customAuthentication;

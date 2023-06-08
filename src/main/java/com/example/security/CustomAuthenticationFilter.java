@@ -26,8 +26,6 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 		String password = request.getParameter("password");
 		String userType = request.getParameter("userType");
 		
-		log.info("id={}, password={}, userType={}", id, password, userType);
-		
 		// 넘겨받은 아이디, 비밀번호, 사용자타입으로 CustomAuthenticationToken 객체 생성 
 		CustomAuthenticationToken authenticationToken = new CustomAuthenticationToken(id, password);
 		authenticationToken.setUserType(userType);
