@@ -38,7 +38,7 @@
 :---:|:---:
 로그인 전 메인페이지|로그인 후 메인페이지
 
-- spring security를 적용하여 마이페이지, 프로그램 신청, 채팅 기능 등은 [로그인한 사용자만 접근 가능](https://github.com/joooonh/fitness-management/blob/2f3da540eeb99b42c7d3cfc568529a9fee51240b/src/main/webapp/WEB-INF/views/common/header.jsp#L41-L61)하도록 구현했습니다.
+- spring security를 적용하여 마이페이지, 프로그램 신청, 채팅 기능 등은 [로그인한 사용자만 접근 가능](https://github.com/joooonh/fitness-management/blob/2f3da540eeb99b42c7d3cfc568529a9fee51240b/src/main/webapp/WEB-INF/views/common/header.jsp#L41-L61)하도록 구현
 <br/>
 
 ### 2. 회원가입
@@ -46,11 +46,22 @@
 :---:|:---:
 유효성 검사|회원가입 완료
 
+- [회원가입 로직](https://github.com/joooonh/fitness-management/blob/482339f35584e541a379ea8f0cfe18d650e6682d/src/main/java/com/example/web/controller/user/UserHomeController.java#L52-L85)
+- 프로필 사진 [업로드](https://github.com/joooonh/fitness-management/blob/482339f35584e541a379ea8f0cfe18d650e6682d/src/main/java/com/example/web/controller/user/UserHomeController.java#L62-L69), [미리보기](https://github.com/joooonh/fitness-management/blob/482339f35584e541a379ea8f0cfe18d650e6682d/src/main/webapp/WEB-INF/views/user/register-form.jsp#L161-L171)
+- [다음 우편번호 api](https://github.com/joooonh/fitness-management/blob/482339f35584e541a379ea8f0cfe18d650e6682d/src/main/webapp/WEB-INF/views/user/register-form.jsp#L146-L154) 사용하여 주소 입력
+<br/>
+
 ### 3. 로그인
-![image](https://user-images.githubusercontent.com/116352772/223402234-0859f696-0072-4c82-91d5-212c6e99b6d7.png)
-### 4. 로그인 후 화면
-![image](https://user-images.githubusercontent.com/116352772/223402360-254e4b0c-8e7c-4999-ab25-e5b5c8cca276.png)
-### 5. 마이페이지
+![ezgif com-gif-maker (2)](https://github.com/joooonh/fitness-management/assets/116352772/9ee629ad-46ad-42d7-a6d3-8fddbbcb8aac)|![ezgif com-gif-maker (3)](https://github.com/joooonh/fitness-management/assets/116352772/35e74856-c8ab-42fa-99b2-6eb79a52fe6a)
+:---:|:---:
+일반 로그인|카카오 로그인
+
+- [Security를 커스텀](#1-security-커스텀)하여 사용자, 관리자 로그인부터의 기능 분리
+- 카카오 로그인 api 사용
+<br/>
+
+
+### 4. 마이페이지
 ![image](https://user-images.githubusercontent.com/116352772/223402449-e90fa4c4-573e-4648-bfc5-8916ea41c4b7.png)
 ![image](https://user-images.githubusercontent.com/116352772/223402510-788ad8ed-b51a-44e4-8be8-bfd0cc8609f9.png)
 ![image](https://user-images.githubusercontent.com/116352772/223402590-fab7e29d-c90c-490c-9e42-30ce10952bb7.png)
@@ -71,3 +82,12 @@
 ![image](https://user-images.githubusercontent.com/116352772/223403261-b317e780-e6b8-46ff-b172-add74f827d2d.png)
 ### 12. 사용자와 관리자 간 채팅 
 ![image](https://user-images.githubusercontent.com/116352772/223404608-5985eb4b-5334-470e-8eab-348fa4e7613b.png)
+
+<br/>
+<br/>
+
+## 🚨 트러블 슈팅
+
+### 1. Security 커스텀
+
+
