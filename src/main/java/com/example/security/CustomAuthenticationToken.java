@@ -18,7 +18,7 @@ public class CustomAuthenticationToken extends UsernamePasswordAuthenticationTok
 	public CustomAuthenticationToken(Object principal, Object credentials, Collection<? extends GrantedAuthority> authorities) {
 		super(principal, credentials, authorities);
 	}
-
+	
 	public String getUserType() {
 		return userType;
 	}

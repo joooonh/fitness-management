@@ -113,7 +113,6 @@ public class UserService {
 	
 	// 회원권 조회
 	public List<MembershipHistory> getMembershipHistory(String userId){
-		
 		User user = userMapper.getUserById(userId);
 		if(user == null) {
 			return null;
@@ -126,7 +125,6 @@ public class UserService {
 	
 	// 수업신청내역, 상담예약 조회
 	public Map<String, Object> getRegistrationHistory(String userId){
-		
 		User user = userMapper.getUserById(userId);
 		if(user == null) {
 			return null;
