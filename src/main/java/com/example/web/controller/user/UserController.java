@@ -69,8 +69,6 @@ public class UserController {
 	@PostMapping("/register")
 	public String register(@Valid @ModelAttribute("userRegisterForm") UserRegisterForm userRegisterForm, BindingResult errors) throws IOException {
 
-		log.info("errors={}", errors);
-		
 		if(errors.hasErrors()) {
 			return "user/register-form";
 		}
@@ -79,7 +77,6 @@ public class UserController {
 		if(!upfile.isEmpty()) {
 			String filename = upfile.getOriginalFilename();
 			userRegisterForm.setPhoto(filename);
-			
 			//FileCopyUtils.copy(upfile.getInputStream(), new FileOutputStream(new File(directory, filename)));
 			upfile.transferTo(new File(directory, filename));
 		}
@@ -96,7 +93,6 @@ public class UserController {
 			errors.rejectValue("passwordConfirm", null, "비밀번호가 일치하지 않습니다.");
 			return "user/register-form";
 		}
-		
 		return "redirect:registered";
 	}
 	
@@ -109,7 +105,6 @@ public class UserController {
 	// 이용자 로그인 화면 요청 
 	@GetMapping("/login")
 	public String loginform() {
-		
 		return "user/login-form";
 	}
 		
@@ -118,14 +113,12 @@ public class UserController {
 	public String getInfo(@AuthenticatedUser LoginUser loginUser, Model model) {
 		
 		User user = userService.getUserinfo(loginUser.getId());
-		
 		if (user == null) {
 			return "error/denied";
 		}
 		
 		UserModifyForm modifyForm = new UserModifyForm();
 		BeanUtils.copyProperties(user, modifyForm);
-		
 		model.addAttribute("modifyForm", modifyForm);
 		
 		return "user/info";
@@ -161,13 +154,11 @@ public class UserController {
 	public String getMembership(@AuthenticatedUser LoginUser loginUser, Model model) {
 		
 		List<MembershipHistory> membershipList = userService.getMembershipHistory(loginUser.getId());
-		
 		if (membershipList == null) {
 			return "error/denied";
 		}
 		
 		model.addAttribute("membership", membershipList);
-		
 		return "user/info-membership";
 	}
 	
@@ -176,7 +167,6 @@ public class UserController {
 	public String getReservation(@AuthenticatedUser LoginUser loginUser, Model model) {
 		
 		Map<String, Object> param = userService.getRegistrationHistory(loginUser.getId());
-		
 		if (param == null) {
 			return "error/denied";
 		}
@@ -189,16 +179,21 @@ public class UserController {
 	
 	// 회원 탈퇴 페이지 요청
 	@GetMapping("/delete")
-	public String getdeleteForm(@AuthenticatedUser LoginUser loginUser) {
+	public String getdeleteForm(@AuthenticatedUser LoginUser loginUser, Model model) {
+		User user = userService.getUserinfo(loginUser.getId()); 
+		if (user == null) {
+			return "error/denied";
+		}
+		model.addAttribute("user", user);
 		return "user/info-delete";
 	}
 		
 	// 회원 탈퇴 요청
 	@PostMapping("/delete")
-	public String deleteUser(@AuthenticatedUser LoginUser loginUser, String password) throws IOException {
+	public String deleteUser(@RequestParam String userId, @RequestParam String password) throws IOException {
 		
 		try {
-			userService.deleteUser(loginUser.getId(), password);
+			userService.deleteUser(userId, password);
 			// 탈퇴시 로그아웃 처리
 			SecurityContextHolder.clearContext();
 		} catch(InconsistentPasswordException ex) {
@@ -227,7 +222,6 @@ public class UserController {
 	public List<AttEvent> getEvents(@AuthenticatedUser LoginUser loginUser,
 			@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
 			@RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate) {
-		
 		
 		Map<String, Object> param = new HashMap<>();
 		param.put("startDate", startDate);

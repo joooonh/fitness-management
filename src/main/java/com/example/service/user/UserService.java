@@ -153,6 +153,8 @@ public class UserService {
 			throw new ApplicationException("[" + userId + "] 존재하지 않는 아이디입니다.");
 		}
 		
+		log.info("user={}", user);
+		
 		// 암호화된 비밀번호를 비교할 때는 Password의 matches(rawPassword, encryptPassword); (전용메소드)
 		if(!passwordEncoder.matches(password, user.getEncryptPassword())) {
 			throw new InconsistentPasswordException("비밀번호가 일치하지 않습니다.");

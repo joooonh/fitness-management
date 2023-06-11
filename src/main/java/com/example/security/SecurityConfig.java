@@ -49,16 +49,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
-//			.csrf().disable()
+			.csrf().disable()
 			// 인가정책 설정
 			.authorizeRequests()
 			// 다음 페이지에 모두 접근 가능
 			.antMatchers("/").permitAll()			
 			.antMatchers("/user/register", "/user/registered").permitAll()
 			.antMatchers("/user/login", "/emp/login").permitAll()
+			.antMatchers("/user/deleted").permitAll()
 			.antMatchers("/oauth2/**").permitAll()
 			.antMatchers("/login/oauth2/**").permitAll()
 			// 인증된 사람만 다음 기능 가능 
+			.antMatchers("/user/**").authenticated()
 			.antMatchers("/logout").authenticated()
 			// 특정 권한을 가진 사람만 다음 페이지 접근 가능
 			.antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
