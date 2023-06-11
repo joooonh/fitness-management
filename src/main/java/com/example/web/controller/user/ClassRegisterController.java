@@ -82,6 +82,7 @@ public class ClassRegisterController {
 		
 		return "redirect:classRegistered";
 	}
+	
 	// 프로그램 신청완료 페이지
 	@GetMapping("/classRegistered")
 	public String classRegistered() {

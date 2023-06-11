@@ -66,7 +66,7 @@ public class ClassRegisterService {
 		}
 		int userNo = user.getNo();
 		
-		// 수업신청(회원번호, 프로그램 번호, 프로그램 가격), 회원권신청(회원번호, 시작날짜, 종료날짜, 기간, 가격)
+		// 프로그램 신청(회원번호, 프로그램 번호, 프로그램 가격), 회원권신청(회원번호, 시작날짜, 종료날짜, 기간, 가격)
 		Map<String, Object> map = new HashMap<>();
 		map.put("userNo", userNo);
 		map.put("programNo", param.get("progNo"));
@@ -75,13 +75,14 @@ public class ClassRegisterService {
 		map.put("memEndDate", memEndDate);
 		map.put("memPeriod", memPeriod);
 		map.put("memPrice", memPrice);
-		
+		// 프로그램 신청
 		classRegisterMapper.insertClassRegistration(map);
 		
 		// 프로그램 신청자수를 증가시킨다.
 		program.setRequestCount(program.getRequestCount() + 1);
 		programMapper.updateProgram(program);
 		
+		// 회원권 신청
 		if(memStartDate != null && memEndDate != null && memPeriod != null && memPrice != null) {
 			classRegisterMapper.insertMembership(map);
 		}
@@ -113,6 +114,7 @@ public class ClassRegisterService {
 		log.info("[SCHEDULES] - result size: {}", schedules.size());
 		return schedules;
 	}
+	
 	// 지정된 기간, 요일에 해당하는 schedulecheckdto 리스트를 반환하는 메소드  
 	public List<ScheduleCheckDto> getEvents(String startDateStr, String endDateStr, Program program, List<String> dayNames){
 		log.info("[SCHEDULES] - get Events start: {} end: {}, day:{}", startDateStr, endDateStr, dayNames);

@@ -161,7 +161,7 @@ $(function(){
 		},
 		locale: 'ko',
 		initialView: 'dayGridMonth',	
-		// 일정정보를 조회하고, successCallback(이벤트배열)함수의 매개변수로 일정정보를 제공하고 실행하면 화면에 반영된다.
+		// 일정정보를 조회하고, successCallback 함수의 매개변수로 일정정보를 제공하고 실행하면 화면에 반영된다.
 		events: function(info, successCallback, failureCallback) {	// events 프로퍼티에는 달력이 변경될 때마다 실행되는 함수를 등록한다.
 			refreshEvents(info, successCallback);					// info는 화면에 표시되는 달력의 시작일, 종료일을 제공한다.
 		}
@@ -182,8 +182,8 @@ $(function(){
 		return '#' + code;
 	}
 
-	// 반복되는 수업들을 db에서 가져오기
-	// 지금 많이 쓰이는 async/await 비동기 호출 방식 (.then(), .done(), catch()를 사용하지 않고 결과값을 바로 변수에 넣는 방식)
+	// 요일별로 반복되는 수업들을 db에서 가져오기
+	// async/await 비동기 호출 방식 (.then(), .done(), catch()를 사용하지 않고 결과값을 바로 변수에 넣는 방식)
 	async function refreshEvents(info, successCallback) {
 		try {
 			// 비동기 방식으로 응답받은 결과값을 events 변수에 저장
@@ -230,15 +230,6 @@ $(function(){
 		}
 	})
 	
-	// 회원권 신청여부를 선택할 때만 서버로 전송
-	$("#memRegister").change(function() {
-		if ($(this).prop("checked")) {
-			$(".member-box :input").prop("disabled", false);
-		} else {
-			$(".member-box :input").prop("disabled", true);
-		}
-	});
-	
 	// 선택한 프로그램에 해당하는 시간, 가격 표시 ajax
 	$(":input[name=programNo]").change(function(){
 		const programNo = $(this).val();
@@ -247,6 +238,15 @@ $(function(){
 			$("#class-price").val(program.price);
 		})
 	})
+	
+	// 회원권 신청여부를 선택할 때만 서버로 전송
+	$("#memRegister").change(function() {
+		if ($(this).prop("checked")) {
+			$(".member-box :input").prop("disabled", false);
+		} else {
+			$(".member-box :input").prop("disabled", true);
+		}
+	});
 	
 	// 회원권 기간 설정에 따른 회원권 종료 날짜, 가격 표시 ajax 
     $(":input[name=memPeriod]").on('change', function(){
