@@ -63,11 +63,15 @@
 
 
 ### 4. 마이페이지
-![image](https://user-images.githubusercontent.com/116352772/223402449-e90fa4c4-573e-4648-bfc5-8916ea41c4b7.png)
-![image](https://user-images.githubusercontent.com/116352772/223402510-788ad8ed-b51a-44e4-8be8-bfd0cc8609f9.png)
-![image](https://user-images.githubusercontent.com/116352772/223402590-fab7e29d-c90c-490c-9e42-30ce10952bb7.png)
-![image](https://user-images.githubusercontent.com/116352772/223402643-02e8e53f-ead4-4f44-9940-a06e0ef7feca.png)
-![image](https://user-images.githubusercontent.com/116352772/223402691-8858bf02-b13a-4720-b993-e21bbf49d2c1.png)
+
+
+- [마이페이지](https://github.com/joooonh/fitness-management/blob/38f742a3a2fc7178c0951a0306c500524d1dad7e/src/main/java/com/example/web/controller/user/UserController.java#L116-L215)
+  - 내 정보 조회/수정 : 비밀번호, 전화번호, 주소만 수정 가능
+  - 내 예약 조회(수업신청내역) : 프로그램, 수업신청내역, 직원 테이블 등을 조인하여 신청한 프로그램 내역 조회
+  - 내 예약 조회(상담문의내역) : 프로그램, 상담신청내역, 직원 테이블 등을 조인하여 신청한 상담 내역 조회
+  - 내 회원권 조회 : 신청한 회원권 정보 조회
+  - 회원 탈퇴 : 비밀번호가 일치하면 탈퇴, 탈퇴 후에는 자동 로그아웃
+
 ### 6. 프로그램 신청
 ![image](https://user-images.githubusercontent.com/116352772/223402790-bfb66e7f-d436-4a72-b413-ef1dcde8bf02.png)
 
