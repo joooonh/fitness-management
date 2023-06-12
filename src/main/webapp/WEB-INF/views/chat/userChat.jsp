@@ -28,10 +28,13 @@
 					<div class="card-body" style="height: 500px; overflow-y:scroll;"></div>
 					<div class='card-footer'>
 						<div class="row">
-							<div class="col-10">
+							<div class="col-9">
 								<input type="text" class="form-control" name="message"/>
 							</div>
-							<div class="col-2"><button class="btn btn-secondary">전송</button></div>
+							<div class="col">
+								<button class="btn btn-dark">전송</button>
+								<button id="btn-exit" class="btn btn-secondary">종료</button>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -75,6 +78,9 @@ $(function() {
 				appendChatMessage(data.text, 'float-start', 'alert-success', 'text-start');
 			} else if (data.cmd == 'chat-error'){
 				appendChatMessage(data.text, 'float-start', 'alert-danger', 'text-start');
+			} else if (data.cmd == 'chat-close-success') {
+				appendChatMessage(data.text, 'float-start', 'alert-danger', 'text-start');
+				disconnect();
 			}
 		}
 	}
@@ -83,9 +89,7 @@ $(function() {
 	
 	// 웹소켓 연결 해제
 	function disconnect() {
-		if (ws != null){
-			ws.clos();
-		}
+		ws.close();
 	}
 	
 	// 웹소켓으로 상담시작 요청 
@@ -100,7 +104,7 @@ $(function() {
 	
 	// 웹소켓으로 상담중단 요청
 	function closeChat(){
-		const mesage = {
+		const message = {
 				cmd: 'chat-close',
 				roomId: roomId,
 				customerId: customerId,
@@ -149,6 +153,11 @@ $(function() {
 		if (event.which == 13) {
 			chat();
 		}
+	})
+		
+	// 종료 버튼 클릭 시 채팅 종료 
+	$("#btn-exit").click(function() {
+		closeChat();
 	})
 	
 })

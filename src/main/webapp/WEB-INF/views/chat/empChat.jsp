@@ -69,6 +69,9 @@ $(function() {
 				appendChatMessage(data.text, 'float-start', 'alert-success', 'text-start');
 			} else if (data.cmd == 'chat-error'){
 				appendChatMessage(data.text, 'float-start', 'alert-danger', 'text-start');
+			} else if (data.cmd == 'chat-close-success') {
+				appendChatMessage(data.text, 'float-start', 'alert-danger', 'text-start');
+				disconnect();
 			}
 		}
 	}
@@ -77,9 +80,7 @@ $(function() {
 	
 	// 웹소켓 연결 해제
 	function disconnect() {
-		if (ws != null){
-			ws.clos();
-		}
+		ws.close();
 	}
 	
 	// 웹소켓으로 상담메시지 전달

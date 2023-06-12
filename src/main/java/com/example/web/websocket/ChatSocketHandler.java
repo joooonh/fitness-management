@@ -18,13 +18,15 @@ import com.example.security.CustomAuthenticationToken;
 import com.example.security.vo.CustomUserDetails;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class ChatSocketHandler extends TextWebSocketHandler {
 
+	// 자바 객체 <-> JSON 데이터
 	private ObjectMapper objectMapper = new ObjectMapper();
 	// 채팅룸(상담중인 직원, 고객 포함)을 관리하는 맵
-	// Collections.synchronizedMap() : map 인터페이스를 구현한 객체를 스레드가 안전한(synchronized) 맵으로 만들어주는 메소드
-	// (다수의 스레드에서 동시에 맵에 접근해도 안전하게 데이터 보호)
 	private Map<String, Map<String, WebSocketSession>> chatRooms = Collections.synchronizedMap(new HashMap<>());
 	// 상담대기중인 직원들을 관리하는 맵
 	private Map<String, WebSocketSession> waitingEmployeeSessions = Collections.synchronizedMap(new HashMap<>());
@@ -32,17 +34,10 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 	private Map<String, WebSocketSession> customerSessions = Collections.synchronizedMap(new HashMap<>());
 
 	// 웹 소켓 연결이 성공적으로 완료되면 실행되는 메소드- 로그인한 사용자의 정보를 확인해서 적절한 맵에 세션 저장
-	// 자동으로 생성되는 WebSocketSession
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		
-		/*
-		 * 로그인한 사용자 정보 -> CustomAuthenticationToken 객체에 들어있음
-		 * WebSocketSession에서 세션 정보를 가져와 spring security의 SecurityContext 객체를 꺼내고, 그 안에 있는 CustomAuthenticationToken 객체 가져오기
-		 * session.getAttributes() : WebSocketSession에서 세션 정보 가져옴 (map 형태의 세션 정보 반환)
-		 * get("SPRING_SECURITY_CONTEXT") : "SPRING_SECURITY_CONTEXT" 속성명으로 들어있는 spring security의 SecurityContext를 가져옴
-		 * securityContext.getAuthentication() : 인증정보 (Authentication) 객체를 가져옴 -> CustomAuthenticationToken으로 타입 변환
-		 */
+		// WebSocketSession에서 사용자 정보 조회
 		SecurityContextImpl securityContext = (SecurityContextImpl) session.getAttributes().get("SPRING_SECURITY_CONTEXT");
 		CustomAuthenticationToken authenticationToken = (CustomAuthenticationToken) securityContext.getAuthentication();
 		CustomUserDetails userDetails = (CustomUserDetails) authenticationToken.getPrincipal();
@@ -60,7 +55,6 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		// WebSocketSession으로부터 받은 JSON 형태의 TextMessage를 ChatMessage 객체로 변환
-		// objectMapper.readValue() : JSON 데이터를 java 객체로 변환
 		// message.getPayload() : WebSocketSession 에서 받은 메시지 내용 반환
 		ChatMessage chatMessage = objectMapper.readValue(message.getPayload(), ChatMessage.class);
 		String cmd = chatMessage.getCmd();
@@ -94,25 +88,14 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 			ChatMessage responseMessage = new ChatMessage();
 			responseMessage.setCmd("chat-error");
 			responseMessage.setText("대기중인 상담원이 없습니다.");
-
 			// session.sendMessage : WebSocketSession 객체를 통해 연결된 클라이언트에게 메시지 보내는 기능
-			// objectMapper.writeValueAsBytes() : java 객체를 JSON 문자열로 변환
-			// 클라이언트에게 전송할 응답 메시지를 담고있는 ChatMessage 객체를 JSON 문자열로 변환하고,
-			// TextMessage 객체를 생성해서 해당 JSON 문자열을 클라이언트에게 전달
 			session.sendMessage(new TextMessage(objectMapper.writeValueAsBytes(responseMessage)));
+		
 		} else {
-			/*
-			 * 대기중인 상담원이 있는 경우 새로운 채팅방 roonId 생성. 이를 위해 UUID를 생성하고 첫번째 대기중인 상담원의 ID를 가져옴
-			 * UUID : 일련의 문자열을 생성 UUID.randomUUID() : 랜덤한 UUID 객체 생성 toString() : 문자열로 변환
-			 */
+			
+			// 대기중인 상담원이 있는 경우 새로운 채팅방 roomId 생성
 			String uuid = UUID.randomUUID().toString();
-			/*
-			 * waitingEmployeeSessions 맵에서 첫번째 직원의 WebSocketSession을 가져와 employeeId 변수에 할당
-			 * keySet() : 맵의 key들을 Set 형태로 반환 
-			 * stream() : key들의 스트림 생성 
-			 * findFirst() : 스트림에서 첫번째 값만 가져옴 (waitingEmployeeSession 맵에서 첫번째 key) 
-			 * get() : 해당 key에 대응하는 value인 WebSocketSession 객체 가져옴
-			 */
+			// waitingEmployeeSessions 맵에서 첫번째 키를 employeeId 변수에 할당
 			String employeeId = waitingEmployeeSessions.keySet().stream().findFirst().get();
 			WebSocketSession employeeSession = waitingEmployeeSessions.get(employeeId);
 
@@ -137,7 +120,6 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 			responseMessage.setText("대기중인 고객과 연결되었습니다.");
 			employeeSession.sendMessage(new TextMessage(objectMapper.writeValueAsBytes(responseMessage)));
 		}
-
 	}
 
 	// cmd 상태가 "chat-close"일 때 세션을 종료하고 채팅방 닫음
@@ -155,9 +137,15 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 		responseMessage.setCmd("chat-close-success");
 		responseMessage.setText("상담이 종료되었습니다.");
 		session.sendMessage(new TextMessage(objectMapper.writeValueAsBytes(responseMessage)));
+		
+		// 생성된 채팅방에 대해 대기중인 상담원에게도 채팅방이 생성되었음을 알리는 메시지 전송
+		responseMessage.setText("상담이 종료되었습니다.");
+		employeeSession.sendMessage(new TextMessage(objectMapper.writeValueAsBytes(responseMessage)));
 
+		session.close();
 	}
 
+	// cmd 상태가 "chat-message"일 때 
 	private void chatting(WebSocketSession session, ChatMessage chatMessage) throws Exception {
 		String roomId = chatMessage.getRoomId();
 		String customerId = chatMessage.getCustomerId();
@@ -170,9 +158,9 @@ public class ChatSocketHandler extends TextWebSocketHandler {
 		} else if ("관리자".equals(senderType)) {
 			chatRoom.get(customerId).sendMessage(new TextMessage(objectMapper.writeValueAsBytes(chatMessage)));
 		}
-
 	}
 
+	// 세션 제거 
 	private void removeWebSocketSession(WebSocketSession session) throws Exception {
 		String loginId = (String) session.getAttributes().get("LOGIN_ID");
 		String loginType = (String) session.getAttributes().get("LOGIN_TYPE");

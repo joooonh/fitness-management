@@ -34,12 +34,12 @@
    				</c:if>
    				<div class="row mb-3">
 					<div>
-						<input type="text" class="form-control" name="id" placeholder="아이디" value="" />
+						<input type="text" class="form-control" name="id" placeholder="아이디" value="shin" />
 					</div>
 				</div>
 				<div class="row mb-4">
 					<div>
-						<input type="password" class="form-control" name="password" placeholder="비밀번호" value="" />
+						<input type="password" class="form-control" name="password" placeholder="비밀번호" value="Zxcv1234!" />
 					</div>
 				</div>
 			    <div class="row mb-3">
