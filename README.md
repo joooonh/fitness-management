@@ -176,7 +176,7 @@
 
 #### 3) 해결
   - 로그를 하나씩 작성하면서 세션 객체가 정확히 어느 시큐리티 객체에 들어있는지, 어떤 속성명으로 저장되어 있는지, 사용자 정보가 어떤 형태로 저장되어 있는지 등에 대해 직접 확인하였다.
-  - security context -> authenticationToken -> UserDetails 순으로 로그 확인하며 [사용자 정보 조회](https://github.com/joooonh/fitness-management/blob/fc098085d0ba1c01762ab536775e113e9a8025ba/src/main/java/com/example/web/websocket/ChatSocketHandler.java#L56-L68)
+  - security context -> authenticationToken -> UserDetails 순으로 로그 확인하며 [사용자 정보 조회](https://github.com/joooonh/fitness-management/blob/fc098085d0ba1c01762ab536775e113e9a8025ba/src/main/java/com/example/web/websocket/ChatSocketHandler.java#L38-L52)
 
 #### 4) 느낀점
   - 로그를 작성함으로써 구체적인 흐름을 이해하고, 유지보수나 코드 최적화에 있어서도 로그가 필수적이라는 것을 알게 되어 로그 작성의 중요성을 깨닫게 되었다.
