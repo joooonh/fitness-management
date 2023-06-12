@@ -334,8 +334,8 @@ $(function(){
 		}
 		$("input[name=userId]:checked").each(function(){
 			let value = $(this).val();
-			if($(this).val() != ""){
-				deleteUsers.push($(this).val());
+			if(value != ""){
+				deleteUsers.push(value);
 			}
 		});
 		location.href = "deleteUser?userId=" + deleteUsers;
