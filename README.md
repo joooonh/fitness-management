@@ -22,7 +22,7 @@
 - 황창우
 
 ## 🛠 개발 도구
-- language : Java 11, javascript, html/css
+- language : Java, javascript, html/css
 - framework : spring boot, spring security
 - database : Oracle, Mybatis
 - IDE : Eclipse
