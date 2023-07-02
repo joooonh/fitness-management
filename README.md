@@ -82,7 +82,7 @@
 프로그램만 신청|프로그램, 회원권 신청
 
 - [카카오 지도 api](https://github.com/joooonh/fitness-management/blob/1c9ca7617b46251acdc12ffc028748fc35a88e89/src/main/webapp/WEB-INF/views/user/class-register.jsp#L265-L285)를 사용해서 매장정보 출력
-- [full calendar api](https://github.com/joooonh/fitness-management/blob/1c9ca7617b46251acdc12ffc028748fc35a88e89/src/main/webapp/WEB-INF/views/user/class-register.jsp#L154-L209)를 사용해서 프로그램의 전체 일정을 달력에 표시 ([일정 조회 로직](https://github.com/joooonh/fitness-management/blob/1c9ca7617b46251acdc12ffc028748fc35a88e89/src/main/java/com/example/service/user/ClassRegisterService.java#L91-L159))
+- [full calendar api](https://github.com/joooonh/fitness-management/blob/09a0f936839db750d0dfd6b0bba6b5640ab9b4c9/src/main/webapp/WEB-INF/views/user/class-register.jsp#L154-L202)를 사용해서 프로그램의 전체 일정을 달력에 표시 ([일정 조회 로직](https://github.com/joooonh/fitness-management/blob/1c9ca7617b46251acdc12ffc028748fc35a88e89/src/main/java/com/example/service/user/ClassRegisterService.java#L91-L159))
 - [ajax를 사용](https://github.com/joooonh/fitness-management/blob/1c9ca7617b46251acdc12ffc028748fc35a88e89/src/main/webapp/WEB-INF/views/user/class-register.jsp#L233-L240)해서 프로그램을 선택할 때마다 선택한 프로그램에 해당하는 시간, 가격 정보 출력
 - [moment.js 라이브러리](https://github.com/joooonh/fitness-management/blob/1c9ca7617b46251acdc12ffc028748fc35a88e89/src/main/webapp/WEB-INF/views/user/class-register.jsp#L251-L263)를 사용해서 회원권 시작날짜와 기간을 선택하면 종료날짜를 계산해서 출력, 선택한 기간에 해당하는 가격 출력
 - [프로그램 신청](https://github.com/joooonh/fitness-management/blob/1c9ca7617b46251acdc12ffc028748fc35a88e89/src/main/java/com/example/web/controller/user/ClassRegisterController.java#L63-L84), 회원권 신청(선택사항)
