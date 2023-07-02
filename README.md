@@ -39,7 +39,7 @@
 :---:|:---:
 로그인 전 메인페이지|로그인 후 메인페이지
 
-- spring security를 적용하여 마이페이지, 프로그램 신청, 채팅 기능 등은 [로그인한 사용자만 접근 가능](https://github.com/joooonh/fitness-management/blob/2f3da540eeb99b42c7d3cfc568529a9fee51240b/src/main/webapp/WEB-INF/views/common/header.jsp#L41-L61)하도록 구현
+- spring security를 적용하여 마이페이지, 프로그램 신청, 채팅 기능 등은 로그인한 사용자만 접근 가능하도록 구현
 <br/>
 
 ### 2. 회원가입
