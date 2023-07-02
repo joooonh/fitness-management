@@ -161,48 +161,41 @@ $(function(){
 		},
 		locale: 'ko',
 		initialView: 'dayGridMonth',	
-		// 일정정보를 조회하고, successCallback 함수의 매개변수로 일정정보를 제공하고 실행하면 화면에 반영된다.
 		events: function(info, successCallback, failureCallback) {	// events 프로퍼티에는 달력이 변경될 때마다 실행되는 함수를 등록한다.
-			refreshEvents(info, successCallback);					// info는 화면에 표시되는 달력의 시작일, 종료일을 제공한다.
+			refreshEvents(info, successCallback);			// info는 화면에 표시되는 달력의 시작일, 종료일을 제공한다.
 		}
 	});
-	// Calendar를 렌더링한다.
 	calendar.render();
 
 	// 16진수(hex) 색상 코드를 랜덤하게 생성하는 함수
 	function generateColor() {
-		// hexArray 배열에 16진수 코드 저장
 		const hexArray = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'A', 'B', 'C', 'D', 'E', 'F'];
 		let code = "";
 		for (let i = 0; i < 6; i++) {
-			// 랜덤한 인덱스를 구하고 해당 인덱스에 해당하는 코드를 code 문자열에 추가, 이 과정을 6번 반복
 			code += hexArray[Math.floor(Math.random() * 16)];
 		}
-		// 16진수 색상 코드 생성
 		return '#' + code;
 	}
 
-	// 요일별로 반복되는 수업들을 db에서 가져오기
-	// async/await 비동기 호출 방식 (.then(), .done(), catch()를 사용하지 않고 결과값을 바로 변수에 넣는 방식)
+	// db에서 프로그램 일정 가져오기 + 일정별 색상 지정 (async/await)
 	async function refreshEvents(info, successCallback) {
 		try {
 			// 비동기 방식으로 응답받은 결과값을 events 변수에 저장
 			const events = await $.get("/user/events");
 			// lodash 라이브러리
 			const data =
-				_.chain(events)											// 메소드 체이닝
-				 .orderBy(["id"], ["asc"])								// 응답객체의 id 속성 기준으로 정렬
-				 .groupBy("id")											// id 속성 기준으로 그룹화
-				 .map((groupById) => {									// 그룹화된 배열 내 각각의 요소에 대해 함수를 적용하고, 반복하는 메소드
-					const color = generateColor();						// 랜덤 색상 생성 메소드 결과를 color변수에 저장
-					groupById.forEach((data) => data.color = color);	// 그룹화된 데이터를 돌면서 각 데이터의 color를 color로 설정
-					return groupById;									// 색상이 지정된 응답객체를 반환 
+				_.chain(events)											
+				 .orderBy(["id"], ["asc"])							
+				 .groupBy("id")								
+				 .map((groupById) => {						
+					const color = generateColor();					
+					groupById.forEach((data) => data.color = color);	
+					return groupById;								
 				 })
-				 .value()												// 메소드 체인 종료, 최종결과값 반환
-				 .reduce((o1, o2) => o1.concat(o2), []);				// 중첩된 배열을 평평하게 반환
+				 .value()								
+				 .reduce((o1, o2) => o1.concat(o2), []);				
 			successCallback(data);	// list<ScheduleCheckDto>
 		} catch(e) {
-			// Ajax 요청 실패 시 처리 로직
 			log.error(e);
 			successCallback([]);
 		}
