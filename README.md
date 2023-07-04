@@ -47,7 +47,6 @@
 :---:|:---:
 유효성 검사|회원가입 완료
 
-- [회원가입 로직](https://github.com/joooonh/fitness-management/blob/45a28518e2a7337b9374ff4c22f4121b19fac772/src/main/java/com/example/web/controller/user/UserController.java#L68-L97)
 - 프로필 사진 업로드, [미리보기](https://github.com/joooonh/fitness-management/blob/482339f35584e541a379ea8f0cfe18d650e6682d/src/main/webapp/WEB-INF/views/user/register-form.jsp#L161-L171)
 - [다음 우편번호 api](https://github.com/joooonh/fitness-management/blob/482339f35584e541a379ea8f0cfe18d650e6682d/src/main/webapp/WEB-INF/views/user/register-form.jsp#L146-L154) 사용하여 주소 입력
 <br/>
@@ -57,7 +56,7 @@
 :---:|:---:
 일반 로그인|카카오 로그인
 
-- 🚨[Security를 커스텀](#1-security-커스텀)하여 사용자, 관리자 로그인부터의 기능 분리
+- 🚨[Security를 커스텀](#1-security-커스텀)하여 사용자, 관리자 로그인 후 접근 권한 분리
 - [카카오 로그인 api](https://github.com/joooonh/fitness-management/blob/02701d6eb43c5a7991f1a48c38e68a1c60f9d771/src/main/java/com/example/security/service/CustomOAuth2UserService.java#L29-L103) 사용
 <br/>
 
