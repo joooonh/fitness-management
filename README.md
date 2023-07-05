@@ -30,6 +30,11 @@
 - Build : Maven
 - etc. : JSP, Git
 
+## 📝 ER 다이어그램
+![image](https://github.com/joooonh/fitness-management/assets/116352772/bce4fb78-81e5-4de9-a854-a8c75a5e9ca7)
+
+## 🖋 유스케이스 다이어그램
+![유스케이스 다이어그램](https://github.com/joooonh/fitness-management/assets/116352772/6db6a7b7-c65f-49c6-acf4-93b91e8e19c9)
 
 ## 📌 담당 기능
 
