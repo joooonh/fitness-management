@@ -32,7 +32,7 @@
 - Build : Maven
 - etc. : JSP, Git
 
-## 📝 ER 다이어그램
+## 📝 ERD
 ![image](https://github.com/joooonh/fitness-management/assets/116352772/bce4fb78-81e5-4de9-a854-a8c75a5e9ca7)
 
 ## 🖋 유스케이스 다이어그램
