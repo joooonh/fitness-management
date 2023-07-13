@@ -40,7 +40,7 @@
 
 ## 📌 담당 기능
 
-### 🙍‍♀️ 사용자 모드
+### 🙍‍♀️ 사용자 기능
 ### 1. 메인페이지
 <img src="https://user-images.githubusercontent.com/116352772/223400902-e1a93125-7937-4ffa-afb3-899c6f213a8d.png" width="500" height="230"/>|<img src="https://user-images.githubusercontent.com/116352772/223402360-254e4b0c-8e7c-4999-ab25-e5b5c8cca276.png" width="500" height="230"/>
 :---:|:---:
@@ -95,7 +95,7 @@
 <br/>
 
 
-### 👩‍💻 관리자 모드
+### 👩‍💻 관리자 기능
 ### 1. 관리자 로그인 
 ![관리자 로그인](https://github.com/joooonh/fitness-management/assets/116352772/a8317c2b-54ce-432b-a68c-5540a85b7a73)|![최고관리자 로그인](https://github.com/joooonh/fitness-management/assets/116352772/e64e3fae-c724-4042-88ac-d9de192bf42f)
 :---:|:---:
