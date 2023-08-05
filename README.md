@@ -190,6 +190,6 @@
   - security context -> authenticationToken -> UserDetails 순으로 로그 확인하며 [세션 객체가 어떤 객체에 어떤 형태로 저장되어 있는지 직접 확인](https://github.com/joooonh/fitness-management/blob/fc098085d0ba1c01762ab536775e113e9a8025ba/src/main/java/com/example/web/websocket/ChatSocketHandler.java#L38-L52)
 
 #### 4) 결과/느낀점/아쉬운점
-  - 로그 
+  - 로그 작성을 통한 정확한 객체 파악 필요
   - 웹소켓 방식은 메시지 요청 내용, 방식, 처리과정 등을 별도로 구현해야 함 -> STOMP 고려
 
