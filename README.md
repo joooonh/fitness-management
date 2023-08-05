@@ -54,7 +54,7 @@
 :---:|:---:
 유효성 검사|회원가입 완료
 
-- 프로필 사진 업로드, [미리보기](https://github.com/joooonh/fitness-management/blob/482339f35584e541a379ea8f0cfe18d650e6682d/src/main/webapp/WEB-INF/views/user/register-form.jsp#L161-L171)
+- 프로필 사진 업로드, 미리보기
 - [다음 우편번호 api](https://github.com/joooonh/fitness-management/blob/482339f35584e541a379ea8f0cfe18d650e6682d/src/main/webapp/WEB-INF/views/user/register-form.jsp#L146-L154) 사용하여 주소 입력
 <br/>
 
