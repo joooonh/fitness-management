@@ -32,6 +32,10 @@
 - Build : Maven
 - etc. : JSP, Git
 
+
+## 📕 시스템 아키텍처
+![서비스 아키텍처](https://github.com/joooonh/fitness-management/assets/116352772/d8c15c81-e476-429c-87c7-d33d2a89b202)
+
 ## 📝 ERD
 ![image](https://github.com/joooonh/fitness-management/assets/116352772/bce4fb78-81e5-4de9-a854-a8c75a5e9ca7)
 
