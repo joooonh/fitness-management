@@ -162,6 +162,9 @@
 
 ### 2. Security 커스텀
 
+![image](https://github.com/joooonh/fitness-management/assets/116352772/24e32d08-f6bb-4522-a7b1-5cb0c7926c6a)
+
+
 #### 1) 문제
   - 로그인한 이용자를 구분하기 위한 userType이 Authentication 토큰에 저장되지 않아 로그인한 이용자가 구분되지 않는 문제 발생
 
